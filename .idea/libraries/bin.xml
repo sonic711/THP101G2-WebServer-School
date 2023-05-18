@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="bin">
+    <CLASSES>
+      <root url="file:///usr/local/apache-tomcat-9.0.73/bin" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+    <jarDirectory url="file:///usr/local/apache-tomcat-9.0.73/bin" recursive="false" />
+  </library>
+</component>
