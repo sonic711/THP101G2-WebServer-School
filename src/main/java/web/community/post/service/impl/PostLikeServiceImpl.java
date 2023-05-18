@@ -32,7 +32,7 @@ public class PostLikeServiceImpl implements PostLikeService {
     }
 
     @Override
-    public boolean removePostById(Integer id) {
+    public boolean removePostLikeById(Integer id) {
         int result = dao.deleteByKey(id);
         return result > 0;
     }

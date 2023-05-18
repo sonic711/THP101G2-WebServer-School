@@ -9,23 +9,34 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.Objects;
 
 import static core.util.CommonUtil.json2Bean;
 import static core.util.CommonUtil.writeJsonBean;
-import static core.util.Constants.GSON;
-import static core.util.Constants.JSON_MIME_TYPE;
 import static web.community.util.CommunityContains.POSTATT_SERVICE;
 
 
-@WebServlet("/community/postAtt")
+@WebServlet("/community/postAtt/*")
 public class PostAttController extends HttpServlet {
     /**
-     *  查詢所有
-     * */
+     * GET 查詢該文章所有附檔案，不支援查詢全部附檔案 測ok
+     */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        // TODO
+        String pathInfo = req.getPathInfo();
+
+        if (pathInfo == null || Objects.equals(pathInfo, "/")) {
+            writeJsonBean(resp, new CoreBean(false));
+        } else {
+            try {
+                pathInfo = pathInfo.substring(1);
+                String[] pathVariables = pathInfo.split("/");
+                Integer id = Integer.parseInt(pathVariables[0]);
+                writeJsonBean(resp, POSTATT_SERVICE.findAllPostAttById(id));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**
@@ -56,10 +67,18 @@ public class PostAttController extends HttpServlet {
         }
     }
 
-    private void writeJson(HttpServletResponse resp, PostAtt postAtt) {
-        resp.setContentType(JSON_MIME_TYPE);
-        try (PrintWriter pw = resp.getWriter()) {
-            pw.print(GSON.toJson(postAtt));
+    /**
+     * DELETE 刪除附檔 測ok
+     */
+    @Override
+    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String pathInfo = req.getPathInfo();
+        try {
+            pathInfo = pathInfo.substring(1);
+            String[] pathVariables = pathInfo.split("/");
+            Integer id = Integer.parseInt(pathVariables[0]);
+            boolean result = POSTATT_SERVICE.removePostAttById(id);
+            writeJsonBean(resp, new CoreBean(result));
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -1,7 +1,6 @@
 package web.community.post.dao.impl;
 
 
-import web.community.post.bean.PostAtt;
 import web.community.post.bean.PostLike;
 import web.community.post.dao.PostLikeDao;
 
@@ -81,6 +80,7 @@ public class PostLikeDaoImpl implements PostLikeDao {
                 while (rs.next()) {
                     PostLike postLike = new PostLike();
                     postLike.setComPostLikeId(rs.getInt("COM_POST_LIKE_ID"));
+                    postLike.setComPostId(rs.getInt("COM_POST_ID"));
                     postLike.setMemberNo(rs.getInt("MEMBER_NO"));
                     postLike.setComPostEmotion(rs.getByte("COM_POST_EMOTION"));
 

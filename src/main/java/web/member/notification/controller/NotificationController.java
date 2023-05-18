@@ -12,7 +12,7 @@ import java.io.IOException;
 
 import static core.util.CommonUtil.json2Bean;
 import static core.util.CommonUtil.writeJsonBean;
-import static web.member.util.MemberContains.NOTIFICATIONSERVICE;
+import static web.member.util.MemberContains.NOTIFICATION_SERVICE;
 
 @WebServlet("/member/notification")
 public class NotificationController extends HttpServlet {
@@ -24,7 +24,7 @@ public class NotificationController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             Notification notification = json2Bean(req, Notification.class);
-            boolean result = NOTIFICATIONSERVICE.newOneNotification(notification);
+            boolean result = NOTIFICATION_SERVICE.newOneNotification(notification);
             writeJsonBean(resp, new CoreBean(result));
         } catch (Exception e) {
             e.printStackTrace();
@@ -38,7 +38,7 @@ public class NotificationController extends HttpServlet {
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             Notification notification = json2Bean(req, Notification.class);
-            boolean result = NOTIFICATIONSERVICE.editNotification(notification);
+            boolean result = NOTIFICATION_SERVICE.editNotification(notification);
             writeJsonBean(resp, new CoreBean(result));
         } catch (Exception e) {
             e.printStackTrace();

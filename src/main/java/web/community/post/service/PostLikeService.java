@@ -8,5 +8,5 @@ public interface PostLikeService {
     boolean newOnePostLike(PostLike postLike);
     boolean editPostLike(PostLike postLike);
     List<PostLike> findAllPostLikeByPostId(Integer id);
-    boolean removePostById(Integer id);
+    boolean removePostLikeById(Integer id);
 }
