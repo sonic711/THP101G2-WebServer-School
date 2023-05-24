@@ -21,7 +21,7 @@ import static web.community.util.CommunityContains.POSTLABEL_SERVICE;
 @WebServlet("/community/postLabel/*")
 public class PostLabelController extends HttpServlet {
     /**
-     * GET 取得所有標籤 & 取得特定文章標籤 測ok
+     * GET 取得所有不重複標籤 & 取得特定文章標籤 測ok
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
