@@ -1,7 +1,7 @@
 package web.member.util;
 
-import web.member.follow.service.FollowClassService;
-import web.member.follow.service.impl.FollowClassServiceImpl;
+import web.member.followclass.service.FollowClassService;
+import web.member.followclass.service.impl.FollowClassServiceImpl;
 import web.member.notification.service.NotificationService;
 import web.member.notification.service.impl.NotificationServiceImpl;
 

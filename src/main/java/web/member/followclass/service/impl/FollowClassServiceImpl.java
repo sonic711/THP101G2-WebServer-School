@@ -1,9 +1,9 @@
-package web.member.follow.service.impl;
+package web.member.followclass.service.impl;
 
-import web.member.follow.bean.FollowClass;
-import web.member.follow.dao.FollowClassDao;
-import web.member.follow.dao.impl.FollowClassDaoImpl;
-import web.member.follow.service.FollowClassService;
+import web.member.followclass.bean.FollowClass;
+import web.member.followclass.dao.FollowClassDao;
+import web.member.followclass.dao.impl.FollowClassDaoImpl;
+import web.member.followclass.service.FollowClassService;
 
 import java.util.List;
 

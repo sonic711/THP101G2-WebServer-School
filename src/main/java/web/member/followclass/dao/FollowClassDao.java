@@ -1,6 +1,6 @@
-package web.member.follow.dao;
+package web.member.followclass.dao;
 
-import web.member.follow.bean.FollowClass;
+import web.member.followclass.bean.FollowClass;
 
 import java.util.List;
 
