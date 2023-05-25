@@ -21,7 +21,7 @@ import static web.community.util.CommunityContains.POSTLABEL_SERVICE;
 @WebServlet("/community/postLabel/*")
 public class PostLabelController extends HttpServlet {
     /**
-     * GET 取得所有不重複標籤 & 取得特定文章標籤 測ok
+     * GET 取得所有不重複的標籤 & 取得特定文章標籤 測ok
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -51,7 +51,7 @@ public class PostLabelController extends HttpServlet {
             Type listType = new TypeToken<List<PostLabel>>() {
             }.getType();
             List<PostLabel> postLabelList = json2Beans(req, listType);
-            boolean result = POSTLABEL_SERVICE.newPostLabel(postLabelList);
+            boolean result = POSTLABEL_SERVICE.newPostLabel(postLabelList, 99);
             writeJsonBean(resp, new CoreBean(result));
         } catch (Exception e) {
             e.printStackTrace();

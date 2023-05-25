@@ -2,47 +2,9 @@ package web.community.post.bean;
 
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.List;
 
 public class Post {
-
-
-    @Override
-    public String toString() {
-        return "Post{" +
-               "comPostId=" + comPostId +
-               ", memberNo=" + memberNo +
-               ", userId='" + userId + '\'' +
-               ", nickName='" + nickName + '\'' +
-               ", profilePhoto=" + Arrays.toString(profilePhoto) +
-               ", comSecClassId=" + comSecClassId +
-               ", comSecClassName='" + comSecClassName + '\'' +
-               ", comPostTitle='" + comPostTitle + '\'' +
-               ", comPostContent='" + comPostContent + '\'' +
-               ", comPostLabelId=" + comPostLabelId +
-               ", comPostLabelTime=" + comPostLabelTime +
-               ", comPostLabelName='" + comPostLabelName + '\'' +
-               ", comPostTime=" + comPostTime +
-               ", comPostStatus=" + comPostStatus +
-               ", comPostAccessSetting=" + comPostAccessSetting +
-               '}';
-    }
-
-    private Integer comPostId;
-    private Integer memberNo;
-    private String userId;
-    private String nickName;
-    private byte[] profilePhoto;
-    private Integer comSecClassId;
-    private String comSecClassName;
-    private String comPostTitle;
-    private String comPostContent;
-    private Integer comPostLabelId;
-    private Timestamp comPostLabelTime;
-    private String comPostLabelName;
-    private Timestamp comPostTime;
-    private Boolean comPostStatus;
-    private Boolean comPostAccessSetting;
-
     public Integer getComPostId() {
         return comPostId;
     }
@@ -162,4 +124,53 @@ public class Post {
     public void setComPostAccessSetting(Boolean comPostAccessSetting) {
         this.comPostAccessSetting = comPostAccessSetting;
     }
+
+    public List<PostLabel> getLabelList() {
+        return labels;
+    }
+
+    public void setLabelList(List<PostLabel> labelList) {
+        this.labels = labelList;
+    }
+
+    @Override
+    public String toString() {
+        return "Post{" +
+               "comPostId=" + comPostId +
+               ", memberNo=" + memberNo +
+               ", userId='" + userId + '\'' +
+               ", nickName='" + nickName + '\'' +
+               ", profilePhoto=" + Arrays.toString(profilePhoto) +
+               ", comSecClassId=" + comSecClassId +
+               ", comSecClassName='" + comSecClassName + '\'' +
+               ", comPostTitle='" + comPostTitle + '\'' +
+               ", comPostContent='" + comPostContent + '\'' +
+               ", comPostLabelId=" + comPostLabelId +
+               ", comPostLabelTime=" + comPostLabelTime +
+               ", comPostLabelName='" + comPostLabelName + '\'' +
+               ", comPostTime=" + comPostTime +
+               ", comPostStatus=" + comPostStatus +
+               ", comPostAccessSetting=" + comPostAccessSetting +
+               ", labelList=" + labels+
+               '}';
+    }
+
+    private Integer comPostId;
+    private Integer memberNo;
+    private String userId;
+    private String nickName;
+    private byte[] profilePhoto;
+    private Integer comSecClassId;
+    private String comSecClassName;
+    private String comPostTitle;
+    private String comPostContent;
+    private Integer comPostLabelId;
+    private Timestamp comPostLabelTime;
+    private String comPostLabelName;
+    private Timestamp comPostTime;
+    private Boolean comPostStatus;
+    private Boolean comPostAccessSetting;
+    private List<PostLabel> labels;
+
+
 }

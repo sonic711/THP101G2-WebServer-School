@@ -62,7 +62,9 @@ public class PostController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             Post post = json2Bean(req, Post.class);
+            System.out.println(post);
             boolean result = POST_SERVICE.newOnePost(post);
+
             writeJsonBean(resp, new CoreBean(result));
         } catch (Exception e) {
             e.printStackTrace();

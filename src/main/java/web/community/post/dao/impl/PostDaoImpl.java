@@ -6,6 +6,7 @@ import web.community.post.dao.PostDao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,14 +19,19 @@ public class PostDaoImpl implements PostDao {
                            + "values(?, ?, ?, ?, ?)";
         try (
                 Connection conn = getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(SQL)
+                PreparedStatement pstmt = conn.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)
         ) {
             pstmt.setInt(1, post.getMemberNo());
             pstmt.setInt(2, post.getComSecClassId());
             pstmt.setString(3, post.getComPostTitle());
             pstmt.setString(4, post.getComPostContent());
             pstmt.setBoolean(5, post.getComPostStatus());
-            return pstmt.executeUpdate();
+            pstmt.executeUpdate();
+            try(ResultSet rs = pstmt.getGeneratedKeys()){
+                if (rs.next()){
+                    return rs.getInt(1);
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

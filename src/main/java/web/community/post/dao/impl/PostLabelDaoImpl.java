@@ -13,7 +13,7 @@ import static core.util.CommonUtil.getConnection;
 
 public class PostLabelDaoImpl implements PostLabelDao {
     @Override
-    public int insert(List<PostLabel> postLabelList) {
+    public int insert(List<PostLabel> postLabelList, Integer id) {
 
         final String SQL = "insert into COM_LABEL(COM_POST_ID, COM_LABEL_NAME) "
                            + "values(?, ?)";
@@ -22,7 +22,7 @@ public class PostLabelDaoImpl implements PostLabelDao {
                 PreparedStatement pstmt = conn.prepareStatement(SQL)
         ) {
             for (PostLabel postLabel : postLabelList) {
-                pstmt.setInt(1, postLabel.getComPostId());
+                pstmt.setInt(1, id);
                 pstmt.setString(2, postLabel.getComLabelName());
                 pstmt.addBatch();
             }
