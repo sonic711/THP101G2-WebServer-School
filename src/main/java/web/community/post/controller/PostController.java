@@ -34,7 +34,9 @@ public class PostController extends HttpServlet {
                 pathInfo = pathInfo.substring(1);
                 String[] pathVariables = pathInfo.split("/");
                 Integer id = Integer.parseInt(pathVariables[0]);
-                writeJsonBean(resp, POST_SERVICE.findPostById(id));
+                Post post = POST_SERVICE.findPostById(id);
+                System.out.println(post);
+                writeJsonBean(resp, post);
             } catch (Exception e) {
                 e.printStackTrace();
             }

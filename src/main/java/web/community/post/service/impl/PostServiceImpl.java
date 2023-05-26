@@ -19,9 +19,11 @@ public class PostServiceImpl implements PostService {
         dao = new PostDaoImpl();
         labelDao = new PostLabelDaoImpl();
     }
-
+    // 新增0筆貼文 or 新增0筆標籤，都會回傳false
     @Override
     public boolean newOnePost(Post post) {
+        Integer secClassId = post.getComSecClassId();
+        if(secClassId == null || secClassId < 1) return false;
         int result = dao.insert(post);
         if(result < 1){
             return false;
