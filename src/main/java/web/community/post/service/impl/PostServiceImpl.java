@@ -1,5 +1,6 @@
 package web.community.post.service.impl;
 
+import jdk.jfr.TransitionFrom;
 import web.community.post.bean.Post;
 import web.community.post.bean.PostLabel;
 import web.community.post.dao.PostDao;
@@ -19,18 +20,20 @@ public class PostServiceImpl implements PostService {
         dao = new PostDaoImpl();
         labelDao = new PostLabelDaoImpl();
     }
-    // 新增0筆貼文 or 新增0筆標籤，都會回傳false
+    // 沒選擇分類回傳0 新增文章失敗回傳1 全部成功回傳2
     @Override
-    public boolean newOnePost(Post post) {
+    public Integer newOnePost(Post post) {
+
         Integer secClassId = post.getComSecClassId();
-        if(secClassId == null || secClassId < 1) return false;
+
+        if(secClassId == null || secClassId < 1) return 0;
         int result = dao.insert(post);
         if(result < 1){
-            return false;
+            return 1;
         }
         post.setComPostId(result);
-        int labelResult = labelDao.insert(post.getLabelList(), result);
-        return labelResult > 0;
+        labelDao.insert(post.getLabelList(), result);
+        return 2;
     }
 
     @Override

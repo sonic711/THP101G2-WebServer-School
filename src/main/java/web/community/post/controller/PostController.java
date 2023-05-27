@@ -3,11 +3,13 @@ package web.community.post.controller;
 import core.bean.CoreBean;
 import web.community.post.bean.Post;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.beans.Transient;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -17,6 +19,7 @@ import static web.community.util.CommunityContains.POST_SERVICE;
 
 @WebServlet("/community/post/*")
 public class PostController extends HttpServlet {
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -64,10 +67,8 @@ public class PostController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             Post post = json2Bean(req, Post.class);
-            System.out.println(post);
-            boolean result = POST_SERVICE.newOnePost(post);
-
-            writeJsonBean(resp, new CoreBean(result));
+            Integer result = POST_SERVICE.newOnePost(post);
+            writeJsonBean(resp, new CoreBean(true, result.toString()));
         } catch (Exception e) {
             e.printStackTrace();
         }
