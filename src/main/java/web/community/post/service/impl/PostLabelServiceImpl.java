@@ -16,8 +16,8 @@ public class PostLabelServiceImpl implements PostLabelService {
 
 
     @Override
-    public boolean newPostLabel(List<PostLabel> postLabelList) {
-        int result = dao.insert(postLabelList);
+    public boolean newPostLabel(List<PostLabel> postLabelList, Integer id) {
+        int result = dao.insert(postLabelList, id);
         return result > 0;
     }
 

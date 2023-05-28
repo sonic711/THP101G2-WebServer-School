@@ -10,4 +10,5 @@ public interface ReplyDao {
     Reply selectByKey(Integer id);
     int deleteByKey(Integer id);
     List<Reply> selectAll();
+    List<Reply> selectAllByKey(Integer id);
 }

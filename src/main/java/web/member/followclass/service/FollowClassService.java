@@ -1,6 +1,6 @@
-package web.member.follow.service;
+package web.member.followclass.service;
 
-import web.member.follow.bean.FollowClass;
+import web.member.followclass.bean.FollowClass;
 
 import java.util.List;
 

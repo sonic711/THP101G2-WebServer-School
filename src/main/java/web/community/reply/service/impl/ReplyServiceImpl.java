@@ -13,6 +13,7 @@ public class ReplyServiceImpl implements ReplyService {
     public ReplyServiceImpl() {
         dao = new ReplyDaoImpl();
     }
+
     @Override
     public boolean newOneReply(Reply reply) {
         int result = dao.insert(reply);
@@ -36,7 +37,15 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     @Override
+    public List<Reply> findAllReplyById(Integer id) {
+        return dao.selectAllByKey(id);
+    }
+
+    @Override
     public boolean removeReplyById(Integer id) {
+
+
+
         int result = dao.deleteByKey(id);
         return result > 0;
     }
