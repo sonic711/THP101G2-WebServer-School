@@ -119,4 +119,40 @@ public class ReplyDaoImpl implements ReplyDao {
         }
         return null;
     }
+
+    @Override
+    public List<Reply> selectAllByKey(Integer id) {
+        final String SQL = "SELECT r.*, m.PROFILE_PHOTO,m.NICKNAME, m.USER_ID FROM COM_REPLY r left join MEMBER m on r.MEMBER_NO = m.MEMBER_NO where COM_REPLY_TO = ?";
+        List<Reply> resultList = new ArrayList<>();
+        try (
+                Connection conn = getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(SQL);
+
+        ) {
+            pstmt.setInt(1, id);
+            try (ResultSet rs = pstmt.executeQuery()) {
+
+                while (rs.next()) {
+
+                    Reply reply = new Reply();
+                    reply.setComReplyId(rs.getInt("COM_REPLY_ID"));
+                    reply.setMemberNo(rs.getInt("MEMBER_NO"));
+                    reply.setNickName(rs.getString("NICKNAME"));
+                    reply.setUserId(rs.getString("USER_ID"));
+                    reply.setProfilePhoto(rs.getBytes("PROFILE_PHOTO"));
+                    reply.setComReplyTo(rs.getInt("COM_REPLY_TO"));
+                    reply.setComReplyContent(rs.getString("COM_REPLY_CONTENT"));
+                    reply.setComReplyTime(rs.getTimestamp("COM_REPLY_TIME"));
+                    reply.setComReplyAccessSetting(rs.getBoolean("COM_REPLY_ACCESS_SETTING"));
+
+                    resultList.add(reply);
+                }
+            }
+            return resultList;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
+

@@ -1,8 +1,7 @@
-package web.member.follow.dao.impl;
+package web.member.followclass.dao.impl;
 
-import web.member.follow.bean.FollowClass;
-import web.member.follow.dao.FollowClassDao;
-import web.member.notification.bean.Notification;
+import web.member.followclass.bean.FollowClass;
+import web.member.followclass.dao.FollowClassDao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

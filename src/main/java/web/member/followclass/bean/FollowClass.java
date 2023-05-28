@@ -1,4 +1,4 @@
-package web.member.follow.bean;
+package web.member.followclass.bean;
 
 public class FollowClass {
     private Integer memberFollowBoardId;

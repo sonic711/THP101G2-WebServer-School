@@ -13,7 +13,7 @@ import static core.util.CommonUtil.getConnection;
 
 public class PostLabelDaoImpl implements PostLabelDao {
     @Override
-    public int insert(List<PostLabel> postLabelList) {
+    public int insert(List<PostLabel> postLabelList, Integer id) {
 
         final String SQL = "insert into COM_LABEL(COM_POST_ID, COM_LABEL_NAME) "
                            + "values(?, ?)";
@@ -22,7 +22,7 @@ public class PostLabelDaoImpl implements PostLabelDao {
                 PreparedStatement pstmt = conn.prepareStatement(SQL)
         ) {
             for (PostLabel postLabel : postLabelList) {
-                pstmt.setInt(1, postLabel.getComPostId());
+                pstmt.setInt(1, id);
                 pstmt.setString(2, postLabel.getComLabelName());
                 pstmt.addBatch();
             }
@@ -56,7 +56,7 @@ public class PostLabelDaoImpl implements PostLabelDao {
 
     @Override
     public List<PostLabel> selectAll() {
-        final String SQL = "select * from COM_LABEL";
+        final String SQL = "select COM_LABEL_NAME from COM_LABEL group by COM_LABEL_NAME";
         List<PostLabel> resultList = new ArrayList<>();
         try (
                 Connection conn = getConnection();
@@ -65,11 +65,7 @@ public class PostLabelDaoImpl implements PostLabelDao {
         ) {
             while (rs.next()) {
                 PostLabel postLabel = new PostLabel();
-                postLabel.setComLabelId(rs.getInt("COM_LABEL_ID"));
-                postLabel.setComPostId(rs.getInt("COM_POST_ID"));
                 postLabel.setComLabelName(rs.getString("COM_LABEL_NAME"));
-                postLabel.setComLabelTime(rs.getTimestamp("COM_LABEL_TIME"));
-
                 resultList.add(postLabel);
             }
             return resultList;

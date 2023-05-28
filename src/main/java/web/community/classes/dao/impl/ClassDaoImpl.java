@@ -14,6 +14,9 @@ import java.util.List;
 import static core.util.CommonUtil.getConnection;
 
 public class ClassDaoImpl implements ClassDao {
+    /**
+     * 只找主分類 目前沒用到
+     */
     @Override
     public List<MainClass> selectAllMainClass() {
         final String SQL = "SELECT * FROM COM_MAINCLASS;";
@@ -35,7 +38,9 @@ public class ClassDaoImpl implements ClassDao {
         }
         return null;
     }
-
+    /**
+     * 只找次分類 目前沒用到
+     */
     @Override
     public List<SecClass> selectAllSecClass() {
         final String SQL = "SELECT * FROM COM_SECCLASS;";
@@ -58,7 +63,9 @@ public class ClassDaoImpl implements ClassDao {
         }
         return null;
     }
-
+    /**
+     * 找所有包含次分類 + 主分類
+     */
     @Override
     public List<CommunityClass> selectAllClass() {
         final String SQL =

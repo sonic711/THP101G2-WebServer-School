@@ -13,7 +13,7 @@ import static web.community.util.CommunityContains.CLASS_SERVICE;
 /**
 * 查詢所有主分類跟子分類
 * */
-@WebServlet("/community/class")
+@WebServlet("/community/class/*")
 public class FindAllClassController extends HttpServlet {
 
     private static final long serialVersionUID = 1L;

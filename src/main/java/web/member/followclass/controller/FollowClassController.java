@@ -1,7 +1,7 @@
-package web.member.follow.controller;
+package web.member.followclass.controller;
 
 import core.bean.CoreBean;
-import web.member.follow.bean.FollowClass;
+import web.member.followclass.bean.FollowClass;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 import static core.util.CommonUtil.json2Bean;
 import static core.util.CommonUtil.writeJsonBean;
@@ -18,18 +19,24 @@ import static web.member.util.MemberContains.FOLLOWCLASS_SERVICE;
 public class FollowClassController extends HttpServlet {
 
     /**
-     * GET 查詢某會員追蹤的分類 測ok
+     * GET
+     * /  不支援查詢所有會員的追蹤分類
+     * /* 查詢某會員追蹤的分類 測ok
      */
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String pathInfo = req.getPathInfo();
-        try {
-            pathInfo = pathInfo.substring(1);
-            String[] pathVariables = pathInfo.split("/");
-            Integer id = Integer.parseInt(pathVariables[0]);
-            writeJsonBean(resp, FOLLOWCLASS_SERVICE.findAllFollowClassById(id));
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (pathInfo == null || Objects.equals(pathInfo, "/")) {
+            writeJsonBean(resp, new CoreBean(false, "不支援查詢所有會員的追蹤分類"));
+        } else {
+            try {
+                pathInfo = pathInfo.substring(1);
+                String[] pathVariables = pathInfo.split("/");
+                Integer id = Integer.parseInt(pathVariables[0]);
+                writeJsonBean(resp, FOLLOWCLASS_SERVICE.findAllFollowClassById(id));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
     }
 

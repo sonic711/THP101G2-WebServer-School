@@ -6,6 +6,7 @@ import web.community.post.dao.PostDao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,14 +19,19 @@ public class PostDaoImpl implements PostDao {
                            + "values(?, ?, ?, ?, ?)";
         try (
                 Connection conn = getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(SQL)
+                PreparedStatement pstmt = conn.prepareStatement(SQL, Statement.RETURN_GENERATED_KEYS)
         ) {
             pstmt.setInt(1, post.getMemberNo());
             pstmt.setInt(2, post.getComSecClassId());
             pstmt.setString(3, post.getComPostTitle());
             pstmt.setString(4, post.getComPostContent());
-            pstmt.setBoolean(5, post.isComPostStatus());
-            return pstmt.executeUpdate();
+            pstmt.setBoolean(5, post.getComPostStatus());
+            pstmt.executeUpdate();
+            try(ResultSet rs = pstmt.getGeneratedKeys()){
+                if (rs.next()){
+                    return rs.getInt(1);
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -45,7 +51,7 @@ public class PostDaoImpl implements PostDao {
         ) {
             pstmt.setString(1, post.getComPostTitle());
             pstmt.setString(2, post.getComPostContent());
-            pstmt.setBoolean(3, post.isComPostStatus());
+            pstmt.setBoolean(3, post.getComPostStatus());
             pstmt.setInt(4, post.getComPostId());
             return pstmt.executeUpdate();
         } catch (Exception e) {
@@ -97,9 +103,10 @@ public class PostDaoImpl implements PostDao {
         return -1;
     }
 
+    // TODO 做成SP
     @Override
     public List<Post> selectAll() {
-        final String SQL = "select * from COM_POST";
+        final String SQL = "select p.*, cs.COM_SECCLASS_NAME, l.*, m.USER_ID, m.NICKNAME, m.PROFILE_PHOTO from COM_POST p left join COM_SECCLASS CS on CS.COM_SECCLASS_ID = p.COM_SECCLASS_ID left join MEMBER m on p.MEMBER_NO = m.MEMBER_NO left join COM_LABEL l on l.COM_POST_ID = p.COM_POST_ID;";
         List<Post> resultList = new ArrayList<>();
         try (
                 Connection conn = getConnection();
@@ -110,7 +117,14 @@ public class PostDaoImpl implements PostDao {
                 Post post = new Post();
                 post.setComPostId(rs.getInt("COM_POST_ID"));
                 post.setMemberNo(rs.getInt("MEMBER_NO"));
+                post.setUserId(rs.getString("USER_ID"));
+                post.setNickName(rs.getString("NICKNAME"));
+                post.setProfilePhoto(rs.getBytes("PROFILE_PHOTO"));
                 post.setComSecClassId(rs.getInt("COM_SECCLASS_ID"));
+                post.setComSecClassName(rs.getString("COM_SECCLASS_NAME"));
+                post.setComPostLabelId(rs.getInt("COM_LABEL_ID"));
+                post.setComPostLabelName(rs.getString("COM_LABEL_NAME"));
+                post.setComPostLabelTime(rs.getTimestamp("COM_LABEL_TIME"));
                 post.setComPostTitle(rs.getString("COM_POST_TITLE"));
                 post.setComPostContent(rs.getString("COM_POST_CONTENT"));
                 post.setComPostTime(rs.getTimestamp("COM_POST_TIME"));
