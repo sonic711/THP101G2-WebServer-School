@@ -3,13 +3,11 @@ package web.community.post.controller;
 import core.bean.CoreBean;
 import web.community.post.bean.Post;
 
-import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.beans.Transient;
 import java.io.IOException;
 import java.util.Objects;
 
@@ -38,7 +36,6 @@ public class PostController extends HttpServlet {
                 String[] pathVariables = pathInfo.split("/");
                 Integer id = Integer.parseInt(pathVariables[0]);
                 Post post = POST_SERVICE.findPostById(id);
-                System.out.println(post);
                 writeJsonBean(resp, post);
             } catch (Exception e) {
                 e.printStackTrace();
