@@ -7,7 +7,7 @@ public class DataCenter {
 	@Override
 	public String toString() {
 		return "DataCenter [shopOrderDescId=" + shopOrderDescId + ", shopOrderId=" + shopOrderId + ", shopOrderCount="
-				+ shopOrderCount + ", shopProductName=" + shopProductName + ", shopProductPrice=" + shopProductPrice
+				+ shopOrderCount + ", shopProductName=" + shopProductName + ", shopProductSales=" + shopProductSales
 				+ ", shopProductId=" + shopProductId + ", firmNo=" + firmNo + "]";
 	}
 
@@ -15,7 +15,7 @@ public class DataCenter {
 	Integer shopOrderId;
 	Integer shopOrderCount;
 	String shopProductName;
-	Integer shopProductPrice;
+	Integer shopProductSales;
 	Integer shopProductId;
 	Integer firmNo;
 
@@ -51,12 +51,12 @@ public class DataCenter {
 		this.shopProductName = shopProductName;
 	}
 
-	public Integer getShopProductPrice() {
-		return shopProductPrice;
+	public Integer getShopProductSales() {
+		return shopProductSales;
 	}
 
-	public void setShopProductPrice(Integer shopProductPrice) {
-		this.shopProductPrice = shopProductPrice;
+	public void setShopProductSales(Integer shopProductSales) {
+		this.shopProductSales = shopProductSales;
 	}
 
 	public Integer getShopProductId() {
