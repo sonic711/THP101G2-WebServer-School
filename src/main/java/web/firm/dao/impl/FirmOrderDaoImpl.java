@@ -35,7 +35,8 @@ public class FirmOrderDaoImpl implements FirmOrderDao {
 				firmOrder.setShopOrdercreateTime(rs.getTimestamp("SHOP_ORDERCREATE_TIME"));
 				firmOrder.setShopOrderpayTime(rs.getTimestamp("SHOP_ORDERPAY_TIME"));
 				firmOrder.setShopProductName(rs.getString("SHOP_PRODUCT_NAME"));
-				firmOrder.setShopProductPrice(rs.getInt("SHOP_PRODUCT_PRICE"));
+				firmOrder.setShopProductSales(rs.getInt("SHOP_PRODUCT_SALES"));
+				firmOrder.setShopOrderCount(rs.getInt("SHOP_ORDER_COUNT"));
 				
 				resultOrderList.add(firmOrder);
 			}
@@ -68,7 +69,7 @@ public class FirmOrderDaoImpl implements FirmOrderDao {
 					firmOrder.setShopOrdercreateTime(rs.getTimestamp("SHOP_ORDERCREATE_TIME"));
 					firmOrder.setShopOrderpayTime(rs.getTimestamp("SHOP_ORDERPAY_TIME"));
 					firmOrder.setShopProductName(rs.getString("SHOP_PRODUCT_NAME"));
-					firmOrder.setShopProductPrice(rs.getInt("SHOP_PRODUCT_PRICE"));
+					firmOrder.setShopProductSales(rs.getInt("SHOP_PRODUCT_SALES"));
 					firmOrder.setShopOrderCount(rs.getInt("SHOP_ORDER_COUNT"));
 					
 					orderStatusList.add(firmOrder);

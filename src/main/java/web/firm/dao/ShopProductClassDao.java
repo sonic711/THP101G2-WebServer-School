@@ -26,7 +26,6 @@ public interface ShopProductClassDao {
 	int deleteByStatus(Integer shopProductStatusD);
 	
 	
-	
 	// 給後臺專用(呼叫方法就可以拿到全部的資料)
 	List<ShopProductClass> selectAll(); 
 }
