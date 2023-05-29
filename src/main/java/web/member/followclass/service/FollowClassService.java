@@ -6,6 +6,6 @@ import java.util.List;
 
 public interface FollowClassService{
     boolean newOneFollowClass(FollowClass followClass);
-    boolean deleteFollowClassById(Integer id);
+    boolean deleteFollowClassById(Integer id, Integer classId);
     List<FollowClass> findAllFollowClassById(Integer id);
 }
