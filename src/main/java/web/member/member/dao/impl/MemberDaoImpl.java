@@ -86,7 +86,7 @@ public class MemberDaoImpl implements MemberDao {
 
 	@Override
 	public int insert(Member member) {
-		String sql = "insert into MEMBER(USER_ID, PASSWORD, NICKNAME, MEMBER_IDENTITY, PHONE_NUMBER, MEMBER_EMAIL) values(?,?,?,?,?,?)";
+		String sql = "insert into MEMBER(USER_ID, PASSWORD, NICKNAME, PHONE_NUMBER, MEMBER_EMAIL) values(?,?,?,?,?)";
 		try(
 			Connection conn = getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -94,9 +94,8 @@ public class MemberDaoImpl implements MemberDao {
 			pstmt.setString(1, member.getUserId());
 			pstmt.setString(2, member.getPassword());
 			pstmt.setString(3, member.getNickname());
-			pstmt.setString(4, "學生");
-			pstmt.setString(5, member.getPhoneNumber());
-			pstmt.setString(6, member.getMemberEmail());
+			pstmt.setString(4, member.getPhoneNumber());
+			pstmt.setString(5, member.getMemberEmail());
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

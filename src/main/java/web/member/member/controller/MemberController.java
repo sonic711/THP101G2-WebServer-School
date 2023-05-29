@@ -22,6 +22,7 @@ import java.util.List;;
 @WebServlet("/members/*")
 public class MemberController extends HttpServlet{
 	private static final long serialVersionUID = 1L;
+	Gson gson = new Gson();
 	
 	/**
      * GET 登入: 查詢有無此會員
@@ -29,7 +30,6 @@ public class MemberController extends HttpServlet{
      */
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Gson gson = new Gson();
 		String pathInfo = req.getPathInfo();
 		pathInfo = pathInfo.substring(1);
 		String[] pathVar = pathInfo.split("/");
@@ -55,7 +55,6 @@ public class MemberController extends HttpServlet{
      */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Gson gson = new Gson();
 		Member member = gson.fromJson(req.getReader(), Member.class);
 		
 		boolean result = MEMBER_SERVICE.register(member);
@@ -73,7 +72,6 @@ public class MemberController extends HttpServlet{
      */
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Gson gson = new Gson();
 		Member member = gson.fromJson(req.getReader(), Member.class);
 		HttpSession session = req.getSession();
 		Member seMember = (Member) session.getAttribute("member");
@@ -94,10 +92,22 @@ public class MemberController extends HttpServlet{
      */
 	@Override
 	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Gson gson = new Gson();
 		Member member = (Member)req.getSession().getAttribute("member");
 		member.setPassword(null);
 		resp.getWriter().write(gson.toJson(member));
+	}
+	
+	/**
+     * DELETE: 登出
+     * 測試 
+     */
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		req.getSession().invalidate();
+		
+		JsonObject respBody = new JsonObject();
+		respBody.addProperty("successful", true);
+		resp.getWriter().write(gson.toJson(respBody));
 	}
 	
 }
