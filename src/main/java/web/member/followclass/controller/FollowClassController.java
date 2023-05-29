@@ -64,7 +64,9 @@ public class FollowClassController extends HttpServlet {
             pathInfo = pathInfo.substring(1);
             String[] pathVariables = pathInfo.split("/");
             Integer id = Integer.parseInt(pathVariables[0]);
-            writeJsonBean(resp, FOLLOWCLASS_SERVICE.deleteFollowClassById(id));
+            Integer classId = Integer.parseInt(pathVariables[1]);
+            boolean result = FOLLOWCLASS_SERVICE.deleteFollowClassById(id, classId);
+            writeJsonBean(resp, result);
         } catch (Exception e) {
             e.printStackTrace();
         }

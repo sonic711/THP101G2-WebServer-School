@@ -32,13 +32,14 @@ public class FollowClassDaoImpl implements FollowClassDao {
     }
 
     @Override
-    public int deleteById(Integer id) {
-        final String SQL = "delete from MEMBER_FOLLOW_BOARD where MEMBER_FOLLOW_BOARD_ID = ?";
+    public int deleteById(Integer id, Integer classId) {
+        final String SQL = "delete from MEMBER_FOLLOW_BOARD WHERE MEMBER_NO = ? and COM_SECCLASS_ID =?";
         try (
                 Connection conn = getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(SQL)
         ) {
             pstmt.setInt(1, id);
+            pstmt.setInt(2, classId);
             return pstmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
