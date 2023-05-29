@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 
 import static core.util.CommonUtil.json2Bean;
@@ -33,7 +34,9 @@ public class ReplyController extends HttpServlet {
                 pathInfo = pathInfo.substring(1);
                 String[] pathVariables = pathInfo.split("/");
                 Integer id = Integer.parseInt(pathVariables[0]);
-                writeJsonBean(resp, REPLY_SERVICE.findAllReplyById(id));
+                List<Reply> replys = REPLY_SERVICE.findAllReplyById(id);
+
+                writeJsonBean(resp, replys);
             } catch (Exception e) {
                 e.printStackTrace();
             }

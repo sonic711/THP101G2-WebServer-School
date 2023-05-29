@@ -5,7 +5,7 @@ import web.community.post.bean.Post;
 import java.util.List;
 
 public interface PostService {
-    boolean newOnePost(Post post);
+    Integer newOnePost(Post post);
     Post findPostById(Integer id);
     boolean editPost(Post post);
     List<Post> findAllPost();

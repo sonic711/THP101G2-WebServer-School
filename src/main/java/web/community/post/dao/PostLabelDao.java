@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface PostLabelDao {
 
-    int insert(List<PostLabel> postLabelList);
+    int insert(List<PostLabel> postLabelList, Integer id);
 
     int deleteByKey(Integer id);
 

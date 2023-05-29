@@ -17,6 +17,7 @@ import static web.community.util.CommunityContains.POST_SERVICE;
 
 @WebServlet("/community/post/*")
 public class PostController extends HttpServlet {
+
     private static final long serialVersionUID = 1L;
 
     /**
@@ -34,7 +35,8 @@ public class PostController extends HttpServlet {
                 pathInfo = pathInfo.substring(1);
                 String[] pathVariables = pathInfo.split("/");
                 Integer id = Integer.parseInt(pathVariables[0]);
-                writeJsonBean(resp, POST_SERVICE.findPostById(id));
+                Post post = POST_SERVICE.findPostById(id);
+                writeJsonBean(resp, post);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -62,8 +64,8 @@ public class PostController extends HttpServlet {
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             Post post = json2Bean(req, Post.class);
-            boolean result = POST_SERVICE.newOnePost(post);
-            writeJsonBean(resp, new CoreBean(result));
+            Integer result = POST_SERVICE.newOnePost(post);
+            writeJsonBean(resp, new CoreBean(true, result.toString()));
         } catch (Exception e) {
             e.printStackTrace();
         }
