@@ -36,8 +36,8 @@ public class FollowClassServiceImpl implements FollowClassService {
     }
 
     @Override
-    public boolean deleteFollowClassById(Integer id) {
-        int result = dao.deleteById(id);
+    public boolean deleteFollowClassById(Integer id, Integer classId) {
+        int result = dao.deleteById(id, classId);
         return result > 0;
     }
 
