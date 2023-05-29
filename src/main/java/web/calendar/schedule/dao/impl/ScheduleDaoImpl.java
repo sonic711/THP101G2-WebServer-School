@@ -82,7 +82,7 @@ public class ScheduleDaoImpl implements ScheduleDao{
 	@Override
 	public int insert(Schedule schedule) {
 		String sql = "insert into CALENDAR_SCHEDULE(MEMBER_NO, TASK, TAG_USER_DEF_ID, DATE, START_TIME, END_TIME, REPEAT_PATTERN, REMINDER)"
-				+ "values(?, ?, ?)";
+				+ "values(?, ?, ?, ?, ?, ?, ?, ?)";
 		try (
 			Connection conn = getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -202,6 +202,73 @@ public class ScheduleDaoImpl implements ScheduleDao{
 			e.printStackTrace();
 		}
 		return -1;
+	}
+
+	@Override
+	public List<Schedule> selectAllByMemberNoAndDate(Integer memberNo, Date date) {
+		String sql = "select * from CALENDAR_SCHEDULE where MEMBER_NO = ? and DATE = ?";
+		try (
+			Connection conn = getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+		){
+			pstmt.setInt(1, memberNo);
+			pstmt.setDate(2, date);
+			try (
+				ResultSet rs = pstmt.executeQuery();
+			) {
+				List<Schedule> list = new ArrayList<>();
+				while (rs.next()) {
+					Schedule schedule = new Schedule();
+					schedule.setScheduleId(rs.getInt("SCHEDULE_ID"));
+					schedule.setMemberNo(rs.getInt("MEMBER_NO"));
+					schedule.setTask(rs.getString("TASK"));
+					schedule.setTagUserDefId(rs.getInt("TAG_USER_DEF_ID"));
+					schedule.setDate(rs.getDate("DATE"));
+					schedule.setStartTime(rs.getTime("START_TIME"));
+					schedule.setEndTime(rs.getTime("END_TIME"));
+					schedule.setRepeatPattern(rs.getInt("REPEAT_PATTERN"));
+					schedule.setReminder(rs.getInt("REMINDER"));
+					schedule.setCreateAt(rs.getTimestamp("CREATE_AT"));
+					list.add(schedule);
+				}
+				return list;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public Schedule selectAllById(Integer scheduleId) {
+		String sql = "select * from CALENDAR_SCHEDULE where SCHEDULE_ID = ?";
+		try (
+			Connection conn = getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+		){
+			pstmt.setInt(1, scheduleId);
+			try (
+				ResultSet rs = pstmt.executeQuery();
+			) {
+				if (rs.next()) {
+					Schedule schedule = new Schedule();
+					schedule.setScheduleId(rs.getInt("SCHEDULE_ID"));
+					schedule.setMemberNo(rs.getInt("MEMBER_NO"));
+					schedule.setTask(rs.getString("TASK"));
+					schedule.setTagUserDefId(rs.getInt("TAG_USER_DEF_ID"));
+					schedule.setDate(rs.getDate("DATE"));
+					schedule.setStartTime(rs.getTime("START_TIME"));
+					schedule.setEndTime(rs.getTime("END_TIME"));
+					schedule.setRepeatPattern(rs.getInt("REPEAT_PATTERN"));
+					schedule.setReminder(rs.getInt("REMINDER"));
+					schedule.setCreateAt(rs.getTimestamp("CREATE_AT"));
+					return schedule;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

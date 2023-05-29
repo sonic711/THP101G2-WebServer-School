@@ -25,7 +25,7 @@ public class ReminderDaoImpl implements ReminderDao{
 			){
 				if (rs.next()) {
 					Reminder reminder = new Reminder();
-					reminder.setReminderId(rs.getInt("RIMINDER_ID"));;
+					reminder.setReminderId(rs.getInt("REMINDER_ID"));;
 					reminder.setReminderType(rs.getString("REMINDER_TYPE"));
 					reminder.setCreateAt(rs.getTimestamp("CREATE_AT"));
 					return reminder;
