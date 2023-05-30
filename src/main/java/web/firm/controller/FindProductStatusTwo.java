@@ -27,7 +27,7 @@ public class FindProductStatusTwo extends HttpServlet {
                 pathInfo = pathInfo.substring(1);
                 String[] pathVariables = pathInfo.split("/");
                 Integer id = Integer.parseInt(pathVariables[0]);
-                writeJsonBean(resp,SHOPHOMEPAGE_SERVICE.selectByProductStatus(2));
+                writeJsonBean(resp,SHOPHOMEPAGE_SERVICE.selectByProductFirmNo(id));
             } catch (Exception e) {
                 e.printStackTrace();
             }
