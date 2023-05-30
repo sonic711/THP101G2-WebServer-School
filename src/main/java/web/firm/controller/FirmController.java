@@ -1,26 +1,22 @@
-package web.member.member.controller;
+package web.firm.controller;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import web.member.member.bean.Member;
-import web.member.member.service.MemberService;
-import web.member.member.service.impl.MemberServiceImpl;
+import web.firm.bean.FirmClass;
 
-import static web.member.util.MemberContains.MEMBER_SERVICE;
+import static web.firm.util.FirmContainer.FIRM_SERVICE;
 
 import java.io.IOException;
-import java.util.List;;
 
-@WebServlet("/members/*")
-public class MemberController extends HttpServlet{
+@WebServlet("/firms/*")
+public class FirmController extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	Gson gson = new Gson();
 	
@@ -34,54 +30,34 @@ public class MemberController extends HttpServlet{
 		pathInfo = pathInfo.substring(1);
 		String[] pathVar = pathInfo.split("/");
 		
-		Member member = new Member();
-		member.setMemberEmail(pathVar[0]);
-		member.setPassword(pathVar[1]);
-		member = MEMBER_SERVICE.login(member);
+		FirmClass firm = new FirmClass();
+		firm.setFirmEmail(pathVar[0]);
+		firm.setPassword(pathVar[1]);
+		firm = FIRM_SERVICE.login(firm);
 		
-		if (member != null) {
+		if (firm != null) {
 			if (req.getSession(false) != null) {
 				req.changeSessionId();
 			}
-			req.getSession().setAttribute("member", member);
+			req.getSession().setAttribute("firm", firm);
 		}
 		
-		resp.getWriter().write(gson.toJson(member));
+		resp.getWriter().write(gson.toJson(firm));
 	}
 	
 	/**
      * POST 註冊: 新增一筆會員資料
-     * 測試 OK
+     * 測試 
      */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Member member = gson.fromJson(req.getReader(), Member.class);
+		FirmClass firm = gson.fromJson(req.getReader(), FirmClass.class);
 		
-		boolean result = MEMBER_SERVICE.register(member);
+		boolean result = FIRM_SERVICE.register(firm);
 		
 		JsonObject respBody = new JsonObject();
 		respBody.addProperty("successful", result);
 		respBody.addProperty("message", result ? "註冊成功" : "註冊失敗");
-		
-		resp.getWriter().write(respBody.toString());
-	}
-	
-	/**
-     * PUT 編輯: 編輯一筆會員資料
-     * 測試 OK
-     */
-	@Override
-	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Member member = gson.fromJson(req.getReader(), Member.class);
-		HttpSession session = req.getSession();
-		Member seMember = (Member) session.getAttribute("member");
-		member.setMemberNo(seMember.getMemberNo());
-		
-		boolean result = MEMBER_SERVICE.editMember(member);
-		
-		JsonObject respBody = new JsonObject();
-		respBody.addProperty("successful", result);
-		respBody.addProperty("message", result ? "編輯成功" : "編輯失敗");
 		
 		resp.getWriter().write(respBody.toString());
 	}
@@ -92,14 +68,14 @@ public class MemberController extends HttpServlet{
      */
 	@Override
 	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Member member = (Member)req.getSession().getAttribute("member");
-		member.setPassword(null);
-		resp.getWriter().write(gson.toJson(member));
+		FirmClass firm = (FirmClass)req.getSession().getAttribute("firm");
+		firm.setPassword(null);
+		resp.getWriter().write(gson.toJson(firm));
 	}
 	
 	/**
      * DELETE: 登出
-     * 測試 
+     * 測試 OK
      */
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -109,5 +85,4 @@ public class MemberController extends HttpServlet{
 		respBody.addProperty("successful", true);
 		resp.getWriter().write(gson.toJson(respBody));
 	}
-	
 }

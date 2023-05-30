@@ -17,4 +17,5 @@ public interface TagUserDefDao {
 	int deleteById(Integer tudId); // 刪除一筆自定義標籤
 	
 	TagUserDefined selectByDefined(Integer tudId); // 查詢單筆自定義標籤
+	
 }

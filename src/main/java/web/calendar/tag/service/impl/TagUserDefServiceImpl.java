@@ -4,18 +4,22 @@ import java.util.List;
 
 import web.calendar.tag.bean.TagUserDefined;
 import web.calendar.tag.dao.TagColorDao;
+import web.calendar.tag.dao.TagDefaultDao;
 import web.calendar.tag.dao.TagUserDefDao;
 import web.calendar.tag.dao.impl.TagColorDaoImpl;
+import web.calendar.tag.dao.impl.TagDefaultDaoImpl;
 import web.calendar.tag.dao.impl.TagUserDefDaoImpl;
 import web.calendar.tag.service.TagUserDefService;
 
 public class TagUserDefServiceImpl implements TagUserDefService{
 	private TagUserDefDao dao;
 	private TagColorDao tagDao;
+	private TagDefaultDao defaultDao;
 	
 	public TagUserDefServiceImpl() {
 		dao = new TagUserDefDaoImpl();
 		tagDao = new TagColorDaoImpl();
+		defaultDao = new TagDefaultDaoImpl();
 	}
 	
 	@Override
@@ -88,6 +92,14 @@ public class TagUserDefServiceImpl implements TagUserDefService{
 	@Override
 	public List<TagUserDefined> findAll() {
 		return dao.selectAll();
+	}
+
+	@Override
+	public boolean addAll(Integer memberNo) {
+		if (memberNo == null) {
+			return false;
+		}
+		return defaultDao.selectIdAndName(memberNo) >= 1;
 	}
 
 }
