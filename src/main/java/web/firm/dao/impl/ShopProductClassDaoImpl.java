@@ -160,7 +160,7 @@ public class ShopProductClassDaoImpl implements ShopProductClassDao {
 
 	@Override
 	public List<ShopProductClass> selectByProductFirmNo(Integer shopProductFirmNo) {
-		final String SQL = "select * from shop_product where FIRM_NO = ?";
+		final String SQL = "select * from shop_product where FIRM_NO = ? and SHOP_PRODUCT_STATUS = 2";
 		List<ShopProductClass> resultList = new ArrayList<>();
 		try (
 			Connection conn = getConnection(); 
