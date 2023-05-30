@@ -1,6 +1,8 @@
-package web.calendar.tag.controller;
+package web.calendar.schedule.controller;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -13,18 +15,19 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import web.calendar.tag.bean.TagUserDefined;
+import web.calendar.schedule.bean.Schedule;
 import web.member.member.bean.Member;
 
-import static web.calendar.util.CalendarContains.USERTAG_SERVICE;
+import static web.calendar.util.CalendarContains.SCHEDULE_SERVICE;;
 
-@WebServlet("/calendar/userTag/*")
-public class TagUserDefinedController extends HttpServlet{
+
+@WebServlet("/calendar/schedule/*")
+public class ScheduleController extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	Gson gson = new Gson();
 	
 	/**
-     * GET 查詢某會員所有自定義標籤
+     * GET: 顯示該會員某天的所有日程
      * 測試 OK
      */
 	@Override
@@ -33,25 +36,37 @@ public class TagUserDefinedController extends HttpServlet{
 		pathInfo = pathInfo.substring(1);
 		String[] pathVar = pathInfo.split("/");
 		
-		TagUserDefined tud = new TagUserDefined();
+		Schedule schedule = new Schedule();
 		Integer memberNo = Integer.parseInt(pathVar[0]);
-		tud.setMemberNo(memberNo);
-		List<TagUserDefined> list = USERTAG_SERVICE.findAllByMemberNo(memberNo);
+		schedule.setMemberNo(memberNo);
+		StringBuilder sb = new StringBuilder();
+		for (int i = 1; i <= 3; i++) {
+			sb.append(pathVar[i]);
+			if (i < 3 ) {
+				sb.append("-");
+			}
+		}
+		LocalDate localDate = LocalDate.parse(sb.toString());
+		Date date = Date.valueOf(localDate);
+		List<Schedule> list = SCHEDULE_SERVICE.memberScheduleOnDate(memberNo, date);
 		
 		resp.getWriter().write(gson.toJson(list));
 	}
 	
 	/**
-     * POST 新增全部自定義標籤給某會員
+     * POST: 新增一筆日程 
      * 測試 OK
      */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Schedule schedule = gson.fromJson(req.getReader(), Schedule.class);
+		
 		HttpSession session = req.getSession();
 		Member seMember = (Member)session.getAttribute("member");
 		Integer memberNo = seMember.getMemberNo();
+		schedule.setMemberNo(memberNo);
 		
-		boolean result = USERTAG_SERVICE.addAll(memberNo);
+		boolean result = SCHEDULE_SERVICE.add(schedule);
 		
 		JsonObject respBody = new JsonObject();
 		respBody.addProperty("successful", result);
@@ -59,42 +74,20 @@ public class TagUserDefinedController extends HttpServlet{
 		
 		resp.getWriter().write(respBody.toString());
 	}
-//	/**
-//     * POST 新增一筆自定義標籤
-//     * 測試 OK
-//     */
-//	@Override
-//	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-//		TagUserDefined tud = gson.fromJson(req.getReader(), TagUserDefined.class);
-//		
-//		HttpSession session = req.getSession();
-//		Member seMember = (Member)session.getAttribute("member");
-//		Integer memberNo = seMember.getMemberNo();
-//		tud.setMemberNo(memberNo);
-//		
-//		boolean result = USERTAG_SERVICE.add(tud);
-//		
-//		JsonObject respBody = new JsonObject();
-//		respBody.addProperty("successful", result);
-//		respBody.addProperty("message", result ? "新增成功" : "新增失敗");
-//		
-//		resp.getWriter().write(respBody.toString());
-//	}
 	
 	/**
-     * PUT 編輯一筆自定義標籤
+     * PUT: 編輯一筆日程
      * 測試 OK
      */
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		TagUserDefined tud = gson.fromJson(req.getReader(), TagUserDefined.class);
-		
+		Schedule schedule = gson.fromJson(req.getReader(), Schedule.class);
 		HttpSession session = req.getSession();
 		Member seMember = (Member)session.getAttribute("member");
 		Integer memberNo = seMember.getMemberNo();
-		tud.setMemberNo(memberNo);
+		schedule.setMemberNo(memberNo);
 		
-		boolean result = USERTAG_SERVICE.edit(tud);
+		boolean result = SCHEDULE_SERVICE.edit(schedule);
 		
 		JsonObject respBody = new JsonObject();
 		respBody.addProperty("successful", result);
@@ -103,10 +96,10 @@ public class TagUserDefinedController extends HttpServlet{
 		resp.getWriter().write(respBody.toString());
 	}
 	
+	
 	/**
-     * DELETE 刪除一筆自定義標籤
+     * DELETE: 刪除一筆日程
      * 測試 OK
-     * 用不到
      */
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -115,11 +108,26 @@ public class TagUserDefinedController extends HttpServlet{
 		String[] pathVar = pathInfo.split("/");
 		Integer id = Integer.parseInt(pathVar[0]);
 		
-		TagUserDefined tud = new TagUserDefined();
-		tud.setTagUserDefinedId(id);
-		boolean result = USERTAG_SERVICE.delete(tud);
+		Schedule schedule = new Schedule();
+		schedule.setScheduleId(id);
+		boolean result = SCHEDULE_SERVICE.delete(schedule);
 		
 		resp.getWriter().write(gson.toJson(result));
 	}
 	
+	
+	/**
+     * OPTIONS: 顯示一筆日程
+     * 測試 OK
+     */
+	@Override
+	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Schedule schedule = gson.fromJson(req.getReader(), Schedule.class);
+		HttpSession session = req.getSession();
+		Member seMember = (Member)session.getAttribute("member");
+		schedule.setMemberNo(seMember.getMemberNo());
+		schedule = SCHEDULE_SERVICE.singleSchedule(schedule);
+		
+		resp.getWriter().write(gson.toJson(schedule));
+	}
 }
