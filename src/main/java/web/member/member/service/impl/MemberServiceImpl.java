@@ -90,7 +90,7 @@ public class MemberServiceImpl implements MemberService{
 		if (password == null || password.isEmpty()) {
 			return null;
 		}
-		return dao.selectByEmail(member.getMemberEmail());
+		return dao.selectByEmailAndPassword(member.getMemberEmail(), member.getPassword());
 	}
 
 	@Override
