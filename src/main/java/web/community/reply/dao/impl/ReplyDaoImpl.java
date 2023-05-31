@@ -1,6 +1,7 @@
 package web.community.reply.dao.impl;
 
 import web.community.reply.bean.Reply;
+import web.community.reply.bean.ReplyAndLike;
 import web.community.reply.dao.ReplyDao;
 
 import java.sql.Connection;
@@ -146,6 +147,45 @@ public class ReplyDaoImpl implements ReplyDao {
                     reply.setComReplyAccessSetting(rs.getBoolean("COM_REPLY_ACCESS_SETTING"));
 
                     resultList.add(reply);
+                }
+            }
+            return resultList;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public List<ReplyAndLike> selectAllReplyAndLikeByKey(Integer id) {
+        final String SQL = "SELECT r.*, m.PROFILE_PHOTO,m.NICKNAME, m.USER_ID, l.COM_REPLY_LIKE_ID, l.MEMBER_NO as LIKED_MEMBER_NO, l.COM_REPLY_EMOTION, l.COM_REPLY_ID as LIKED_REPLY_ID FROM COM_REPLY r left join MEMBER m on r.MEMBER_NO = m.MEMBER_NO left join COM_REPLY_LIKE l on r.COM_REPLY_ID = l.COM_REPLY_ID where COM_REPLY_TO = ?;";
+        List<ReplyAndLike> resultList = new ArrayList<>();
+        try (
+                Connection conn = getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(SQL);
+
+        ) {
+            pstmt.setInt(1, id);
+            try (ResultSet rs = pstmt.executeQuery()) {
+
+                while (rs.next()) {
+
+                    ReplyAndLike replyAndLike = new ReplyAndLike();
+                    replyAndLike.setComReplyId(rs.getInt("COM_REPLY_ID"));
+                    replyAndLike.setMemberNo(rs.getInt("MEMBER_NO"));
+                    replyAndLike.setNickName(rs.getString("NICKNAME"));
+                    replyAndLike.setUserId(rs.getString("USER_ID"));
+                    replyAndLike.setProfilePhoto(rs.getBytes("PROFILE_PHOTO"));
+                    replyAndLike.setComReplyTo(rs.getInt("COM_REPLY_TO"));
+                    replyAndLike.setComReplyContent(rs.getString("COM_REPLY_CONTENT"));
+                    replyAndLike.setComReplyTime(rs.getTimestamp("COM_REPLY_TIME"));
+                    replyAndLike.setComReplyAccessSetting(rs.getBoolean("COM_REPLY_ACCESS_SETTING"));
+                    replyAndLike.setComReplyLikeId(rs.getInt("COM_REPLY_LIKE_ID"));
+                    replyAndLike.setLikedMemberNo(rs.getInt("LIKED_MEMBER_NO"));
+                    replyAndLike.setLikedReplyId(rs.getInt("LIKED_REPLY_ID"));
+                    replyAndLike.setComReplyEmotion(rs.getBoolean("COM_REPLY_EMOTION"));
+
+                    resultList.add(replyAndLike);
                 }
             }
             return resultList;

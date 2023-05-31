@@ -1,6 +1,7 @@
 package web.community.reply.service.impl;
 
 import web.community.reply.bean.Reply;
+import web.community.reply.bean.ReplyAndLike;
 import web.community.reply.dao.ReplyDao;
 import web.community.reply.dao.impl.ReplyDaoImpl;
 import web.community.reply.service.ReplyService;
@@ -42,10 +43,12 @@ public class ReplyServiceImpl implements ReplyService {
     }
 
     @Override
+    public List<ReplyAndLike> findAllReplyAndLikeById(Integer id) {
+        return dao.selectAllReplyAndLikeByKey(id);
+    }
+
+    @Override
     public boolean removeReplyById(Integer id) {
-
-
-
         int result = dao.deleteByKey(id);
         return result > 0;
     }

@@ -4,7 +4,9 @@ import web.community.post.bean.PostLike;
 import web.community.post.dao.PostLikeDao;
 import web.community.post.dao.impl.PostLikeDaoImpl;
 import web.community.post.service.PostLikeService;
+import web.member.followclass.bean.FollowClass;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class PostLikeServiceImpl implements PostLikeService {

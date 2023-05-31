@@ -10,10 +10,11 @@ public interface ReplyLikeDao {
 
     int update(ReplyLike replyLike);
 
-    int deleteByKey(Integer id);
+    int deleteByReplyIdAndMemberNo(Integer replyId, Integer memberNo);
 
     /**
      * 用comReplyId(回覆編號)找所有的喜歡
      */
     List<ReplyLike> selectAllByKey(Integer id);
+
 }
