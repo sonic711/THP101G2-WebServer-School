@@ -6,7 +6,9 @@ import web.member.member.bean.Member;
 
 public interface MemberDao {
 	
-	Member selectByEmail(String email); // 查詢單一會員(service-login)
+	Member selectByEmailAndPassword(String email, String password); // 查詢單一會員(service-login)
+	
+	Member selectByEmail(String email);
 	
 	Member selectByUserId(String userId);
 	

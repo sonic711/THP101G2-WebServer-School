@@ -14,14 +14,15 @@ import static core.util.CommonUtil.getConnection;
 public class MemberDaoImpl implements MemberDao {
 
 	@Override
-	public Member selectByEmail(String email) {
-		String sql = "select * from MEMBER where MEMBER_EMAIL = ?";
+	public Member selectByEmailAndPassword(String email, String password) {
+		String sql = "select * from MEMBER where MEMBER_EMAIL = ? and PASSWORD = ?";
 		
 		try(
 			Connection conn = getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql);		
 		) { 
 			pstmt.setString(1, email);
+			pstmt.setString(2, password);
 			try (
 				ResultSet rs = pstmt.executeQuery();
 			){
@@ -234,6 +235,43 @@ public class MemberDaoImpl implements MemberDao {
 			PreparedStatement pstmt = conn.prepareStatement(sql);		
 		) { 
 			pstmt.setString(1, phone);
+			try (
+				ResultSet rs = pstmt.executeQuery();
+			){
+				if (rs.next()) {
+					Member member = new Member();
+					member.setMemberNo(rs.getInt("MEMBER_NO"));
+					member.setUserId(rs.getString("USER_ID"));
+					member.setPassword(rs.getString("PASSWORD"));
+					member.setNickname(rs.getString("NICKNAME"));
+					member.setMemberIdentity(rs.getString("MEMBER_IDENTITY"));
+					member.setPhoneNumber(rs.getString("PHONE_NUMBER"));
+					member.setMemberEmail(rs.getString("MEMBER_EMAIL"));
+					member.setProfilePhoto(rs.getBytes("PROFILE_PHOTO"));
+					member.setCoverPicture(rs.getBytes("COVER_PICTURE"));
+					member.setMemberStatus(rs.getInt("MEMBER_STATUS"));
+					member.setIntroduction(rs.getString("INTRODUCTION"));
+					member.setRewardPoints(rs.getInt("REWARD_POINTS"));
+					member.setCreateAt(rs.getTimestamp("CREATE_AT"));
+					return member;
+				}
+			} 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public Member selectByEmail(String email) {
+String sql = "select * from MEMBER where MEMBER_EMAIL = ?";
+		
+		try(
+			Connection conn = getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);		
+		) { 
+			pstmt.setString(1, email);
 			try (
 				ResultSet rs = pstmt.executeQuery();
 			){

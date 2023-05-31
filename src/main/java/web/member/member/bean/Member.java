@@ -4,14 +4,6 @@ import java.sql.Timestamp;
 import java.util.Arrays;
 
 public class Member {
-	@Override
-	public String toString() {
-		return "Member [memberNo=" + memberNo + ", userId=" + userId + ", password=" + password + ", nickname="
-				+ nickname + ", memberIdentity=" + memberIdentity + ", phoneNumber=" + phoneNumber + ", memberEmail="
-				+ memberEmail + ", profilePhoto=" + Arrays.toString(profilePhoto) + ", coverPicture="
-				+ Arrays.toString(coverPicture) + ", memberStatus=" + memberStatus + ", introduction=" + introduction
-				+ ", rewardPoints=" + rewardPoints + ", createAt=" + createAt + "]";
-	}
 	private Integer memberNo;
 	private String userId;
 	private String password;
@@ -20,13 +12,36 @@ public class Member {
 	private String phoneNumber;
 	private String memberEmail;
 	private byte[] profilePhoto;
+	private String profilePhoto64;
 	private byte[] coverPicture;
+	private String coverPicture64;
 	private Integer memberStatus;
 	private String introduction;
 	private Integer rewardPoints;
 	private Timestamp createAt;
 	
+	@Override
+	public String toString() {
+		return "Member [memberNo=" + memberNo + ", userId=" + userId + ", password=" + password + ", nickname="
+				+ nickname + ", memberIdentity=" + memberIdentity + ", phoneNumber=" + phoneNumber + ", memberEmail="
+				+ memberEmail + ", profilePhoto=" + Arrays.toString(profilePhoto) + ", coverPicture="
+				+ Arrays.toString(coverPicture) + ", memberStatus=" + memberStatus + ", introduction=" + introduction
+				+ ", rewardPoints=" + rewardPoints + ", createAt=" + createAt + "]";
+	}
 	
+	
+	public String getProfilePhoto64() {
+		return profilePhoto64;
+	}
+	public void setProfilePhoto64(String profilePhoto64) {
+		this.profilePhoto64 = profilePhoto64;
+	}
+	public String getCoverPicture64() {
+		return coverPicture64;
+	}
+	public void setCoverPicture64(String coverPicture64) {
+		this.coverPicture64 = coverPicture64;
+	}
 	public Integer getMemberNo() {
 		return memberNo;
 	}
