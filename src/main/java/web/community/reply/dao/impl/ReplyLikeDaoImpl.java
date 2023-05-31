@@ -52,13 +52,14 @@ public class ReplyLikeDaoImpl implements ReplyLikeDao {
     }
 
     @Override
-    public int deleteByKey(Integer id) {
-        final String SQL = "delete from COM_REPLY_LIKE where COM_REPLY_LIKE_ID = ?";
+    public int deleteByReplyIdAndMemberNo(Integer replyId, Integer memberNo) {
+        final String SQL = "delete from COM_REPLY_LIKE where COM_REPLY_ID = ? and MEMBER_NO = ?";
         try (
                 Connection conn = getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(SQL)
         ) {
-            pstmt.setInt(1, id);
+            pstmt.setInt(1, replyId);
+            pstmt.setInt(2, memberNo);
             return pstmt.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
