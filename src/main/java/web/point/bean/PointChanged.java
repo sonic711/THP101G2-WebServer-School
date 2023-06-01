@@ -1,7 +1,6 @@
 package web.point.bean;
 
 import java.io.Serializable;
-
 import java.sql.Timestamp;
 
 public class PointChanged implements Serializable {
@@ -9,8 +8,8 @@ public class PointChanged implements Serializable {
 	private Integer pointChangedId;
 	private Integer memberNo;
 	private Integer commentId;
-	private Integer orderId;
-	private Integer studentCourseId;
+	private Integer shopOrderId;
+	private Integer studentCoursesId;
 	private Integer loginRecordId;
 	private Integer valueOfChanged;
 	private Integer rewardPoints;
@@ -25,7 +24,7 @@ public class PointChanged implements Serializable {
 	@Override
 	public String toString() {
 		return "PointChanged [pointChangedId=" + pointChangedId + ", memberNo=" + memberNo + ", commentId=" + commentId
-				+ ", orderId=" + orderId + ", studentCourseId=" + studentCourseId + ", loginRecordId=" + loginRecordId
+				+ ", shopOrderId=" + shopOrderId + ", studentCoursesId=" + studentCoursesId + ", loginRecordId=" + loginRecordId
 				+ ", valueOfChanged=" + valueOfChanged + ", creatAt=" + creatAt + "]";
 	}
 	
@@ -37,8 +36,8 @@ public class PointChanged implements Serializable {
 		this.pointChangedId = pointChangedId;
 		this.memberNo = memberNo;
 		this.commentId = commentId;
-		this.orderId = orderId;
-		this.studentCourseId = studentCourseId;
+		this.shopOrderId = orderId;
+		this.studentCoursesId = studentCourseId;
 		this.loginRecordId = loginRecordId;
 		this.valueOfChanged = valueOfChanged;
 		this.creatAt = creatAt;
@@ -82,26 +81,26 @@ public class PointChanged implements Serializable {
 
 
 
-	public Integer getOrderId() {
-		return orderId;
+	public Integer getShopOrderId() {
+		return shopOrderId;
 	}
 
 
 
-	public void setOrderId(Integer orderId) {
-		this.orderId = orderId;
+	public void setShopOrderId(Integer shopOrderId) {
+		this.shopOrderId = shopOrderId;
 	}
 
 
 
-	public Integer getStudentCourseId() {
-		return studentCourseId;
+	public Integer getStudentCoursesId() {
+		return studentCoursesId;
 	}
 
 
 
-	public void setStudentCourseId(Integer studentCourseId) {
-		this.studentCourseId = studentCourseId;
+	public void setStudentCoursesId(Integer studentCoursesId) {
+		this.studentCoursesId = studentCoursesId;
 	}
 
 
@@ -130,6 +129,18 @@ public class PointChanged implements Serializable {
 
 
 
+	public Integer getRewardPoints() {
+		return rewardPoints;
+	}
+
+
+
+	public void setRewardPoints(Integer rewardPoints) {
+		this.rewardPoints = rewardPoints;
+	}
+
+
+
 	public Timestamp getCreatAt() {
 		return creatAt;
 	}
@@ -142,15 +153,7 @@ public class PointChanged implements Serializable {
 
 
 
-	public Integer getRewardPoints() {
-		return rewardPoints;
-	}
-
-
-
-	public void setRewardPoints(Integer rewardPoints) {
-		this.rewardPoints = rewardPoints;
-	}
+	
 	
 
 }
