@@ -10,8 +10,8 @@ public class FirmOrder {
 				+ ", shopAdress=" + shopAdress + ", shopRecipient=" + shopRecipient + ", shopPointDiscount="
 				+ shopPointDiscount + ", shopOrderStatus=" + shopOrderStatus + ", shopOrdercreateTime="
 				+ shopOrdercreateTime + ", shopOrderpayTime=" + shopOrderpayTime + ", shopProductName="
-				+ shopProductName + ", shopProductPrice=" + shopProductPrice + ", shopOrderCount=" + shopOrderCount
-				+ "]";
+				+ shopProductName + ", shopProductPrice=" + shopProductPrice + ", shopProductSales=" + shopProductSales
+				+ ", shopOrderCount=" + shopOrderCount + "]";
 	}
 
 	Integer shopOrderId;
@@ -25,6 +25,7 @@ public class FirmOrder {
 	Timestamp shopOrderpayTime;
 	String shopProductName;
 	Integer shopProductPrice;
+	Integer shopProductSales;
 	Integer shopOrderCount;
 
 	public Integer getShopOrderId() {
@@ -113,6 +114,14 @@ public class FirmOrder {
 
 	public void setShopProductPrice(Integer shopProductPrice) {
 		this.shopProductPrice = shopProductPrice;
+	}
+
+	public Integer getShopProductSales() {
+		return shopProductSales;
+	}
+
+	public void setShopProductSales(Integer shopProductSales) {
+		this.shopProductSales = shopProductSales;
 	}
 
 	public Integer getShopOrderCount() {

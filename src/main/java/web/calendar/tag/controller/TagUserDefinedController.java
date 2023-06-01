@@ -42,19 +42,16 @@ public class TagUserDefinedController extends HttpServlet{
 	}
 	
 	/**
-     * POST 新增一筆自定義標籤
+     * POST 新增全部自定義標籤給某會員
      * 測試 OK
      */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		TagUserDefined tud = gson.fromJson(req.getReader(), TagUserDefined.class);
-		
 		HttpSession session = req.getSession();
 		Member seMember = (Member)session.getAttribute("member");
 		Integer memberNo = seMember.getMemberNo();
-		tud.setMemberNo(memberNo);
 		
-		boolean result = USERTAG_SERVICE.add(tud);
+		boolean result = USERTAG_SERVICE.addAll(memberNo);
 		
 		JsonObject respBody = new JsonObject();
 		respBody.addProperty("successful", result);
@@ -62,6 +59,27 @@ public class TagUserDefinedController extends HttpServlet{
 		
 		resp.getWriter().write(respBody.toString());
 	}
+//	/**
+//     * POST 新增一筆自定義標籤
+//     * 測試 OK
+//     */
+//	@Override
+//	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+//		TagUserDefined tud = gson.fromJson(req.getReader(), TagUserDefined.class);
+//		
+//		HttpSession session = req.getSession();
+//		Member seMember = (Member)session.getAttribute("member");
+//		Integer memberNo = seMember.getMemberNo();
+//		tud.setMemberNo(memberNo);
+//		
+//		boolean result = USERTAG_SERVICE.add(tud);
+//		
+//		JsonObject respBody = new JsonObject();
+//		respBody.addProperty("successful", result);
+//		respBody.addProperty("message", result ? "新增成功" : "新增失敗");
+//		
+//		resp.getWriter().write(respBody.toString());
+//	}
 	
 	/**
      * PUT 編輯一筆自定義標籤
@@ -88,6 +106,7 @@ public class TagUserDefinedController extends HttpServlet{
 	/**
      * DELETE 刪除一筆自定義標籤
      * 測試 OK
+     * 用不到
      */
 	@Override
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

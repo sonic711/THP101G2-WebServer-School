@@ -11,6 +11,12 @@ public interface ShopProductClassService {
 	// 查該廠商所有資料
 	List<ShopProductClass> selectByProductFirmNo(Integer shopProductFirmNo); 
 	
+	// 新增商品
+	int insert(ShopProductClass shopProductClass);
+	
+	
 	// 查詢商品狀態
 	List<ShopProductClass> selectByProductStatus(Integer shopProductStatus);
+	
+	
 }

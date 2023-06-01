@@ -8,4 +8,6 @@ public interface TagColorDao {
 	List<TagColor> selectAllTags(); // 查詢所有標籤
 	
 	TagColor selectTag(Integer tagId);
+	
+	
 }

@@ -8,6 +8,8 @@ public interface TagUserDefService {
 
 	boolean add(TagUserDefined tud); // 新增
 	
+	boolean addAll(Integer memberNo); // 新增所有標籤給某會員
+	
 	boolean edit(TagUserDefined tud); // 修改
 	
 	boolean delete(TagUserDefined tud); // 刪除

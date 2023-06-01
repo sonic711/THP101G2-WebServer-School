@@ -27,6 +27,11 @@ public class ShopProductClassServiceImpl implements ShopProductClassService {
 	public List<ShopProductClass> selectByProductStatus(Integer shopProductStatus) {
 		return dao.selectByProductStatus(shopProductStatus);
 	}
+	@Override
+	public int insert(ShopProductClass shopProductClass) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 
 
