@@ -16,7 +16,7 @@ import core.bean.CoreBean;
 
 
 @WebServlet("/point/*")
-public class GetAllcontroller extends HttpServlet {
+public class GetAllController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Override
