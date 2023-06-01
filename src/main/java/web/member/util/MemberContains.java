@@ -7,6 +7,8 @@ import web.member.notification.service.impl.NotificationServiceImpl;
 
 import web.member.block.service.BlockService;
 import web.member.block.service.impl.BlockServiceImpl;
+import web.member.follow.service.FollowService;
+import web.member.follow.service.impl.FollowServiceImpl;
 import web.member.member.service.MemberService;
 import web.member.member.service.impl.MemberServiceImpl;
 
@@ -15,4 +17,5 @@ public class MemberContains {
     public static final FollowClassService FOLLOWCLASS_SERVICE = new FollowClassServiceImpl();
     public static final MemberService MEMBER_SERVICE = new MemberServiceImpl();
     public static final BlockService BLOCK_SERVICE = new BlockServiceImpl();
+    public static final FollowService FOLLOW_SERVICE = new FollowServiceImpl();
 }
