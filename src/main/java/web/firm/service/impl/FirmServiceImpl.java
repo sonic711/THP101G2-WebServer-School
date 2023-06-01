@@ -44,9 +44,9 @@ public class FirmServiceImpl implements FirmService{
 			return false;
 		}
 		
-		Integer phone =  firm.getPhoneNumber();
+		String phone =  firm.getPhoneNumber();
 		if (dao.selectByPhone(phone) != null
-			|| phone != 10) {
+			|| phone.length() != 10) {
 			System.out.println("phone");
 			return false;
 		}
@@ -66,7 +66,7 @@ public class FirmServiceImpl implements FirmService{
 			return null;
 		}
 		
-		return dao.selectByEmail(firm.getFirmEmail());
+		return dao.selectByEmailAndPassword(firm.getFirmEmail(), firm.getPassword());
 	}
 
 	@Override

@@ -12,6 +12,9 @@ public interface FirmClassDao {
 	//更改賣場資料
 	int update(FirmClass firmClass);
 	
+	// 登入用
+	FirmClass selectByEmailAndPassword(String email, String password);
+	
 	// 查詢某廠商
 	FirmClass selectByEmail(String email);
 	
@@ -21,5 +24,5 @@ public interface FirmClassDao {
 	// 
 	FirmClass selectByUserId(String userId);
 	
-	FirmClass selectByPhone(Integer phone);
+	FirmClass selectByPhone(String phone);
 }

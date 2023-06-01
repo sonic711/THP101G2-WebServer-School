@@ -30,7 +30,7 @@ public class FirmClassDaoImpl implements FirmClassDao{
 			pstmt.setString(2, firmClass.getUserId());
 			pstmt.setString(3, firmClass.getPassword());
 			pstmt.setString(4, firmClass.getShopName());
-			pstmt.setInt(5, firmClass.getPhoneNumber());
+			pstmt.setString(5, firmClass.getPhoneNumber());
 			pstmt.setString(6, firmClass.getFirmEmail());
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
@@ -65,7 +65,7 @@ public class FirmClassDaoImpl implements FirmClassDao{
 					firm.setUserId(rs.getString("USER_ID"));
 					firm.setPassword(rs.getString("PASSWORD"));
 					firm.setShopName(rs.getString("SHOP_NAME"));
-					firm.setPhoneNumber(rs.getInt("PHONE_NUMBER"));
+					firm.setPhoneNumber(rs.getString("PHONE_NUMBER"));
 					firm.setFirmEmail(rs.getString("FIRM_EMAIL"));
 					firm.setProfilePhoto(rs.getBytes("PROFILE_PHOTO"));
 					firm.setCoverPhoto(rs.getBytes("COVER_PHOTO"));
@@ -98,7 +98,7 @@ public class FirmClassDaoImpl implements FirmClassDao{
 					firm.setUserId(rs.getString("USER_ID"));
 					firm.setPassword(rs.getString("PASSWORD"));
 					firm.setShopName(rs.getString("SHOP_NAME"));
-					firm.setPhoneNumber(rs.getInt("PHONE_NUMBER"));
+					firm.setPhoneNumber(rs.getString("PHONE_NUMBER"));
 					firm.setFirmEmail(rs.getString("FIRM_EMAIL"));
 					firm.setProfilePhoto(rs.getBytes("PROFILE_PHOTO"));
 					firm.setCoverPhoto(rs.getBytes("COVER_PHOTO"));
@@ -134,7 +134,7 @@ String sql = "select * from FIRM where USER_ID = ?";
 					firm.setUserId(rs.getString("USER_ID"));
 					firm.setPassword(rs.getString("PASSWORD"));
 					firm.setShopName(rs.getString("SHOP_NAME"));
-					firm.setPhoneNumber(rs.getInt("PHONE_NUMBER"));
+					firm.setPhoneNumber(rs.getString("PHONE_NUMBER"));
 					firm.setFirmEmail(rs.getString("FIRM_EMAIL"));
 					firm.setProfilePhoto(rs.getBytes("PROFILE_PHOTO"));
 					firm.setCoverPhoto(rs.getBytes("COVER_PHOTO"));
@@ -153,14 +153,14 @@ String sql = "select * from FIRM where USER_ID = ?";
 
 
 	@Override
-	public FirmClass selectByPhone(Integer phone) {
-String sql = "select * from FIRM where PHONE_NUMBER = ?";
+	public FirmClass selectByPhone(String phone) {
+		String sql = "select * from FIRM where PHONE_NUMBER = ?";
 		
 		try(
 			Connection conn = getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql);		
 		) { 
-			pstmt.setInt(1, phone);
+			pstmt.setString(1, phone);
 			try (
 				ResultSet rs = pstmt.executeQuery();
 			){
@@ -170,7 +170,44 @@ String sql = "select * from FIRM where PHONE_NUMBER = ?";
 					firm.setUserId(rs.getString("USER_ID"));
 					firm.setPassword(rs.getString("PASSWORD"));
 					firm.setShopName(rs.getString("SHOP_NAME"));
-					firm.setPhoneNumber(rs.getInt("PHONE_NUMBER"));
+					firm.setPhoneNumber(rs.getString("PHONE_NUMBER"));
+					firm.setFirmEmail(rs.getString("FIRM_EMAIL"));
+					firm.setProfilePhoto(rs.getBytes("PROFILE_PHOTO"));
+					firm.setCoverPhoto(rs.getBytes("COVER_PHOTO"));
+					firm.setFirmStatus(rs.getInt("FIRM_STATUS"));
+					firm.setCreateAt(rs.getTimestamp("CREATE_AT"));
+					firm.setShopInfo(rs.getString("SHOP_INFO"));
+					return firm;
+				}
+			} 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+
+	@Override
+	public FirmClass selectByEmailAndPassword(String email, String password) {
+		String sql = "select * from FIRM where FIRM_EMAIL = ? and PASSWORD = ?";
+		
+		try(
+			Connection conn = getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);		
+		) { 
+			pstmt.setString(1, email);
+			pstmt.setString(2, password);
+			try (
+				ResultSet rs = pstmt.executeQuery();
+			){
+				if (rs.next()) {
+					FirmClass firm = new FirmClass();
+					firm.setFirmNo(rs.getInt("FIRM_NO"));
+					firm.setUserId(rs.getString("USER_ID"));
+					firm.setPassword(rs.getString("PASSWORD"));
+					firm.setShopName(rs.getString("SHOP_NAME"));
+					firm.setPhoneNumber(rs.getString("PHONE_NUMBER"));
 					firm.setFirmEmail(rs.getString("FIRM_EMAIL"));
 					firm.setProfilePhoto(rs.getBytes("PROFILE_PHOTO"));
 					firm.setCoverPhoto(rs.getBytes("COVER_PHOTO"));
