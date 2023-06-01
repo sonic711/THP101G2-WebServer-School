@@ -81,8 +81,9 @@ public class ReplyLikeController extends HttpServlet {
             try {
                 pathInfo = pathInfo.substring(1);
                 String[] pathVariables = pathInfo.split("/");
-                Integer id = Integer.parseInt(pathVariables[0]);
-                boolean result = REPLYLIKE_SERVICE.removeReplyLikeById(id);
+                Integer replyId = Integer.parseInt(pathVariables[0]);
+                Integer memberNo = Integer.parseInt(pathVariables[1]);
+                boolean result = REPLYLIKE_SERVICE.removeReplyLikeById(replyId, memberNo);
                 writeJsonBean(resp, new CoreBean(result));
             } catch (Exception e) {
                 e.printStackTrace();

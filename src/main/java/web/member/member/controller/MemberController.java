@@ -17,6 +17,7 @@ import web.member.member.service.impl.MemberServiceImpl;
 import static web.member.util.MemberContains.MEMBER_SERVICE;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;;
 
 @WebServlet("/members/*")
@@ -45,7 +46,10 @@ public class MemberController extends HttpServlet{
 			}
 			req.getSession().setAttribute("member", member);
 		}
-		
+		String profilePhoto64 = Base64.getEncoder().encodeToString(member.getProfilePhoto());
+		String coverPicture64 = Base64.getEncoder().encodeToString(member.getCoverPicture());
+		member.setProfilePhoto64(profilePhoto64);
+		member.setCoverPicture64(coverPicture64);
 		resp.getWriter().write(gson.toJson(member));
 	}
 	

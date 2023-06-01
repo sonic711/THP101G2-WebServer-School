@@ -10,4 +10,5 @@ public interface PostService {
     boolean editPost(Post post);
     List<Post> findAllPost();
     boolean removePostById(Integer id);
+    List<Post> findAllPostByQuery(Integer id);
 }
