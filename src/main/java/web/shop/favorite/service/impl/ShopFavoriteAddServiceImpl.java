@@ -33,5 +33,11 @@ public class ShopFavoriteAddServiceImpl implements ShopFavoriteAddService {
 		return dao. selectAllFavoriteProducts();
 	}
 
+	@Override
+	public boolean favdeletproduct(Integer id) {
+		int result = dao.deleteByKey(id);
+        return result > 0;
+	}
+
 
 }

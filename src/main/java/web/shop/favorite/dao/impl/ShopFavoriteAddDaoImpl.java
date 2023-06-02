@@ -33,7 +33,7 @@ public class ShopFavoriteAddDaoImpl  implements ShopFavoriteAddDao{
 
 	@Override
 	public List<ShopFavoriteAdd> selectFavoriteProduct(Integer favoriteproductid) {
-		final String SQL = "SELECT spimg.SHOP_PRODUCT_IMG, sp.SHOP_PRODUCT_ID, sp.SHOP_PRODUCT_NAME "
+		final String SQL = "SELECT spimg.SHOP_PRODUCT_IMG, sp.SHOP_PRODUCT_ID, sp.SHOP_PRODUCT_NAME, sp.SHOP_NAME "
 				+ "FROM SHOP_MYFAVOURIRE sm "
 				+ "JOIN SHOP_PRODUCT sp ON sm.SHOP_PRODUCT_ID = sp.SHOP_PRODUCT_ID "
 				+ "JOIN SHOP_PRODUCT_IMG spimg ON sp.SHOP_PRODUCT_ID = spimg.SHOP_PRODUCT_ID where sp.SHOP_PRODUCT_ID = ? ";
@@ -49,6 +49,7 @@ public class ShopFavoriteAddDaoImpl  implements ShopFavoriteAddDao{
                 	shopFavoriteProduct.setShopProductImage(rs.getBytes("SHOP_PRODUCT_IMG"));
                 	shopFavoriteProduct.setShopProductId(rs.getInt("SHOP_PRODUCT_ID"));
                 	shopFavoriteProduct.setShopProductName(rs.getString("SHOP_PRODUCT_NAME"));
+                	shopFavoriteProduct.setShopName(rs.getString("SHOP_NAME"));
                     resultList.add(shopFavoriteProduct);
                 }
             }
@@ -61,10 +62,10 @@ public class ShopFavoriteAddDaoImpl  implements ShopFavoriteAddDao{
 
 	@Override
 	public List<ShopFavoriteAdd> selectAllFavoriteProducts() {
-	    final String SQL = "SELECT DISTINCT spimg.SHOP_PRODUCT_IMG, sp.SHOP_PRODUCT_ID, sp.SHOP_PRODUCT_NAME "
+	    final String SQL = "SELECT DISTINCT spimg.SHOP_PRODUCT_IMG, sp.SHOP_PRODUCT_ID, sp.SHOP_PRODUCT_NAME ,sp.SHOP_NAME "
 	            + "FROM SHOP_MYFAVOURIRE sm "
 	            + "JOIN SHOP_PRODUCT sp ON sm.SHOP_PRODUCT_ID = sp.SHOP_PRODUCT_ID "
-	            + "JOIN SHOP_PRODUCT_IMG spimg ON sp.SHOP_PRODUCT_ID = spimg.SHOP_PRODUCT_ID";
+	            + "JOIN SHOP_PRODUCT_IMG spimg ON sp.SHOP_PRODUCT_ID = spimg.SHOP_PRODUCT_ID ";
 	    List<ShopFavoriteAdd> resultList = new ArrayList<>();
 	    try (
 	            Connection conn = getConnection();
@@ -76,6 +77,7 @@ public class ShopFavoriteAddDaoImpl  implements ShopFavoriteAddDao{
 	                shopFavoriteProduct.setShopProductImage(rs.getBytes("SHOP_PRODUCT_IMG"));
 	                shopFavoriteProduct.setShopProductId(rs.getInt("SHOP_PRODUCT_ID"));
 	                shopFavoriteProduct.setShopProductName(rs.getString("SHOP_PRODUCT_NAME"));
+	                shopFavoriteProduct.setShopName(rs.getString("SHOP_NAME"));
 	                resultList.add(shopFavoriteProduct);
 	            }
 	        }
@@ -84,6 +86,22 @@ public class ShopFavoriteAddDaoImpl  implements ShopFavoriteAddDao{
 	        e.printStackTrace();
 	    }
 	    return null;
+	}
+
+
+	@Override
+	public int deleteByKey(Integer id) {
+		 final String SQL = "delete from SHOP_MYFAVOURIRE where SHOP_PRODUCT_ID = ?";
+	        try (
+	                Connection conn = getConnection();
+	                PreparedStatement pstmt = conn.prepareStatement(SQL)
+	        ) {
+	            pstmt.setInt(1, id);
+	            return pstmt.executeUpdate();
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        return -1;
 	}
 	
 }

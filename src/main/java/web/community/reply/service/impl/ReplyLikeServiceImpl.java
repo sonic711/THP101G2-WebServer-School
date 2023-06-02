@@ -5,6 +5,7 @@ import web.community.reply.dao.ReplyLikeDao;
 import web.community.reply.dao.impl.ReplyLikeDaoImpl;
 import web.community.reply.service.ReplyLikeService;
 
+import java.util.Iterator;
 import java.util.List;
 
 public class ReplyLikeServiceImpl implements ReplyLikeService {
@@ -32,8 +33,8 @@ public class ReplyLikeServiceImpl implements ReplyLikeService {
     }
 
     @Override
-    public boolean removeReplyLikeById(Integer id) {
-        int result = dao.deleteByKey(id);
+    public boolean removeReplyLikeById(Integer replyId, Integer memberNo) {
+        int result = dao.deleteByReplyIdAndMemberNo(replyId, memberNo);
         return result > 0;
     }
 }
