@@ -48,7 +48,7 @@ public class DataCenterDaoImpl implements DataCenterDao {
 
 	@Override
 	public List<DataCenter> selectByFirmNo(Integer firmNo) {
-		final String SQL = "select sd.SHOP_PRODUCT_ID,sd.SHOP_PRODUCT_NAME, sum(sd.SHOP_ORDER_COUNT) as allCount, sum(sd.SHOP_PRODUCT_SALES) as sumSales"
+		final String SQL = "select sp.FIRM_NO,sd.SHOP_PRODUCT_ID,sd.SHOP_PRODUCT_NAME, sum(sd.SHOP_ORDER_COUNT) as allCount, sum(sd.SHOP_PRODUCT_SALES) as sumSales"
 				+ " from shop_order_desc sd"
 				+ " join shop_product sp"
 				+ " on sd.SHOP_PRODUCT_ID = sp.SHOP_PRODUCT_ID"
@@ -66,7 +66,7 @@ public class DataCenterDaoImpl implements DataCenterDao {
 					DataCenter dataProductIdCenter = new DataCenter();
 					dataProductIdCenter.setShopProductId(rs.getInt("SHOP_PRODUCT_ID"));
 					dataProductIdCenter.setShopProductName(rs.getString("SHOP_PRODUCT_NAME"));
-					dataProductIdCenter.setShopProductSales(rs.getInt("as sumSales"));
+					dataProductIdCenter.setShopProductSales(rs.getInt("sumSales"));
 					dataProductIdCenter.setShopOrderCount(rs.getInt("allCount"));
 					dataProductIdCenter.setFirmNo(rs.getInt("FIRM_NO"));
 
