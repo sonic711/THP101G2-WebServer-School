@@ -12,11 +12,14 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+
 import core.bean.CoreBean;
+import web.point.bean.PointChanged;
 
 
 @WebServlet("/point/*")
-public class GetAllController extends HttpServlet {
+public class PointController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	
 	@Override
@@ -35,6 +38,23 @@ public class GetAllController extends HttpServlet {
 	                e.printStackTrace();
 	            }
 	        
+	}
+	
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Gson gson = new Gson();
+		
+		
+		try {
+			PointChanged PC = gson.fromJson(req.getReader(),PointChanged.class);
+			boolean result = POINT_CHANGED_SERVICE.insert(PC);
+			writeJsonBean(resp, new CoreBean(result));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	
+		
 	}
 	
 }

@@ -18,8 +18,8 @@ public class PointChangedServiceImpl implements PointChangedService {
 	
 	@Override
 	public boolean insert(PointChanged pointchanged) {
-		// TODO Auto-generated method stub
-		return false;
+		pointChangedDaoImpl PCD = new pointChangedDaoImpl();
+		return   PCD.insert(pointchanged) != 0;
 	}
 
 	@Override
