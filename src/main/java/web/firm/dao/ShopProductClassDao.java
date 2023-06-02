@@ -7,7 +7,8 @@ import web.firm.bean.ShopProductClass;
 
 // 商品管理Dao
 public interface ShopProductClassDao {
-	// 查詢該廠商商品
+	
+	// 查詢該廠商所有商品
 	List<ShopProductClass> selectByProductFirmNo(Integer shopProductFirmNo); 
 	
 	// 查詢狀態：透過狀態回傳的數字，找到正確的資料

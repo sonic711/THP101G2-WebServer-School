@@ -14,6 +14,7 @@ import web.firm.dao.ShopProductClassDao;
 
 public class ShopProductClassDaoImpl implements ShopProductClassDao {
 
+
 	@Override
 	public int insert(ShopProductClass shopProductClass) {
 		final String SQL = "insert into shop_product(SHOP_PRODUCT_ID, SHOP_PRODUCT_NAME, SHOP_PRODUCT_PRICE,SHOP_PRODUCT_SEARCH,SHOP_PRODUCT_CLASS,SHOP_PRODUCT_DESC,SHOP_PRODUCT_COUNT,SHOP_NAME,FIRM_NO) "
@@ -223,5 +224,4 @@ public class ShopProductClassDaoImpl implements ShopProductClassDao {
 		}
 		return null;
 	}
-
 }
