@@ -13,6 +13,6 @@ public interface ReplyLikeService {
 
     List<ReplyLike> findAllReplyLikeById(Integer id);
 
-    boolean removeReplyLikeById(Integer id);
+    boolean removeReplyLikeById(Integer replyId, Integer memberNo);
 
 }

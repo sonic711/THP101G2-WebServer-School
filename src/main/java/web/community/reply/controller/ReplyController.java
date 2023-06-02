@@ -2,6 +2,7 @@ package web.community.reply.controller;
 
 import core.bean.CoreBean;
 import web.community.reply.bean.Reply;
+import web.community.reply.bean.ReplyAndLike;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,8 +35,8 @@ public class ReplyController extends HttpServlet {
                 pathInfo = pathInfo.substring(1);
                 String[] pathVariables = pathInfo.split("/");
                 Integer id = Integer.parseInt(pathVariables[0]);
-                List<Reply> replys = REPLY_SERVICE.findAllReplyById(id);
-
+//                List<Reply> replys = REPLY_SERVICE.findAllReplyById(id);
+                List<ReplyAndLike> replys = REPLY_SERVICE.findAllReplyAndLikeById(id);
                 writeJsonBean(resp, replys);
             } catch (Exception e) {
                 e.printStackTrace();

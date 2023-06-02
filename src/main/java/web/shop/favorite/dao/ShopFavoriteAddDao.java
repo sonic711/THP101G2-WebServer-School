@@ -9,6 +9,8 @@ public interface ShopFavoriteAddDao {
 
 	int insert(ShopFavoriteAdd shopfavoriteadd);
 	
+	int deleteByKey(Integer id);
+	
 	public List<ShopFavoriteAdd> selectAllFavoriteProducts();
 	
 	List<ShopFavoriteAdd> selectFavoriteProduct(Integer favoriteproductid);
