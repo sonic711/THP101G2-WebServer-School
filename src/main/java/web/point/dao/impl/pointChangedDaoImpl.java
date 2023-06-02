@@ -44,11 +44,11 @@ public class pointChangedDaoImpl implements pointChangedDao {
 				){
 			conn.setAutoCommit(false);
 			try {
-				pstmt2.setInt(1,pointchanged.getMemberNo());
-				pstmt2.setInt(2,pointchanged.getCommentId());
-				pstmt2.setInt(3,pointchanged.getShopOrderId());
-				pstmt2.setInt(4,pointchanged.getStudentCoursesId());
-				pstmt2.setInt(5,pointchanged.getLoginRecordId());
+				pstmt2.setObject(1,pointchanged.getMemberNo());
+				pstmt2.setObject(2,pointchanged.getCommentId());
+				pstmt2.setObject(3,pointchanged.getShopOrderId());
+				pstmt2.setObject(4,pointchanged.getStudentCoursesId());
+				pstmt2.setObject(5,pointchanged.getLoginRecordId());
 				pstmt2.setInt(6,pointchanged.getValueOfChanged());
 				int rs2 =  pstmt2.executeUpdate();
 				if (rs2 < 1) {
