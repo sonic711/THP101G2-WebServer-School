@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.util.Objects;
 
 // 查商品狀態為上架中的狀態
-// 帶修改
 @WebServlet("/shophomepage/*")
 public class FindProductStatusTwo extends HttpServlet {
 
@@ -22,7 +21,7 @@ public class FindProductStatusTwo extends HttpServlet {
 		String pathInfo = req.getPathInfo();
 
         if (pathInfo == null || Objects.equals(pathInfo, "/")) {
-            writeJsonBean(resp,SHOPHOMEPAGE_SERVICE.selectAll());
+            writeJsonBean(resp,SHOPHOMEPAGE_SERVICE.selectByProductStatus(2));
         } else {
             try {
                 pathInfo = pathInfo.substring(1);

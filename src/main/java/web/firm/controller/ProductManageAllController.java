@@ -29,7 +29,7 @@ public class ProductManageAllController extends HttpServlet{
                 pathInfo = pathInfo.substring(1);
                 String[] pathVariables = pathInfo.split("/");
                 Integer id = Integer.parseInt(pathVariables[0]);
-                writeJsonBean(resp,FIRMPRODUCTPOSTALL_SERVICE.selectByProductFirmNo(3));
+                writeJsonBean(resp,FIRMPRODUCTPOSTALL_SERVICE.selectByProductFirmNo(id));
             } catch (Exception e) {
                 e.printStackTrace();
             }
