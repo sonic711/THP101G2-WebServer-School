@@ -56,11 +56,11 @@ public class StudentCoursesDaoImpl implements StudentCoursesDao{
 
 	@Override
 	public List<StudentCourses> selectAll() {
-	    final String SQL = "SELECT s.*, m.USER_ID, co.RATING, c.COURSE_ID, c.COURSE_NAME " +
-	            "FROM STUDENT_COURSES s " +
-	            "JOIN MEMBER m ON s.MEMBER_NO = m.MEMBER_NO " +
-	            "JOIN COMMENT co ON s.MEMBER_NO = co.MEMBER_NO " +
-	            "JOIN COURSE c ON s.COURSE_ID = c.COURSE_ID";
+	    final String SQL = "SELECT s.*, m.USER_ID, co.RATING, c.COURSE_ID, c.COURSE_NAME, c.IMAGE " +
+                "FROM STUDENT_COURSES s " +
+                "JOIN MEMBER m ON s.MEMBER_NO = m.MEMBER_NO " +
+                "JOIN COMMENT co ON s.MEMBER_NO = co.MEMBER_NO " +
+                "JOIN COURSE c ON s.COURSE_ID = c.COURSE_ID";
 
 	    List<StudentCourses> resultList = new ArrayList<>();
 	    try (Connection conn = getConnection();
@@ -75,6 +75,7 @@ public class StudentCoursesDaoImpl implements StudentCoursesDao{
 	            studentCourses.setCourseId(rs.getInt("COURSE_ID"));
 	            studentCourses.setMemberNo(rs.getInt("MEMBER_NO"));
 	            studentCourses.setCoursesProgress(rs.getBoolean("COURSES_PROGRESS"));
+	            studentCourses.setImage(rs.getBytes("IMAGE"));
 	            studentCourses.setUpdateTime(rs.getTimestamp("UPDATETIME"));
 	            resultList.add(studentCourses);
 	        }

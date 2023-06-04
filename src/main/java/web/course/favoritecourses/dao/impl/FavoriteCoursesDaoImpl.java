@@ -54,7 +54,7 @@ public class FavoriteCoursesDaoImpl implements FavoriteCoursesDao {
 
 	@Override
 	public List<FavoriteCourses> selectAll() {
-		final String SQL = "SELECT f.*, m.USER_ID, co.RATING, c.COURSE_ID, c.COURSE_NAME " +
+		final String SQL = "SELECT f.*, m.USER_ID, co.RATING, c.COURSE_ID, c.COURSE_NAME, c.IMAGE " +
 				"FROM FAVORITE_COURSES f " +
 				"JOIN MEMBER m ON f.MEMBER_NO = m.MEMBER_NO " +
 				"JOIN COMMENT co ON f.MEMBER_NO = co.MEMBER_NO " +
@@ -72,6 +72,7 @@ public class FavoriteCoursesDaoImpl implements FavoriteCoursesDao {
 				favoriteCourses.setCourseId(rs.getInt("COURSE_ID"));
 				favoriteCourses.setMemberNo(rs.getInt("MEMBER_NO"));
 				favoriteCourses.setFavoriteCourses(rs.getBoolean("FAVORITE_COURSES"));
+				favoriteCourses.setImage(rs.getBytes("IMAGE"));
 				favoriteCourses.setUpdateTime(rs.getTimestamp("UPDATETIME"));
 				resultList.add(favoriteCourses);
 		}			
