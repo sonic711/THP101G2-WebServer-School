@@ -13,4 +13,6 @@ public interface MemberService {
 	
 	List<Member> findAll(); // 後台
 	
+	Member searchMember(String email);
+	
 }

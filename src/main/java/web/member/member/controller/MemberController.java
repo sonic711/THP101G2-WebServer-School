@@ -46,8 +46,16 @@ public class MemberController extends HttpServlet{
 			}
 			req.getSession().setAttribute("member", member);
 		}
-		String profilePhoto64 = Base64.getEncoder().encodeToString(member.getProfilePhoto());
-		String coverPicture64 = Base64.getEncoder().encodeToString(member.getCoverPicture());
+		
+		String profilePhoto64 = null;
+		String coverPicture64 = null;
+		if (member.getProfilePhoto() != null) {
+			profilePhoto64 = Base64.getEncoder().encodeToString(member.getProfilePhoto());
+		}
+		if (member.getCoverPicture() != null) {
+			coverPicture64 = Base64.getEncoder().encodeToString(member.getCoverPicture());
+		}
+		
 		member.setProfilePhoto64(profilePhoto64);
 		member.setCoverPicture64(coverPicture64);
 		resp.getWriter().write(gson.toJson(member));
@@ -82,6 +90,9 @@ public class MemberController extends HttpServlet{
 		member.setMemberNo(seMember.getMemberNo());
 		
 		boolean result = MEMBER_SERVICE.editMember(member);
+		Member newMember = MEMBER_SERVICE.searchMember(seMember.getMemberEmail());
+		System.out.println(newMember);
+		req.getSession().setAttribute("member", member);
 		
 		JsonObject respBody = new JsonObject();
 		respBody.addProperty("successful", result);
@@ -99,6 +110,7 @@ public class MemberController extends HttpServlet{
 		Member member = (Member)req.getSession().getAttribute("member");
 		member.setPassword(null);
 		resp.getWriter().write(gson.toJson(member));
+		System.out.println(member);
 	}
 	
 	/**
