@@ -1,5 +1,10 @@
 package web.member.follow.controller;
 
+import static web.member.util.MemberContains.FOLLOW_SERVICE;
+
+import java.io.IOException;
+import java.util.List;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -7,24 +12,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import web.member.follow.bean.Follow;
 import web.member.follow.bean.Followers;
-
 import static web.member.util.MemberContains.FOLLOW_SERVICE;
 
-import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.List;
-
-@WebServlet("/member/follow/followers/*")
-public class FollowController extends HttpServlet{
+@WebServlet("/member/follow/fans/*")
+public class FansController extends HttpServlet{
 	private static final long serialVersionUID = 1L;
 	Gson gson = new Gson();
 	
 	/**
-     * GET 查詢該會員所有追蹤對象
+     * GET 查詢該會員所有粉絲
      * 測試 
      */
 	@Override
@@ -33,13 +31,10 @@ public class FollowController extends HttpServlet{
 		pathInfo = pathInfo.substring(1);
 		String[] pathVar = pathInfo.split("/");
 		
-		Followers followers = new Followers();
-		followers.setMemberNo(Integer.parseInt(pathVar[0]));
-		List<Followers> list = FOLLOW_SERVICE.findAllByMemberNo(followers.getMemberNo());
+		Followers fans = new Followers();
+		fans.setMemberFollowing(Integer.parseInt(pathVar[0]));
+		List<Followers> list = FOLLOW_SERVICE.findAllByMemberFollowing(fans.getMemberFollowing());
 		
-		Type listType = new TypeToken<List<Followers>>() {}.getType();
-		String jsonList = gson.toJson(list, listType);
-		resp.getWriter().write(gson.toJson(jsonList));
+		resp.getWriter().write(gson.toJson(list));
 	}
-	
 }
