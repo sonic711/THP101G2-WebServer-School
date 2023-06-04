@@ -65,13 +65,14 @@ public class Course {
 	public void setRating(Integer rating) {
 		this.rating = rating;
 	}
-	private Integer courseId;
+	
 	    @Override
 	public String toString() {
 		return "Course [courseId=" + courseId + ", courseName=" + courseName + ", memberNo=" + memberNo + ", summary="
 				+ summary + ", addAndRemove=" + addAndRemove + ", coursesReport=" + coursesReport + ", updateTime="
 				+ updateTime + ", image=" + Arrays.toString(image) + ", userId=" + userId + ", rating=" + rating + "]";
 	}
+	    private Integer courseId;
 		private String courseName;
 	    private Integer memberNo;
 	    private String summary;

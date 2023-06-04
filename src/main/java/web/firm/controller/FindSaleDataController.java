@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-@WebServlet("/datacenter/*")
+@WebServlet("/datacenter/firm/*")
 public class FindSaleDataController extends HttpServlet {
 	
 	@Override
