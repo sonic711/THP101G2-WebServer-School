@@ -17,44 +17,45 @@ import com.google.gson.Gson;
 import core.bean.CoreBean;
 import web.point.bean.PointChanged;
 
-
 @WebServlet("/point/*")
 public class PointController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		
-	
-		  String pathInfo = req.getPathInfo();
 
-	        
-	            try {
-	                pathInfo = pathInfo.substring(1);
-	                String[] pathVariables = pathInfo.split("/");
-	                Integer id = Integer.parseInt(pathVariables[0]);
-	                writeJsonBean(resp, POINT_CHANGED_SERVICE.selectAll(id));
-	            } catch (Exception e) {
-	                e.printStackTrace();
-	            }
-	        
-	}
-	
-	
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Gson gson = new Gson();
-		
-		
+		String pathInfo = req.getPathInfo();
+
 		try {
-			PointChanged PC = gson.fromJson(req.getReader(),PointChanged.class);
-			boolean result = POINT_CHANGED_SERVICE.insert(PC);
-			writeJsonBean(resp, new CoreBean(result));
+			pathInfo = pathInfo.substring(1);
+			String[] pathVariables = pathInfo.split("/");
+			Integer id = Integer.parseInt(pathVariables[0]);
+			writeJsonBean(resp, POINT_CHANGED_SERVICE.selectAll(id));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	
-		
+
 	}
-	
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Gson gson = new Gson();
+
+		try {
+			PointChanged PC = gson.fromJson(req.getReader(), PointChanged.class);
+			boolean result1 = POINT_CHANGED_SERVICE.insertForSC();
+			boolean result2 = POINT_CHANGED_SERVICE.insertForCMT();
+			boolean result3 = POINT_CHANGED_SERVICE.insertForMLR();
+			boolean result4 = POINT_CHANGED_SERVICE.insertForSO();
+			writeJsonBean(resp, new CoreBean(result1));
+			writeJsonBean(resp, new CoreBean(result2));
+			writeJsonBean(resp, new CoreBean(result3));
+			writeJsonBean(resp, new CoreBean(result4));
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
 }
