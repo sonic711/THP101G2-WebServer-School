@@ -3,7 +3,7 @@ package web.member.follow.bean;
 import java.sql.Timestamp;
 import java.util.Arrays;
 
-public class Followers {
+public class Follower {
 	private Integer memberFollowingId;
 	private Integer memberNo;
 	private Integer memberFollowing;
