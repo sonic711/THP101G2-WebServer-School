@@ -1,8 +1,11 @@
 package web.member.follow.service.impl;
 
+import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import web.member.follow.bean.Follow;
+import web.member.follow.bean.Followers;
 import web.member.follow.dao.FollowDao;
 import web.member.follow.dao.impl.FollowDaoImpl;
 import web.member.follow.service.FollowService;
@@ -39,19 +42,39 @@ public class FollowServiceImpl implements FollowService{
 	}
 
 	@Override
-	public List<Follow> findAllByMemberNo(Integer memberNo) {
+	public List<Followers> findAllByMemberNo(Integer memberNo) {
 		if (memberNo == null) {
 			return null;
 		}
-		return dao.selectByMemberNo(memberNo);
+		List<Followers> list = dao.selectByMemberNo(memberNo);
+		List<Followers> newList = new ArrayList<>();
+		list.forEach(followers -> {
+			String profilePhoto64 = null;
+			if (followers.getProfilePhoto() != null) {
+				profilePhoto64 = Base64.getEncoder().encodeToString(followers.getProfilePhoto());
+			}
+			followers.setProfilePhoto64(profilePhoto64);
+			newList.add(followers);
+		});
+		return newList;
 	}
 
 	@Override
-	public List<Follow> findAllByMemberFollowing(Integer memberFollowing) {
+	public List<Followers> findAllByMemberFollowing(Integer memberFollowing) {
 		if (memberFollowing == null) {
 			return null;
 		}
-		return dao.selectByMemberFollowing(memberFollowing);
+		List<Followers> list = dao.selectByMemberFollowing(memberFollowing);
+		List<Followers> newList = new ArrayList<>();
+		list.forEach(followers -> {
+			String profilePhoto64 = null;
+			if (followers.getProfilePhoto() != null) {
+				profilePhoto64 = Base64.getEncoder().encodeToString(followers.getProfilePhoto());
+			}
+			followers.setProfilePhoto64(profilePhoto64);
+			newList.add(followers);
+		});
+		return newList;
 	}
 
 	@Override
