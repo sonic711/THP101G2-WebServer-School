@@ -1,13 +1,15 @@
 package web.point.dao.impl;
 
 import java.sql.Connection;
-
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +29,8 @@ public class pointChangedDaoImpl implements pointChangedDao {
 		// 搞交易控制
 		// 寫3個sql(提取MEMBER_NO、insert一筆、update一筆)
 
-		// STUDENT_COURSES的UPDATETIME的default必須設為CURRENT_TIMESTAMP ON UPDATE
+		// STUDENT_COURSES的UPDATETIME的default必須設為NOT NULL DEFAULT CURRENT_TIMESTAMP ON
+		// UPDATE CURRENT_TIMESTAMP
 		// CURRENT_TIMESTAMP才能運作
 		String sql1 = "select STUDENT_COURSES_ID, MEMBER_NO "
 				+ "from STUDENT_COURSES where COURSES_PROGRESS = 1 order by UPDATETIME desc limit 1";
@@ -136,11 +139,13 @@ public class pointChangedDaoImpl implements pointChangedDao {
 	public int insertForMLR() {
 
 		// MEMBER_LOGIN_RECORD(table)的LOGIN_TIME的Default須為now()
-		String sql1 = "select LOGIN_RECORD_ID,MEMBER_NO from MEMBER_LOGIN_RECORD order by LOGIN_TIME desc limit 1 ";
+		String sql1 = "select LOGIN_RECORD_ID,MEMBER_NO,DATE(LOGIN_TIME) as T1 from MEMBER_LOGIN_RECORD order by LOGIN_TIME desc limit 1 ";
+		String sqlDay = "select DATE(LOGIN_TIME) as T2 from MEMBER_LOGIN_RECORD where MEMBER_NO = ? order by LOGIN_TIME desc limit 1,1";
 		String sql2 = "insert into POINTS_CHANGED(MEMBER_NO,COMMENT_ID,SHOP_ORDER_ID,STUDENT_COURSES_ID,LOGIN_RECORD_ID,VALUE_OF_CHANGING) values(?,?,?,?,?,?)";
 		String sql3 = "update MEMBER set REWARD_POINTS = REWARD_POINTS + ? where MEMBER_NO = ?";
 		try (Connection conn = getConnection();
 				PreparedStatement pstmt1 = conn.prepareStatement(sql1);
+				PreparedStatement pstmtD = conn.prepareStatement(sqlDay);
 				PreparedStatement pstmt2 = conn.prepareStatement(sql2);
 				PreparedStatement pstmt3 = conn.prepareStatement(sql3);) {
 			conn.setAutoCommit(false);
@@ -149,24 +154,23 @@ public class pointChangedDaoImpl implements pointChangedDao {
 
 			) {
 				if (rs1.next()) {
-					int LRI = rs1.getInt("LOGIN_RECORD_ID");
-					int MNO = rs1.getInt("MEMBER_NO");
-					Timestamp LT = rs1.getTimestamp("LOGIN_TIME");
+					LocalDate T1 = rs1.getDate("T1").toLocalDate();
 
-					// 這裡獲取的時間記錄可能有問題
-					LocalDateTime currentTime = LocalDateTime.now();
-					// 獲取上一筆的時間記錄?????????????
-					LocalDateTime previousTime = LT.toLocalDateTime();
+					pstmtD.setObject(1, rs1.getInt("MEMBER_NO"));
+					try (ResultSet rsD = pstmtD.executeQuery();) {
+						if (rsD.next()) {
+							LocalDate T2 = rsD.getDate("T2").toLocalDate();
 
-					Duration duration = Duration.between(previousTime, currentTime);
-					long hours = duration.toHours();
+							long diffInDays = ChronoUnit.DAYS.between(T1, T2);
+							if (diffInDays == 0) {
+								return 0;
+							}
+						}
 
-					if (hours < 24) {
-						return -1;
 					}
 
-					PC.setCommentId(LRI);
-					PC.setMemberNo(MNO);
+					PC.setCommentId(rs1.getInt("LOGIN_RECORD_ID"));
+					PC.setMemberNo(rs1.getInt("MEMBER_NO"));
 				}
 				pstmt2.setObject(1, PC.getMemberNo());
 				pstmt2.setObject(2, null);
@@ -191,7 +195,9 @@ public class pointChangedDaoImpl implements pointChangedDao {
 				e.printStackTrace();
 			}
 
-		} catch (Exception e) {
+		} catch (
+
+		Exception e) {
 			e.printStackTrace();
 		}
 
