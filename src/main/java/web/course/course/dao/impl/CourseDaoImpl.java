@@ -7,8 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Statement;
 
-import web.community.post.bean.Post;
+
 import web.course.course.bean.Course;
 import web.course.course.dao.CourseDao;
 
@@ -16,9 +17,12 @@ public class CourseDaoImpl implements CourseDao {
 
 	@Override
 	public int insert(Course course) {
-		final String SQL = "insert into COURSE(COURSE_ID, COURSE_NAME, MEMBER_NO, SUMMARY, ADD_AND_REMOVE, COURSE_REPORT, IMAGE) "
+		final String SQL = "insert into COURSE(COURSE_ID, COURSE_NAME, MEMBER_NO, SUMMARY, ADD_AND_REMOVE, COURSES_REPORT, IMAGE) "
 				+ "values(?, ?, ?, ?, ?, ?, ?)";
-		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+		try (
+				Connection conn = getConnection(); 
+				PreparedStatement pstmt = conn.prepareStatement(SQL)
+			){
 			pstmt.setInt(1, course.getCourseId());
 			pstmt.setString(2, course.getCourseName());
 			pstmt.setInt(3, course.getMemberNo());
@@ -26,7 +30,8 @@ public class CourseDaoImpl implements CourseDao {
 			pstmt.setBoolean(5, course.getAddAndRemove());
 			pstmt.setBoolean(6, course.getCoursesReport());
 			pstmt.setBytes(7, course.getImage());
-			return pstmt.executeUpdate();
+		return	pstmt.executeUpdate();
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -35,59 +40,117 @@ public class CourseDaoImpl implements CourseDao {
 
 	@Override
 	public int update(Course course) {
-		// TODO Auto-generated method stub
-		return 0;
+		final String SQL = "update COURSE set " 
+							+ "COURSE_NAME = ?," 
+							+ "SUMMARY = ?,"
+							+ "ADD_AND_REMOVE = ?,"  
+							+ "IMAGE = ? "
+							+ "where COURSE_ID = ?";
+		try (
+				Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(SQL)
+			){
+			pstmt.setString(1,course.getCourseName());
+			pstmt.setString(2,course.getSummary());
+			pstmt.setBoolean(3,course.getAddAndRemove());
+			pstmt.setBytes(4,course.getImage());
+			pstmt.setInt(5, course.getCourseId());
+			return pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
 	}
 
 	@Override
 	public List<Course> selectAllByKey(Integer id) {
-		// TODO Auto-generated method stub
+		final String SQL = "select * from COURSE where COURSE_ID = ?";
+		List<Course> resultList = new ArrayList<>();
+		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+			pstmt.setInt(1, id);
+			try (ResultSet rs = pstmt.executeQuery()) {
+				if (rs.next()) {
+					Course course = new Course();
+					course.setCourseId(rs.getInt("COURSE_ID"));
+					course.setCourseName(rs.getString("COURSE_NAME"));
+					course.setMemberNo(rs.getInt("MEMBER_NO"));
+					course.setSummary(rs.getString("SUMMARY"));
+					course.setAddAndRemove(rs.getBoolean("ADD_AND_REMOVE"));
+					course.setCoursesReport(rs.getBoolean("COURSES_REPORT"));
+					course.setImage(rs.getBytes("IMAGE"));
+				    resultList.add(course);
+                }
+            }
+            return resultList;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
 	@Override
 	public List<Course> selectAll() {
-        final String SQL = "SELECT c.*, m.USER_ID, co.RATING\r\n"
-        		+ "FROM COURSE c\r\n"
-        		+ "JOIN MEMBER m ON c.MEMBER_NO = m.MEMBER_NO\r\n"
-        		+ "JOIN COMMENT co ON c.MEMBER_NO = co.MEMBER_NO;";
-        List<Course> resultList = new ArrayList<>();
-        try (
-                Connection conn = getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(SQL);
-                ResultSet rs = pstmt.executeQuery()
-        ) {
-            while (rs.next()) {
-                Course course = new Course();
-                course.setCourseId(rs.getInt("COURSE_ID"));
-                course.setCourseName(rs.getString("COURSE_NAME"));
-                course.setMemberNo(rs.getInt("MEMBER_NO"));
-                course.setSummary(rs.getString("SUMMARY"));
-                course.setAddAndRemove(rs.getBoolean("ADD_AND_REMOVE"));
-                course.setCoursesReport(rs.getBoolean("COURSES_REPORT"));
-                course.setUpdateTime(rs.getTimestamp("UPDATETIME"));
-                course.setImage(rs.getBytes("IMAGE"));
-                course.setUserId(rs.getString("USER_ID"));
-                course.setRating(rs.getInt("RATING"));
-                resultList.add(course);
-            }
-            return resultList;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+		final String SQL = "SELECT c.*, m.USER_ID, co.RATING\r\n" + "FROM COURSE c\r\n"
+				+ "JOIN MEMBER m ON c.MEMBER_NO = m.MEMBER_NO\r\n" + "JOIN COMMENT co ON c.MEMBER_NO = co.MEMBER_NO;";
+		List<Course> resultList = new ArrayList<>();
+		try (Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(SQL);
+				ResultSet rs = pstmt.executeQuery()) {
+			while (rs.next()) {
+				Course course = new Course();
+				course.setCourseId(rs.getInt("COURSE_ID"));
+				course.setCourseName(rs.getString("COURSE_NAME"));
+				course.setMemberNo(rs.getInt("MEMBER_NO"));
+				course.setSummary(rs.getString("SUMMARY"));
+				course.setAddAndRemove(rs.getBoolean("ADD_AND_REMOVE"));
+				course.setCoursesReport(rs.getBoolean("COURSES_REPORT"));
+				course.setUpdateTime(rs.getTimestamp("UPDATETIME"));
+				course.setImage(rs.getBytes("IMAGE"));
+				course.setUserId(rs.getString("USER_ID"));
+				course.setRating(rs.getInt("RATING"));
+				resultList.add(course);
+			}
+			return resultList;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	@Override
 	public Course selectByKey(Integer id) {
-		// TODO Auto-generated method stub
+		final String SQL = "select * from COURSE where COURSE_ID = ?";
+		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+			pstmt.setInt(1, id);
+			try (ResultSet rs = pstmt.executeQuery()) {
+				if (rs.next()) {
+					Course course = new Course();
+					course.setCourseId(rs.getInt("COURSE_ID"));
+					course.setCourseName(rs.getString("COURSE_NAME"));
+					course.setMemberNo(rs.getInt("MEMBER_NO"));
+					course.setSummary(rs.getString("SUMMARY"));
+					course.setAddAndRemove(rs.getBoolean("ADD_AND_REMOVE"));
+					course.setCoursesReport(rs.getBoolean("COURSES_REPORT"));
+					course.setImage(rs.getBytes("IMAGE"));
+					return course;
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return null;
 	}
 
 	@Override
 	public int deleteByKey(Integer id) {
-		// TODO Auto-generated method stub
-		return 0;
+		final String SQL = "delete from COURSE where COURSE_ID = ?";
+		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+			pstmt.setInt(1, id);
+			return pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
 	}
 
 }
