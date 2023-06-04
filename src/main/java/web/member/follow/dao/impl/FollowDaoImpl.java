@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import web.member.follow.bean.Follow;
-import web.member.follow.bean.Followers;
+import web.member.follow.bean.Follower;
 import web.member.follow.dao.FollowDao;
 
 public class FollowDaoImpl implements FollowDao{
@@ -48,7 +48,7 @@ public class FollowDaoImpl implements FollowDao{
 	}
 
 	@Override
-	public List<Followers> selectByMemberNo(Integer memberNo) {
+	public List<Follower> selectByMemberNo(Integer memberNo) {
 		String sql = "select "
 				+ "mf.MEMBER_FOLLOWING_ID, "
 				+ "mf.MEMBER_NO, "
@@ -71,9 +71,9 @@ public class FollowDaoImpl implements FollowDao{
 			try(
 				ResultSet rs = pstmt.executeQuery();
 			) {
-				List<Followers> list = new ArrayList<>();
+				List<Follower> list = new ArrayList<>();
 				while (rs.next()) {
-					Followers followers = new Followers();
+					Follower followers = new Follower();
 					followers.setMemberFollowingId(rs.getInt("MEMBER_FOLLOWING_ID"));
 					followers.setMemberNo(rs.getInt("MEMBER_NO"));
 					followers.setMemberFollowing(rs.getInt("MEMBER_FOLLOWING"));
@@ -97,7 +97,7 @@ public class FollowDaoImpl implements FollowDao{
 	}
 
 	@Override
-	public List<Followers> selectByMemberFollowing(Integer memberFollowing) {
+	public List<Follower> selectByMemberFollowing(Integer memberFollowing) {
 		String sql = "select "
 				+ "mf.MEMBER_FOLLOWING_ID, "
 				+ "mf.MEMBER_NO, "
@@ -120,9 +120,9 @@ public class FollowDaoImpl implements FollowDao{
 			try(
 				ResultSet rs = pstmt.executeQuery();
 			) {
-				List<Followers> list = new ArrayList<>();
+				List<Follower> list = new ArrayList<>();
 				while (rs.next()) {
-					Followers followers = new Followers();
+					Follower followers = new Follower();
 					followers.setMemberFollowingId(rs.getInt("MEMBER_FOLLOWING_ID"));
 					followers.setMemberNo(rs.getInt("MEMBER_NO"));
 					followers.setMemberFollowing(rs.getInt("MEMBER_FOLLOWING"));
