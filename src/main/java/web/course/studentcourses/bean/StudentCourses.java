@@ -1,6 +1,7 @@
 package web.course.studentcourses.bean;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 
 public class StudentCourses {
 	
@@ -51,14 +52,25 @@ public class StudentCourses {
 	}
 	
 	
-	@Override
-	public String toString() {
-		return "StudentCourses [courseName=" + courseName + ", userId=" + userId + ", studentCoursesId="
-				+ studentCoursesId + ", memberNo=" + memberNo + ", courseId=" + courseId + ", coursesProgress="
-				+ coursesProgress + ", updateTime=" + updateTime + "]";
+
+	public byte[] getImage() {
+		return image;
+	}
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 
 
+
+	@Override
+	public String toString() {
+		return "StudentCourses [image=" + Arrays.toString(image) + ", courseName=" + courseName + ", userId=" + userId
+				+ ", studentCoursesId=" + studentCoursesId + ", memberNo=" + memberNo + ", courseId=" + courseId
+				+ ", coursesProgress=" + coursesProgress + ", updateTime=" + updateTime + "]";
+	}
+
+
+	private byte[] image ;
 	private String courseName;
 	private String userId;
 	private Integer studentCoursesId;
