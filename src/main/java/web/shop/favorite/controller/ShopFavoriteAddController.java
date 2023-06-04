@@ -2,7 +2,6 @@ package web.shop.favorite.controller;
 
 import static core.util.CommonUtil.json2Beans;
 import static core.util.CommonUtil.writeJsonBean;
-import static web.community.util.CommunityContains.POSTLABEL_SERVICE;
 import static web.shop.favorite.util.ShopFavoriteContains.SHOP_FAVORITE_ADD_SERVICE;
 
 import java.io.IOException;

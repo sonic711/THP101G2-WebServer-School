@@ -11,19 +11,24 @@ public class FirmOrderServiceImpl implements FirmOrderService {
 	 
 	private FirmOrderDao dao;
 
-	    public FirmOrderServiceImpl() {
-	        dao = new FirmOrderDaoImpl();
-	    }
+	public FirmOrderServiceImpl() {
+	      dao = new FirmOrderDaoImpl();
+	}
 
 	@Override
-	public List<FirmOrder> selectByOrderStatus(Integer shopProductStatus) {
-		return dao.selectByOrderStatus(shopProductStatus);
+	public List<FirmOrder> selectByFirmNo(Integer firmNo) {
+		return dao.selectByFirmNo(firmNo);
 	}
 
 	@Override
 	public List<FirmOrder> selectAll() {
 		return dao.selectAll();
 	}
+
+
+
+
+
 
 
 }

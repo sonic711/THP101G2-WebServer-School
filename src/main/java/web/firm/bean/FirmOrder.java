@@ -1,6 +1,7 @@
 package web.firm.bean;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 
 public class FirmOrder {
 
@@ -11,7 +12,8 @@ public class FirmOrder {
 				+ shopPointDiscount + ", shopOrderStatus=" + shopOrderStatus + ", shopOrdercreateTime="
 				+ shopOrdercreateTime + ", shopOrderpayTime=" + shopOrderpayTime + ", shopProductName="
 				+ shopProductName + ", shopProductPrice=" + shopProductPrice + ", shopProductSales=" + shopProductSales
-				+ ", shopOrderCount=" + shopOrderCount + "]";
+				+ ", shopOrderCount=" + shopOrderCount + ", firmNo=" + firmNo + ", shopProductImg="
+				+ Arrays.toString(shopProductImg) + "]";
 	}
 
 	Integer shopOrderId;
@@ -27,6 +29,8 @@ public class FirmOrder {
 	Integer shopProductPrice;
 	Integer shopProductSales;
 	Integer shopOrderCount;
+	Integer firmNo;
+	byte[] shopProductImg;
 
 	public Integer getShopOrderId() {
 		return shopOrderId;
@@ -130,6 +134,22 @@ public class FirmOrder {
 
 	public void setShopOrderCount(Integer shopOrderCount) {
 		this.shopOrderCount = shopOrderCount;
+	}
+
+	public Integer getFirmNo() {
+		return firmNo;
+	}
+
+	public void setFirmNo(Integer firmNo) {
+		this.firmNo = firmNo;
+	}
+
+	public byte[] getShopProductImg() {
+		return shopProductImg;
+	}
+
+	public void setShopProductImg(byte[] shopProductImg) {
+		this.shopProductImg = shopProductImg;
 	}
 
 }
