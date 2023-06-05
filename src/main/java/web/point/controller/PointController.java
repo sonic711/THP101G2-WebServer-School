@@ -1,9 +1,11 @@
 package web.point.controller;
 
 import static core.util.CommonUtil.writeJsonBean;
+
 import static web.point.util.PointContains.POINT_CHANGED_SERVICE;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.Objects;
 
 import javax.servlet.ServletException;
@@ -30,7 +32,7 @@ public class PointController extends HttpServlet {
 			pathInfo = pathInfo.substring(1);
 			String[] pathVariables = pathInfo.split("/");
 			Integer id = Integer.parseInt(pathVariables[0]);
-			writeJsonBean(resp, POINT_CHANGED_SERVICE.selectAll(id));
+			writeJsonBean(resp, POINT_CHANGED_SERVICE.selectAllByMId(id));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -43,14 +45,36 @@ public class PointController extends HttpServlet {
 
 		try {
 			PointChanged PC = gson.fromJson(req.getReader(), PointChanged.class);
-			boolean result1 = POINT_CHANGED_SERVICE.insertForSC();
-			boolean result2 = POINT_CHANGED_SERVICE.insertForCMT();
-			boolean result3 = POINT_CHANGED_SERVICE.insertForMLR();
-			boolean result4 = POINT_CHANGED_SERVICE.insertForSO();
-			writeJsonBean(resp, new CoreBean(result1));
-			writeJsonBean(resp, new CoreBean(result2));
-			writeJsonBean(resp, new CoreBean(result3));
-			writeJsonBean(resp, new CoreBean(result4));
+			String insertType = PC.getType();
+//			boolean result1 = POINT_CHANGED_SERVICE.insertForSC();
+//			boolean result2 = POINT_CHANGED_SERVICE.insertForCMT();
+//			boolean result3 = POINT_CHANGED_SERVICE.insertForMLR();
+//			boolean result4 = POINT_CHANGED_SERVICE.insertForSO();
+//			writeJsonBean(resp, new CoreBean(result1));
+//			writeJsonBean(resp, new CoreBean(result2));
+//			writeJsonBean(resp, new CoreBean(result3));
+//			writeJsonBean(resp, new CoreBean(result4));
+
+			switch (insertType) {
+			case "insertForSC":
+				boolean result1 = POINT_CHANGED_SERVICE.insertForSC();
+				writeJsonBean(resp, new CoreBean(result1));
+				break;
+			case "insertForCMT":
+				boolean result2 = POINT_CHANGED_SERVICE.insertForCMT();
+				writeJsonBean(resp, new CoreBean(result2));
+				break;
+			case "insertForMLR":
+				boolean result3 = POINT_CHANGED_SERVICE.insertForMLR();
+				writeJsonBean(resp, new CoreBean(result3));
+				break;
+			case "insertForSO":
+				boolean result4 = POINT_CHANGED_SERVICE.insertForSO();
+				writeJsonBean(resp, new CoreBean(result4));
+				break;
+			default:
+				break;
+			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
