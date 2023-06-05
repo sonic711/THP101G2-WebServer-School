@@ -3,6 +3,7 @@ package web.member.follow.service;
 import java.util.List;
 
 import web.member.follow.bean.Follow;
+import web.member.follow.bean.Follower;
 
 public interface FollowService {
 
@@ -10,9 +11,9 @@ public interface FollowService {
 	
 	boolean delete(Follow follow);
 	
-	List<Follow> findAllByMemberNo(Integer memberNo);
+	List<Follower> findAllByMemberNo(Integer memberNo);
 	
-	List<Follow> findAllByMemberFollowing(Integer memberFollowing);
+	List<Follower> findAllByMemberFollowing(Integer memberFollowing);
 	
 	List<Follow> findAll();
 	

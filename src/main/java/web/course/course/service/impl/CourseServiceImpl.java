@@ -16,20 +16,19 @@ public class CourseServiceImpl implements CourseService{
 
 	@Override
 	public boolean newOneCourse(Course course) {
-			// TODO Auto-generated method stub
-		return false;
-	}
-
+		int result = dao.insert(course);
+        return result > 0;
+	        }
+	       
 	@Override
 	public Course findCourseById(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+        return dao.selectByKey(id);
 	}
 
 	@Override
 	public boolean editPost(Course course) {
-		// TODO Auto-generated method stub
-		return false;
+		int result = dao.update(course);
+        return result > 0;
 	}
 
 	@Override
@@ -39,14 +38,13 @@ public class CourseServiceImpl implements CourseService{
 
 	@Override
 	public List<Course> findAllByCourseId(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+		return dao.selectAllByKey(id);
 	}
 
 	@Override
 	public boolean removeCourseById(Integer id) {
-		// TODO Auto-generated method stub
-		return false;
+		int result = dao.deleteByKey(id);
+        return result > 0;
 	}
 
 }

@@ -41,7 +41,7 @@ public class ShopDaonImpl implements ShopDao {
 	
 	@Override
 	public List<ShopProduct> selectAllByKey(ShopProduct productid) {
-		  final String SQL = "select * from SHOP_PRODUCT";
+		  final String SQL = "select * from SHOP_PRODUCT ORDER BY RAND()";
 	        List<ShopProduct> resultList = new ArrayList<>();
 	        try (
 	                Connection conn = getConnection();

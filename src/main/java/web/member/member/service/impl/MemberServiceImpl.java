@@ -1,5 +1,6 @@
 package web.member.member.service.impl;
 
+import java.util.Base64;
 import java.util.List;
 
 import web.member.member.bean.Member;
@@ -73,6 +74,17 @@ public class MemberServiceImpl implements MemberService{
 			&& (memberStatus < 0 || memberStatus > 1)) {
 			return false;
 		}
+		String profilePhoto64 = member.getProfilePhoto64();
+		if (profilePhoto64 != null && !profilePhoto64.isEmpty()) {
+			byte[] profilePhoto = Base64.getDecoder().decode(profilePhoto64);
+			member.setProfilePhoto(profilePhoto);
+		}
+		String coverPicture64 = member.getCoverPicture64();
+		if (coverPicture64 != null && !coverPicture64.isEmpty()) {
+			byte[] coverPicture = Base64.getDecoder().decode(coverPicture64);
+			member.setCoverPicture(coverPicture);
+		}
+		
 		System.out.println(dao);
 		return dao.updateByMemberNo(member) >= 1;
 	}
@@ -96,6 +108,11 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public List<Member> findAll() {
 		return dao.selectAll();
+	}
+
+	@Override
+	public Member searchMember(String email) {
+		return dao.selectByEmail(email);
 	}
 
 }
