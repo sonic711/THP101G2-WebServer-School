@@ -14,5 +14,5 @@ public interface PointChangedService {
 	boolean insertForSO();
 	
 	
-	List<PointChanged> selectAll (Integer id);
+	List<PointChanged> selectAllByMId (Integer id);
 }

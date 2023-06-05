@@ -15,10 +15,8 @@ public interface pointChangedDao {
 	int insertForSO();
 	
 	
-	// 查詢一筆資料
-	List<PointChanged> selectAll (Integer id);
-	
-	
+	// 以會員編號查詢多筆資料
+	List<PointChanged> selectAllByMId (Integer id);
 	
 	
 	

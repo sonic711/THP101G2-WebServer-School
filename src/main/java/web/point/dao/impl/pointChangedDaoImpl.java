@@ -256,7 +256,7 @@ public class pointChangedDaoImpl implements pointChangedDao {
 	}
 
 	@Override
-	public List<PointChanged> selectAll(Integer id) {
+	public List<PointChanged> selectAllByMId(Integer id) {
 		String sql = "SELECT PC.POINTS_CHANGED_ID, PC.MEMBER_NO, PC.COMMENT_ID, PC.SHOP_ORDER_ID, "
 				+ "PC.STUDENT_COURSES_ID, PC.LOGIN_RECORD_ID, PC.VALUE_OF_CHANGING, " + "PC.CREATE_AT, M.REWARD_POINTS "
 				+ "FROM POINTS_CHANGED PC " + "INNER JOIN MEMBER M ON PC.MEMBER_NO = M.MEMBER_NO "

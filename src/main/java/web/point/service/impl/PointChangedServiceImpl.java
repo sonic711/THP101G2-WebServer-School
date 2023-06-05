@@ -48,9 +48,9 @@ public class PointChangedServiceImpl implements PointChangedService {
 	}
 	
 	@Override
-	public List<PointChanged>  selectAll(Integer id) {
+	public List<PointChanged>  selectAllByMId(Integer id) {
 		
-		return dao.selectAll(id);
+		return dao.selectAllByMId(id);
 	}
 	
 	
