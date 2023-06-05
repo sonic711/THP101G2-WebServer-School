@@ -7,10 +7,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
 import web.member.follow.bean.Follow;
-import web.member.follow.bean.Followers;
+import web.member.follow.bean.Follower;
 
 import static web.member.util.MemberContains.FOLLOW_SERVICE;
 
@@ -33,13 +34,28 @@ public class FollowController extends HttpServlet{
 		pathInfo = pathInfo.substring(1);
 		String[] pathVar = pathInfo.split("/");
 		
-		Followers followers = new Followers();
-		followers.setMemberNo(Integer.parseInt(pathVar[0]));
-		List<Followers> list = FOLLOW_SERVICE.findAllByMemberNo(followers.getMemberNo());
+		Follower follower = new Follower();
+		follower.setMemberNo(Integer.parseInt(pathVar[0]));
+		List<Follower> list = FOLLOW_SERVICE.findAllByMemberNo(follower.getMemberNo());
 		
-		Type listType = new TypeToken<List<Followers>>() {}.getType();
-		String jsonList = gson.toJson(list, listType);
-		resp.getWriter().write(gson.toJson(jsonList));
+		resp.getWriter().write(gson.toJson(list));
+	}
+	
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String pathInfo = req.getPathInfo();
+		pathInfo = pathInfo.substring(1);
+		String[] pathVar = pathInfo.split("/");
+		
+		Follow follow = new Follow();
+		follow.setMemberFollowingId(Integer.parseInt(pathVar[0]));
+		boolean result = FOLLOW_SERVICE.delete(follow);
+		
+		JsonObject respBody = new JsonObject();
+		respBody.addProperty("successful", result);
+		respBody.addProperty("message", result ? "刪除成功" : "刪除失敗");
+		
+		resp.getWriter().write(respBody.toString());
 	}
 	
 }

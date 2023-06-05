@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import web.member.follow.bean.Followers;
+import web.member.follow.bean.Follower;
 import static web.member.util.MemberContains.FOLLOW_SERVICE;
 
 @WebServlet("/member/follow/fans/*")
@@ -31,9 +31,9 @@ public class FansController extends HttpServlet{
 		pathInfo = pathInfo.substring(1);
 		String[] pathVar = pathInfo.split("/");
 		
-		Followers fans = new Followers();
+		Follower fans = new Follower();
 		fans.setMemberFollowing(Integer.parseInt(pathVar[0]));
-		List<Followers> list = FOLLOW_SERVICE.findAllByMemberFollowing(fans.getMemberFollowing());
+		List<Follower> list = FOLLOW_SERVICE.findAllByMemberFollowing(fans.getMemberFollowing());
 		
 		resp.getWriter().write(gson.toJson(list));
 	}

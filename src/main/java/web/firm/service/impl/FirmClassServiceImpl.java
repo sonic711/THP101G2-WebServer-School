@@ -3,17 +3,17 @@ package web.firm.service.impl;
 import java.util.List;
 
 import web.firm.bean.FirmClass;
-import web.firm.dao.FirmClassDao;
-import web.firm.dao.impl.FirmClassDaoImpl;
+import web.firm.dao.FirmDaoToGrace;
+import web.firm.dao.impl.FirmDaoImplToGrace;
 import web.firm.service.FirmClassService;
 
 public class FirmClassServiceImpl implements FirmClassService{
 
-	private FirmClassDao dao;
-
-    public FirmClassServiceImpl() {
-    		dao = new FirmClassDaoImpl();
-    	 }
+	private FirmDaoToGrace dao;
+	
+	public FirmClassServiceImpl() {
+		dao = new FirmDaoImplToGrace();
+	}
 	
     // 註冊
 	@Override
@@ -36,6 +36,15 @@ public class FirmClassServiceImpl implements FirmClassService{
 	public List<FirmClass> selectAll() {
 		return dao.selectAll();
 	}
+
+	@Override
+	public FirmClass selectByFirmNo(Integer FirmNo) {
+		return dao.selectByFirmNo(FirmNo);
+	}
+
+
+
+
 
 	
 
