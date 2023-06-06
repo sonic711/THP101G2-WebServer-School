@@ -15,18 +15,17 @@ public class CommentDaoImpl implements CommentDao{
 
 	@Override
 	public int insert(Comment comment) {
-		final String SQL = "insert into COMMENT(COMMENT_ID,  MEMBER_NO, COURSE_ID, RATING, COMMENT, IMAGE, COMMENT_REPORT) "
-				+ "values(?, ?, ?, ?, ?, ?, ?)";
+		final String SQL = "insert into COMMENT(MEMBER_NO, COURSE_ID, RATING, COMMENT, IMAGE, COMMENT_REPORT) "
+				+ "values(?, ?, ?, ?, ?, ?)";
 		try (Connection conn = getConnection(); 
 				PreparedStatement pstmt = conn.prepareStatement(SQL)
 			){
-			pstmt.setInt(1, comment.getCommentId());
-			pstmt.setInt(2, comment.getMemberNo());
-			pstmt.setInt(3, comment.getCourseId());
-			pstmt.setInt(4, comment.getRating());
-			pstmt.setString(5, comment.getComment());
-			pstmt.setBytes(6, comment.getImage());
-			pstmt.setBoolean(7, comment.getCommentReport());
+			pstmt.setInt(1, comment.getMemberNo());
+			pstmt.setInt(2, comment.getCourseId());
+			pstmt.setInt(3, comment.getRating());
+			pstmt.setString(4, comment.getComment());
+			pstmt.setBytes(5, comment.getImage());
+			pstmt.setBoolean(6, comment.getCommentReport());
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
