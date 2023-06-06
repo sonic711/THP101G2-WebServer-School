@@ -9,7 +9,7 @@ public interface PointChangedService {
 		
 	boolean insertForCMT();
 		
-	boolean insertForMLR();
+	boolean insertForMLR(int MId);
 		
 	boolean insertForSO();
 	

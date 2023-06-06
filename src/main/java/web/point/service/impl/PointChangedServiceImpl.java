@@ -34,9 +34,9 @@ public class PointChangedServiceImpl implements PointChangedService {
 
 
 	@Override
-	public boolean insertForMLR() {
+	public boolean insertForMLR(int MId) {
 		
-		return dao.insertForMLR() > 0;
+		return dao.insertForMLR(MId) > 0;
 	}
 
 
