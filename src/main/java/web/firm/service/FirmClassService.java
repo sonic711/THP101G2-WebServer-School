@@ -14,4 +14,6 @@ public interface FirmClassService {
 		FirmClass selectByUserId(String userId);
 		
 		List<FirmClass> selectAll();
+		
+		FirmClass selectByFirmNo(Integer FirmNo);
 }

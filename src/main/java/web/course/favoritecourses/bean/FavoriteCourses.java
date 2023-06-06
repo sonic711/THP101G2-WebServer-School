@@ -1,6 +1,7 @@
 package web.course.favoritecourses.bean;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 
 public class FavoriteCourses {
 	
@@ -49,14 +50,21 @@ public class FavoriteCourses {
 	}
 	
 	
-	@Override
-	public String toString() {
-		return "FavoriteCourses [courseName=" + courseName + ", userId=" + userId + ", favoriteCoursesId="
-				+ favoriteCoursesId + ", courseId=" + courseId + ", memberNo=" + memberNo + ", favoriteCourses="
-				+ favoriteCourses + ", updateTime=" + updateTime + "]";
+	public byte[] getImage() {
+		return image;
+	}
+	public void setImage(byte[] image) {
+		this.image = image;
 	}
 
-
+	
+	@Override
+	public String toString() {
+		return "FavoriteCourses [image=" + Arrays.toString(image) + ", courseName=" + courseName + ", userId=" + userId
+				+ ", favoriteCoursesId=" + favoriteCoursesId + ", courseId=" + courseId + ", memberNo=" + memberNo
+				+ ", favoriteCourses=" + favoriteCourses + ", updateTime=" + updateTime + "]";
+	}
+	private byte[] image ;
 	private String courseName;
 	private String userId;
 	private Integer favoriteCoursesId;

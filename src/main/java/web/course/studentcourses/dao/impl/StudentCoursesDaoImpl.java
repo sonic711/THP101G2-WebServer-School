@@ -15,13 +15,11 @@ public class StudentCoursesDaoImpl implements StudentCoursesDao{
 
 	@Override
 	public int insert(StudentCourses studentcourses) {
-		final String SQL = "insert into STUDENT_COURSES(STUDENT_COURSES_ID, MEMBER_NO, COURSE_ID, COURSES_PROGRESS) "
-				+ "values(?, ?, ?, ?)";
+		final String SQL = "insert into STUDENT_COURSES(MEMBER_NO, COURSE_ID) "
+				+ "values(?, ?)";
 		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(SQL)) {
-			pstmt.setInt(1, studentcourses.getStudentCoursesId());
-			pstmt.setInt(2, studentcourses.getMemberNo());
-			pstmt.setInt(3, studentcourses.getCourseId());
-			pstmt.setBoolean(4, studentcourses.getCoursesProgress());
+			pstmt.setInt(1, studentcourses.getMemberNo());
+			pstmt.setInt(2, studentcourses.getCourseId());
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -56,11 +54,11 @@ public class StudentCoursesDaoImpl implements StudentCoursesDao{
 
 	@Override
 	public List<StudentCourses> selectAll() {
-	    final String SQL = "SELECT s.*, m.USER_ID, co.RATING, c.COURSE_ID, c.COURSE_NAME " +
-	            "FROM STUDENT_COURSES s " +
-	            "JOIN MEMBER m ON s.MEMBER_NO = m.MEMBER_NO " +
-	            "JOIN COMMENT co ON s.MEMBER_NO = co.MEMBER_NO " +
-	            "JOIN COURSE c ON s.COURSE_ID = c.COURSE_ID";
+	    final String SQL = "SELECT s.*, m.USER_ID, co.RATING, c.COURSE_ID, c.COURSE_NAME, c.IMAGE " +
+                "FROM STUDENT_COURSES s " +
+                "JOIN MEMBER m ON s.MEMBER_NO = m.MEMBER_NO " +
+                "JOIN COMMENT co ON s.MEMBER_NO = co.MEMBER_NO " +
+                "JOIN COURSE c ON s.COURSE_ID = c.COURSE_ID";
 
 	    List<StudentCourses> resultList = new ArrayList<>();
 	    try (Connection conn = getConnection();
@@ -75,6 +73,7 @@ public class StudentCoursesDaoImpl implements StudentCoursesDao{
 	            studentCourses.setCourseId(rs.getInt("COURSE_ID"));
 	            studentCourses.setMemberNo(rs.getInt("MEMBER_NO"));
 	            studentCourses.setCoursesProgress(rs.getBoolean("COURSES_PROGRESS"));
+	            studentCourses.setImage(rs.getBytes("IMAGE"));
 	            studentCourses.setUpdateTime(rs.getTimestamp("UPDATETIME"));
 	            resultList.add(studentCourses);
 	        }

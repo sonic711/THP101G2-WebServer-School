@@ -1,14 +1,16 @@
 package web.firm.util;
 
 
-import web.firm.service.ShopProductClassService;
-import web.firm.service.impl.ShopProductClassServiceImpl;
+import web.firm.service.ShopProductService;
+import web.firm.service.impl.ShopProductServiceImpl;
 
 public class ShopContainer {
 
-	 public static final ShopProductClassService FIRMPRODUCTPOSTALL_SERVICE = new ShopProductClassServiceImpl();
+	 public static final ShopProductService FIRMPRODUCTPOSTALL_SERVICE = new ShopProductServiceImpl();
 	 
-	 public static final ShopProductClassService SHOPHOMEPAGE_SERVICE = new ShopProductClassServiceImpl();
+	 public static final ShopProductService SHOPHOMEPAGE_SERVICE = new ShopProductServiceImpl();
 	 
-	 public static final ShopProductClassService ALLPRODUCT_SERVICE = new ShopProductClassServiceImpl();
+	 public static final ShopProductService ALLPRODUCT_SERVICE = new ShopProductServiceImpl();
+	 
+	 public static final ShopProductService ONPRODUCT_SERVICE = new ShopProductServiceImpl();
 }

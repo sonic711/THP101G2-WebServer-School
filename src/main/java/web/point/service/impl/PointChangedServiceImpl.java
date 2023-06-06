@@ -17,18 +17,41 @@ public class PointChangedServiceImpl implements PointChangedService {
 	
 	
 	@Override
-	public boolean insert(PointChanged pointchanged) {
-		pointChangedDaoImpl PCD = new pointChangedDaoImpl();
-		return   PCD.insert(pointchanged) != 0;
+	public boolean insertForSC() {
+		return   dao.insertForSC() > 0;
 	}
 
+	
+
+
+
 	@Override
-	public List<PointChanged>  selectAll(Integer id) {
-		// TODO Auto-generated method stub 
-		return dao.selectAll(id);
+	public boolean insertForCMT() {
+		
+		return dao.insertForCMT() > 0;
+	}
+
+
+
+	@Override
+	public boolean insertForMLR() {
+		
+		return dao.insertForMLR() > 0;
+	}
+
+
+
+	@Override
+	public boolean insertForSO() {
+		
+		return dao.insertForSO() > 0;
 	}
 	
-	
+	@Override
+	public List<PointChanged>  selectAllByMId(Integer id) {
+		
+		return dao.selectAllByMId(id);
+	}
 	
 	
 	

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import web.member.follow.bean.Follow;
+import web.member.follow.bean.Follower;
 import web.member.follow.dao.FollowDao;
 
 public class FollowDaoImpl implements FollowDao{
@@ -47,8 +48,21 @@ public class FollowDaoImpl implements FollowDao{
 	}
 
 	@Override
-	public List<Follow> selectByMemberNo(Integer memberNo) {
-		String sql = "select * from MEMBER_FOLLOWING where MEMBER_NO = ?";
+	public List<Follower> selectByMemberNo(Integer memberNo) {
+		String sql = "select "
+				+ "mf.MEMBER_FOLLOWING_ID, "
+				+ "mf.MEMBER_NO, "
+				+ "mf.MEMBER_FOLLOWING, "
+				+ "m.USER_ID, "
+				+ "m.NICKNAME, "
+				+ "m.MEMBER_IDENTITY, "
+				+ "m.PROFILE_PHOTO, "
+				+ "m.MEMBER_STATUS, "
+				+ "m.INTRODUCTION, "
+				+ "mf.FOLLOW_TIME "
+				+ "from MEMBER_FOLLOWING mf "
+				+ "join MEMBER m on mf.MEMBER_FOLLOWING = m.MEMBER_NO "
+				+ "where mf.MEMBER_NO = ?";
 		try(
 			Connection conn = getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -57,15 +71,20 @@ public class FollowDaoImpl implements FollowDao{
 			try(
 				ResultSet rs = pstmt.executeQuery();
 			) {
-				List<Follow> list = new ArrayList<>();
+				List<Follower> list = new ArrayList<>();
 				while (rs.next()) {
-					Follow follow = new Follow();
-					follow.setMemberFollowingId(rs.getInt("MEMBER_FOLLOWING_ID"));
-					follow.setMemberNo(rs.getInt("MEMBER_NO"));
-					follow.setMemberFollowing(rs.getInt("MEMBER_FOLLOWING"));
-					follow.setFollowTime(rs.getTimestamp("FOLLOW_TIME"));
-					follow.setCreateAt(rs.getTimestamp("CREATE_AT"));
-					list.add(follow);
+					Follower followers = new Follower();
+					followers.setMemberFollowingId(rs.getInt("MEMBER_FOLLOWING_ID"));
+					followers.setMemberNo(rs.getInt("MEMBER_NO"));
+					followers.setMemberFollowing(rs.getInt("MEMBER_FOLLOWING"));
+					followers.setUserId(rs.getString("USER_ID"));
+					followers.setNickname(rs.getString("NICKNAME"));
+					followers.setMemberIdentity(rs.getString("MEMBER_IDENTITY"));
+					followers.setProfilePhoto(rs.getBytes("PROFILE_PHOTO"));
+					followers.setMemberStatus(rs.getInt("MEMBER_STATUS"));
+					followers.setIntroduction(rs.getString("INTRODUCTION"));
+					followers.setFollowTime(rs.getTimestamp("FOLLOW_TIME"));
+					list.add(followers);
 				}
 			return list;
 			}
@@ -78,8 +97,21 @@ public class FollowDaoImpl implements FollowDao{
 	}
 
 	@Override
-	public List<Follow> selectByMemberFollowing(Integer memberFollowing) {
-		String sql = "select * from MEMBER_FOLLOWING where MEMBER_FOLLOWING = ?";
+	public List<Follower> selectByMemberFollowing(Integer memberFollowing) {
+		String sql = "select "
+				+ "mf.MEMBER_FOLLOWING_ID, "
+				+ "mf.MEMBER_NO, "
+				+ "mf.MEMBER_FOLLOWING, "
+				+ "m.USER_ID, "
+				+ "m.NICKNAME, "
+				+ "m.MEMBER_IDENTITY, "
+				+ "m.PROFILE_PHOTO, "
+				+ "m.MEMBER_STATUS, "
+				+ "m.INTRODUCTION, "
+				+ "mf.FOLLOW_TIME "
+				+ "from MEMBER_FOLLOWING mf "
+				+ "join MEMBER m on mf.MEMBER_NO = m.MEMBER_NO "
+				+ "where mf.MEMBER_FOLLOWING = ?";
 		try(
 			Connection conn = getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -88,15 +120,20 @@ public class FollowDaoImpl implements FollowDao{
 			try(
 				ResultSet rs = pstmt.executeQuery();
 			) {
-				List<Follow> list = new ArrayList<>();
+				List<Follower> list = new ArrayList<>();
 				while (rs.next()) {
-					Follow follow = new Follow();
-					follow.setMemberFollowingId(rs.getInt("MEMBER_FOLLOWING_ID"));
-					follow.setMemberNo(rs.getInt("MEMBER_NO"));
-					follow.setMemberFollowing(rs.getInt("MEMBER_FOLLOWING"));
-					follow.setFollowTime(rs.getTimestamp("FOLLOW_TIME"));
-					follow.setCreateAt(rs.getTimestamp("CREATE_AT"));
-					list.add(follow);
+					Follower followers = new Follower();
+					followers.setMemberFollowingId(rs.getInt("MEMBER_FOLLOWING_ID"));
+					followers.setMemberNo(rs.getInt("MEMBER_NO"));
+					followers.setMemberFollowing(rs.getInt("MEMBER_FOLLOWING"));
+					followers.setUserId(rs.getString("USER_ID"));
+					followers.setNickname(rs.getString("NICKNAME"));
+					followers.setMemberIdentity(rs.getString("MEMBER_IDENTITY"));
+					followers.setProfilePhoto(rs.getBytes("PROFILE_PHOTO"));
+					followers.setMemberStatus(rs.getInt("MEMBER_STATUS"));
+					followers.setIntroduction(rs.getString("INTRODUCTION"));
+					followers.setFollowTime(rs.getTimestamp("FOLLOW_TIME"));
+					list.add(followers);
 				}
 			return list;
 			}
