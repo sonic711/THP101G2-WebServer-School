@@ -46,6 +46,7 @@ public class PointController extends HttpServlet {
 		try {
 			PointChanged PC = gson.fromJson(req.getReader(), PointChanged.class);
 			String insertType = PC.getType();
+			Integer MId = PC.getMemberNo();
 //			boolean result1 = POINT_CHANGED_SERVICE.insertForSC();
 //			boolean result2 = POINT_CHANGED_SERVICE.insertForCMT();
 //			boolean result3 = POINT_CHANGED_SERVICE.insertForMLR();
@@ -65,7 +66,7 @@ public class PointController extends HttpServlet {
 				writeJsonBean(resp, new CoreBean(result2));
 				break;
 			case "insertForMLR":
-				boolean result3 = POINT_CHANGED_SERVICE.insertForMLR();
+				boolean result3 = POINT_CHANGED_SERVICE.insertForMLR(MId);
 				writeJsonBean(resp, new CoreBean(result3));
 				break;
 			case "insertForSO":
