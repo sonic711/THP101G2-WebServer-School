@@ -15,13 +15,11 @@ public class StudentCoursesDaoImpl implements StudentCoursesDao{
 
 	@Override
 	public int insert(StudentCourses studentcourses) {
-		final String SQL = "insert into STUDENT_COURSES(STUDENT_COURSES_ID, MEMBER_NO, COURSE_ID, COURSES_PROGRESS) "
-				+ "values(?, ?, ?, ?)";
+		final String SQL = "insert into STUDENT_COURSES(MEMBER_NO, COURSE_ID) "
+				+ "values(?, ?)";
 		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(SQL)) {
-			pstmt.setInt(1, studentcourses.getStudentCoursesId());
-			pstmt.setInt(2, studentcourses.getMemberNo());
-			pstmt.setInt(3, studentcourses.getCourseId());
-			pstmt.setBoolean(4, studentcourses.getCoursesProgress());
+			pstmt.setInt(1, studentcourses.getMemberNo());
+			pstmt.setInt(2, studentcourses.getCourseId());
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -17,19 +17,18 @@ public class CourseDaoImpl implements CourseDao {
 
 	@Override
 	public int insert(Course course) {
-		final String SQL = "insert into COURSE(COURSE_ID, COURSE_NAME, MEMBER_NO, SUMMARY, ADD_AND_REMOVE, COURSES_REPORT, IMAGE) "
-				+ "values(?, ?, ?, ?, ?, ?, ?)";
+		final String SQL = "insert into COURSE(COURSE_NAME, MEMBER_NO, SUMMARY, ADD_AND_REMOVE, COURSES_REPORT, IMAGE) "
+				+ "values(?, ?, ?, ?, ?, ?)";
 		try (
 				Connection conn = getConnection(); 
 				PreparedStatement pstmt = conn.prepareStatement(SQL)
 			){
-			pstmt.setInt(1, course.getCourseId());
-			pstmt.setString(2, course.getCourseName());
-			pstmt.setInt(3, course.getMemberNo());
-			pstmt.setString(4, course.getSummary());
-			pstmt.setBoolean(5, course.getAddAndRemove());
-			pstmt.setBoolean(6, course.getCoursesReport());
-			pstmt.setBytes(7, course.getImage());
+			pstmt.setString(1, course.getCourseName());
+			pstmt.setInt(2, course.getMemberNo());
+			pstmt.setString(3, course.getSummary());
+			pstmt.setBoolean(4, course.getAddAndRemove());
+			pstmt.setBoolean(5, course.getCoursesReport());
+			pstmt.setBytes(6, course.getImage());
 		return	pstmt.executeUpdate();
 			
 		} catch (Exception e) {
