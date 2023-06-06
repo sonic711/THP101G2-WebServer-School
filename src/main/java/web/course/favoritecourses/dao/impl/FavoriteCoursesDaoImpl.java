@@ -16,13 +16,11 @@ public class FavoriteCoursesDaoImpl implements FavoriteCoursesDao {
 
 	@Override
 	public int insert(FavoriteCourses favoritecourses) {
-		final String SQL = "insert into FAVORITE_COURSES(FAVORITE_COURSES_ID, COURSE_ID, MEMBER_NO, FAVORITE_COURSES) "
-				+ "values(?, ?, ?, ?)";
+		final String SQL = "insert into FAVORITE_COURSES(COURSE_ID, MEMBER_NO) "
+				+ "values(?, ?)";
 		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(SQL)) {
-			pstmt.setInt(1, favoritecourses.getFavoriteCoursesId());
-			pstmt.setInt(2, favoritecourses.getCourseId());
-			pstmt.setInt(3, favoritecourses.getMemberNo());
-			pstmt.setBoolean(4, favoritecourses.getFavoriteCourses());
+			pstmt.setInt(1, favoritecourses.getCourseId());
+			pstmt.setInt(2, favoritecourses.getMemberNo());
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
