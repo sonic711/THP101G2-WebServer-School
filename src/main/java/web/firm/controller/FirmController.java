@@ -14,6 +14,7 @@ import web.firm.bean.FirmClass;
 import static web.firm.util.FirmContainer.FIRM_SERVICE;
 
 import java.io.IOException;
+import java.util.Base64;
 
 @WebServlet("/firms/*")
 public class FirmController extends HttpServlet{
@@ -41,6 +42,18 @@ public class FirmController extends HttpServlet{
 			}
 			req.getSession().setAttribute("firm", firm);
 		}
+		
+		String profilePhoto64 = null;
+		String coverPhoto64 = null;
+		if (firm.getProfilePhoto() != null) {
+			profilePhoto64 = Base64.getEncoder().encodeToString(firm.getProfilePhoto());
+		}
+		if (firm.getCoverPhoto() != null) {
+			coverPhoto64 = Base64.getEncoder().encodeToString(firm.getCoverPhoto());
+		}
+		
+		firm.setProfilePhoto64(profilePhoto64);
+		firm.setCoverPhoto64(coverPhoto64);
 		
 		resp.getWriter().write(gson.toJson(firm));
 	}
