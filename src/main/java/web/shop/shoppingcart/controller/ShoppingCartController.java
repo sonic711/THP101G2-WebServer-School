@@ -39,20 +39,40 @@ public class ShoppingCartController extends HttpServlet{
 				String str = pathInfo.substring(1);
 				String[] xxx = str.split("/");
 				if (xxx.length > 0) {
-					Integer id = Integer.parseInt(xxx[0]);
-					writeJsonBean(resp, SHOPPING_CART.selectCartProduct(id));
-				} else {
-					// 查询全部数据的逻辑处理
-					writeJsonBean(resp, SHOPPING_CART.selectAllCartProducts());
-				}
-			} else {
-				// 查询全部数据的逻辑处理
-				writeJsonBean(resp, SHOPPING_CART.selectAllCartProducts());
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
+					 if (xxx[0].equals("point")) {
+		                    // 处理 "/point/" 的逻辑
+		                    writeJsonBean(resp, SHOPPING_CART.selectPoint());
+		                    return; // 结束方法，防止执行其他逻辑
+		                } else {
+		                    Integer id = Integer.parseInt(xxx[0]);
+		                    // 处理根据 id 查询购物车产品的逻辑
+		                    writeJsonBean(resp, SHOPPING_CART.selectCartProduct(id));
+		                    return; // 结束方法，防止执行其他逻辑
+		                }
+		            }
+		        }
+
+		        // 如果没有匹配到特定路径，则执行默认逻辑
+		        writeJsonBean(resp, SHOPPING_CART.selectAllCartProducts());
+
+		    } catch (Exception e) {
+		        e.printStackTrace();
+		    }
 		}
-	}
+//					Integer id = Integer.parseInt(xxx[0]);
+//					writeJsonBean(resp, SHOPPING_CART.selectCartProduct(id));
+//				} else if (pathInfo.equals("/point/")){
+//					// 查询全部数据的逻辑处理
+//					writeJsonBean(resp, SHOPPING_CART.selectPoint());
+//				}
+//			} else {
+//				// 查询全部数据的逻辑处理
+//				writeJsonBean(resp, SHOPPING_CART.selectAllCartProducts());
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//	}
 	 protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
 	        String pathInfo = req.getPathInfo();

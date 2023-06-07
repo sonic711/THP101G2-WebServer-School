@@ -6,10 +6,12 @@ import java.util.Arrays;
 public class ShopBuy {
 	
 	private Integer shopProductId;
+	private Integer shopOrderId;
 	private String shopProductName;
 	private String shopAddress;
 	private String shopRecipient;
 	private Integer shopProductPrice;
+	private String shopOrderPhone;
 	private String shopProductSearch;
 	private String shopProductClass;
 	private Integer shopPointDisCount;
@@ -20,9 +22,66 @@ public class ShopBuy {
 	private String shopName;
 	private Integer firmNo;
 	private Integer memberNo;
+	private Integer rewardPoints;
+	private Integer shopPointDiscount;
+	private Timestamp shopOrdercreateTime;
+	private Integer shopOrderCount;
 	private Integer shopFavoriteId;
 	private Integer shopProductSales;
 	private byte[] shopProductImage;
+	private byte[] shopOrderImage;
+	
+	
+	
+	
+	public Integer getShopOrderCount() {
+		return shopOrderCount;
+	}
+	public void setShopOrderCount(Integer shopOrderCount) {
+		this.shopOrderCount = shopOrderCount;
+	}
+	public Integer getRewardPoints() {
+		return rewardPoints;
+	}
+	public void setRewardPoints(Integer rewardPoints) {
+		this.rewardPoints = rewardPoints;
+	}
+	public byte[] getShopOrderImage() {
+		return shopOrderImage;
+	}
+	public void setShopOrderImage(byte[] shopOrderImage) {
+		this.shopOrderImage = shopOrderImage;
+	}
+	public byte[] getShopOrederImage() {
+		return shopOrderImage;
+	}
+	public void setShopOrederImage(byte[] shopOrederImage) {
+		this.shopOrderImage = shopOrederImage;
+	}
+	public Timestamp getShopOrdercreateTime() {
+		return shopOrdercreateTime;
+	}
+	public void setShopOrdercreateTime(Timestamp shopOrdercreateTime) {
+		this.shopOrdercreateTime = shopOrdercreateTime;
+	}
+	public Integer getShopOrderId() {
+		return shopOrderId;
+	}
+	public void setShopOrderId(Integer shopOrderId) {
+		this.shopOrderId = shopOrderId;
+	}
+	public Integer getShopPointDiscount() {
+		return shopPointDiscount;
+	}
+	public void setShopPointDiscount(Integer shopPointDiscount) {
+		this.shopPointDiscount = shopPointDiscount;
+	}
+	public String getShopOrderPhone() {
+		return shopOrderPhone;
+	}
+	public void setShopOrderPhone(String shopOrderPhone) {
+		this.shopOrderPhone = shopOrderPhone;
+	}
 	public Integer getShopProductId() {
 		return shopProductId;
 	}
@@ -133,14 +192,18 @@ public class ShopBuy {
 	}
 	@Override
 	public String toString() {
-		return "ShopBuy [shopProductId=" + shopProductId + ", shopProductName=" + shopProductName + ", shopAddress="
-				+ shopAddress + ", shopRecipient=" + shopRecipient + ", shopProductPrice=" + shopProductPrice
+		return "ShopBuy [shopProductId=" + shopProductId + ", shopOrderId=" + shopOrderId + ", shopProductName="
+				+ shopProductName + ", shopAddress=" + shopAddress + ", shopRecipient=" + shopRecipient
+				+ ", shopProductPrice=" + shopProductPrice + ", shopOrderPhone=" + shopOrderPhone
 				+ ", shopProductSearch=" + shopProductSearch + ", shopProductClass=" + shopProductClass
 				+ ", shopPointDisCount=" + shopPointDisCount + ", shopOrderStatus=" + shopOrderStatus
 				+ ", shopProductDesc=" + shopProductDesc + ", shopProductStatus=" + shopProductStatus
 				+ ", shopProductCount=" + shopProductCount + ", shopName=" + shopName + ", firmNo=" + firmNo
-				+ ", memberNo=" + memberNo + ", shopFavoriteId=" + shopFavoriteId + ", shopProductSales="
-				+ shopProductSales + ", shopProductImage=" + Arrays.toString(shopProductImage) + "]";
+				+ ", memberNo=" + memberNo + ", rewardPoints=" + rewardPoints + ", shopPointDiscount="
+				+ shopPointDiscount + ", shopOrdercreateTime=" + shopOrdercreateTime + ", shopOrderCount="
+				+ shopOrderCount + ", shopFavoriteId=" + shopFavoriteId + ", shopProductSales=" + shopProductSales
+				+ ", shopProductImage=" + Arrays.toString(shopProductImage) + ", shopOrderImage="
+				+ Arrays.toString(shopOrderImage) + "]";
 	}
 	
 	

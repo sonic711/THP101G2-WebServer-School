@@ -40,4 +40,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 		return dao.selectCartProduct(id);
 	}
 
+	@Override
+	public List<ShoppingCart> selectPoint() {
+		// TODO Auto-generated method stub
+		return dao.selectPoint();
+	}
+
 }
