@@ -59,10 +59,10 @@ public class Course {
 	public void setUserId(String userId) {
 		this.userId = userId;
 	}
-	public Integer getRating() {
+	public String getRating() {
 		return rating;
 	}
-	public void setRating(Integer rating) {
+	public void setRating(String rating) {
 		this.rating = rating;
 	}
 	
@@ -81,6 +81,6 @@ public class Course {
 	    private Timestamp updateTime;
 	    private byte[] image;
 	    private String userId;
-	    private Integer rating;
+	    private String rating;
 
 }

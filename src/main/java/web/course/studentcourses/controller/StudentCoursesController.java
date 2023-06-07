@@ -32,7 +32,7 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
 			studentInfo = studentInfo.substring(1);
 			String[] pathVariables = studentInfo.split("/");
 			Integer id = Integer.parseInt(pathVariables[0]);
-			writeJsonBean(resp, STUDENT_COURSES_SERVICE.findStudentCourseById(id));
+			writeJsonBean(resp, STUDENT_COURSES_SERVICE.findAllByStudentCourseId(id));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

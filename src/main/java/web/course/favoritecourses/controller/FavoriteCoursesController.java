@@ -34,7 +34,7 @@ protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws Se
 			favoriteInfo = favoriteInfo.substring(1);
 			String[] pathVariables = favoriteInfo.split("/");
 			Integer id = Integer.parseInt(pathVariables[0]);
-			writeJsonBean(resp, FAVORITE_COURSES_SERVICE.findCourseById(id));
+			writeJsonBean(resp, FAVORITE_COURSES_SERVICE.findAllByFavoriteCourseId(id));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

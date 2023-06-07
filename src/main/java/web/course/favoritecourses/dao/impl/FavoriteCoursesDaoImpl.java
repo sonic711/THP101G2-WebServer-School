@@ -30,19 +30,27 @@ public class FavoriteCoursesDaoImpl implements FavoriteCoursesDao {
 
 	@Override
 	public List<FavoriteCourses> selectAllByKey(Integer id) {
-		final String SQL = "select * from FAVORITE_COURSES where FAVORITE_COURSES_ID = ?";
+		final String SQL = "SELECT f.*, m.USER_ID, c.COURSE_NAME, c.IMAGE\r\n"
+				+ "FROM db02_school.FAVORITE_COURSES f\r\n"
+				+ "JOIN MEMBER m ON f.MEMBER_NO = m.MEMBER_NO\r\n"
+				+ "JOIN COURSE c ON f.COURSE_ID = c.COURSE_ID where f.MEMBER_NO = ?";
 		List<FavoriteCourses> resultList = new ArrayList<>();
 		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(SQL)) {
 			pstmt.setInt(1, id);
 			try (ResultSet rs = pstmt.executeQuery()) {
-				if (rs.next()) {
-					FavoriteCourses favoritecourses = new FavoriteCourses();
-					favoritecourses.setFavoriteCoursesId(rs.getInt("FAVORITE_COURSES_ID"));
-					favoritecourses.setCourseId(rs.getInt("COURSE_ID"));
-					favoritecourses.setMemberNo(rs.getInt("MEMBER_NO"));
-					favoritecourses.setFavoriteCourses(rs.getBoolean("FAVORITE_COURSES"));
-				      resultList.add(favoritecourses);
+				while (rs.next()) {
+					FavoriteCourses favoriteCourses = new FavoriteCourses();
+					favoriteCourses.setFavoriteCoursesId(rs.getInt("FAVORITE_COURSES_ID"));
+					favoriteCourses.setUserId(rs.getString("USER_ID"));
+					favoriteCourses.setCourseName(rs.getString("COURSE_NAME"));
+					favoriteCourses.setCourseId(rs.getInt("COURSE_ID"));
+					favoriteCourses.setMemberNo(rs.getInt("MEMBER_NO"));
+					favoriteCourses.setFavoriteCourses(rs.getBoolean("FAVORITE_COURSES"));
+					favoriteCourses.setImage(rs.getBytes("IMAGE"));
+					favoriteCourses.setUpdateTime(rs.getTimestamp("UPDATETIME"));
+					resultList.add(favoriteCourses);
                 }
+				return resultList;
             }
 		} catch (Exception e) {
 			e.printStackTrace();

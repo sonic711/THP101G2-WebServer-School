@@ -53,21 +53,27 @@ public class ChapterDaoImpl implements ChapterDao{
 
 	@Override
 	public List<Chapter> selectAllByKey(Integer id) {
-		final String SQL = "select * CHAPTER where CHAPTER_ID = ?";
+		final String SQL = "SELECT c.*, o.COURSE_NAME\n" +
+                "FROM CHAPTER c\n" +
+                "JOIN COURSE o ON c.COURSE_ID = o.COURSE_ID\n" +
+                "WHERE c.COURSE_ID = ?";
 		List<Chapter> resultlist = new ArrayList<>();
 		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(SQL)) {
 			pstmt.setInt(1, id);
 			try (ResultSet rs = pstmt.executeQuery()) {
-				if (rs.next()) {
+				while (rs.next()) {
 					Chapter chapter = new Chapter();
+					chapter.setCourseName(rs.getString("COURSE_NAME"));
 					chapter.setChapterId(rs.getInt("CHAPTER_ID"));
 					chapter.setChapterName(rs.getString("CHAPTER_NAME"));
 					chapter.setCourseId(rs.getInt("COURSE_ID"));
 					chapter.setVideo(rs.getString("VIDEO"));
 					chapter.setChapterSequence(rs.getInt("CHAPTER_SEQUENCE"));
+					chapter.setUpdateTime(rs.getTimestamp("UPDATETIME"));
 					resultlist.add(chapter);
+				}
                 }
-            }
+            
             return resultlist;
 		} catch (Exception e) {
 			e.printStackTrace();
