@@ -34,7 +34,7 @@ public class ChapterController extends HttpServlet {
 				chapterInfo = chapterInfo.substring(1);
 				String[] pathVariables = chapterInfo.split("/");
 				Integer id = Integer.parseInt(pathVariables[0]);
-				writeJsonBean(resp, CHAPTER_SERVICE.findChapterById(id));
+				writeJsonBean(resp, CHAPTER_SERVICE.findAllByChapterId(id));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

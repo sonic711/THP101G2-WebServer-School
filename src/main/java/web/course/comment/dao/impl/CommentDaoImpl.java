@@ -15,17 +15,15 @@ public class CommentDaoImpl implements CommentDao{
 
 	@Override
 	public int insert(Comment comment) {
-		final String SQL = "insert into COMMENT(MEMBER_NO, COURSE_ID, RATING, COMMENT, IMAGE, COMMENT_REPORT) "
-				+ "values(?, ?, ?, ?, ?, ?)";
+		final String SQL = "insert into COMMENT(RATING, COMMENT, MEMBER_NO, COURSE_ID) "
+				+ "values(?, ?, ?, ?)";
 		try (Connection conn = getConnection(); 
 				PreparedStatement pstmt = conn.prepareStatement(SQL)
 			){
-			pstmt.setInt(1, comment.getMemberNo());
-			pstmt.setInt(2, comment.getCourseId());
-			pstmt.setInt(3, comment.getRating());
-			pstmt.setString(4, comment.getComment());
-			pstmt.setBytes(5, comment.getImage());
-			pstmt.setBoolean(6, comment.getCommentReport());
+			pstmt.setString(1, comment.getRating());
+			pstmt.setString(2, comment.getComment());
+			pstmt.setInt(3, comment.getMemberNo());
+			pstmt.setInt(4, comment.getCourseId());
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -44,7 +42,7 @@ public class CommentDaoImpl implements CommentDao{
 	        Connection conn = getConnection();
 	        PreparedStatement pstmt = conn.prepareStatement(SQL);
 	    ) {
-	        pstmt.setInt(1, comment.getRating());
+	        pstmt.setString(1, comment.getRating());
 	        pstmt.setString(2, comment.getComment());
 	        pstmt.setBytes(3, comment.getImage());
 	        pstmt.setInt(4, comment.getCommentId());
@@ -57,7 +55,7 @@ public class CommentDaoImpl implements CommentDao{
 
 	@Override
 	public List<Comment> selectAllByKey(Integer id) {
-		final String SQL = "select * from COMMENT where COMMENT_ID = ?";
+		final String SQL = "select * from COMMENT where MEMBER_NO = ?";
 		List<Comment> resultlist = new ArrayList<>();
 		try (Connection conn = getConnection(); 
 				PreparedStatement pstmt = conn.prepareStatement(SQL)
@@ -69,7 +67,7 @@ public class CommentDaoImpl implements CommentDao{
 					comment.setCommentId(rs.getInt("COMMENT_ID"));
 					comment.setMemberNo(rs.getInt("MEMBER_NO"));
 					comment.setCourseId(rs.getInt("COURSE_ID"));
-					comment.setRating(rs.getInt("RATING"));
+					comment.setRating(rs.getString("RATING"));
 					comment.setComment(rs.getString("COMMENT"));
 					comment.setImage(rs.getBytes("IMAGE"));
 					comment.setCommentReport(rs.getBoolean("COMMENT_REPORT"));
@@ -97,7 +95,7 @@ public class CommentDaoImpl implements CommentDao{
 				comment.setCommentId(rs.getInt("COMMENT_ID"));
 				comment.setMemberNo(rs.getInt("MEMBER_NO"));
 				comment.setCourseId(rs.getInt("COURSE_ID"));
-				comment.setRating(rs.getInt("RATING"));
+				comment.setRating(rs.getString("RATING"));
 				comment.setComment(rs.getString("COMMENT"));
 				comment.setImage(rs.getBytes("IMAGE"));
 				comment.setCommentReport(rs.getBoolean("COMMENT_REPORT"));
@@ -115,16 +113,16 @@ public class CommentDaoImpl implements CommentDao{
 
 	@Override
 	public Comment selectByKey(Integer id) {
-		final String SQL = "select * from COMMENT where COMMENT_ID = ?";
+		final String SQL = "select * from COMMENT where MEMBER_NO = ?";
 		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(SQL)) {
 			pstmt.setInt(1, id);
 			try (ResultSet rs = pstmt.executeQuery()) {
-				if (rs.next()) {
+				if (rs.next()) {	
 					Comment comment = new Comment();
 					comment.setCommentId(rs.getInt("COMMENT_ID"));
 					comment.setMemberNo(rs.getInt("MEMBER_NO"));
 					comment.setCourseId(rs.getInt("COURSE_ID"));
-					comment.setRating(rs.getInt("RATING"));
+					comment.setRating(rs.getString("RATING"));
 					comment.setComment(rs.getString("COMMENT"));
 					comment.setImage(rs.getBytes("IMAGE"));
 					comment.setCommentReport(rs.getBoolean("COMMENT_REPORT"));
