@@ -12,16 +12,19 @@ public class Follower {
 	private String memberIdentity;
 	private byte[] profilePhoto;
 	private String profilePhoto64;
+	private byte[] coverPicture;
+	private String coverPicture64;
 	private Integer memberStatus;
 	private String introduction;
 	private Timestamp followTime;
 
 	@Override
 	public String toString() {
-		return "Followers [memberFollowingId=" + memberFollowingId + ", memberNo=" + memberNo + ", memberFollowing="
+		return "Follower [memberFollowingId=" + memberFollowingId + ", memberNo=" + memberNo + ", memberFollowing="
 				+ memberFollowing + ", userId=" + userId + ", nickname=" + nickname + ", memberIdentity="
 				+ memberIdentity + ", profilePhoto=" + Arrays.toString(profilePhoto) + ", profilePhoto64="
-				+ profilePhoto64 + ", memberStatus=" + memberStatus + ", introduction=" + introduction + ", followTime="
+				+ profilePhoto64 + ", coverPicture=" + Arrays.toString(coverPicture) + ", coverPicture64="
+				+ coverPicture64 + ", memberStatus=" + memberStatus + ", introduction=" + introduction + ", followTime="
 				+ followTime + "]";
 	}
 
@@ -112,5 +115,22 @@ public class Follower {
 	public void setFollowTime(Timestamp followTime) {
 		this.followTime = followTime;
 	}
+
+	public byte[] getCoverPicture() {
+		return coverPicture;
+	}
+
+	public void setCoverPicture(byte[] coverPicture) {
+		this.coverPicture = coverPicture;
+	}
+
+	public String getCoverPicture64() {
+		return coverPicture64;
+	}
+
+	public void setCoverPicture64(String coverPicture64) {
+		this.coverPicture64 = coverPicture64;
+	}
+	
 
 }
