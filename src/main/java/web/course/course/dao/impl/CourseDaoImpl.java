@@ -106,7 +106,7 @@ public class CourseDaoImpl implements CourseDao {
 				course.setUpdateTime(rs.getTimestamp("UPDATETIME"));
 				course.setImage(rs.getBytes("IMAGE"));
 				course.setUserId(rs.getString("USER_ID"));
-				course.setRating(rs.getInt("RATING"));
+				course.setRating(rs.getString("RATING"));
 				resultList.add(course);
 			}
 			return resultList;

@@ -41,7 +41,9 @@ public class ShopDaonImpl implements ShopDao {
 	
 	@Override
 	public List<ShopProduct> selectAllByKey(ShopProduct productid) {
-		  final String SQL = "select * from SHOP_PRODUCT ORDER BY RAND()";
+		  final String SQL = "SELECT * "
+				  +"FROM SHOP_PRODUCT "
+				  +"ORDER BY RAND()";
 	        List<ShopProduct> resultList = new ArrayList<>();
 	        try (
 	                Connection conn = getConnection();
@@ -51,6 +53,7 @@ public class ShopDaonImpl implements ShopDao {
 	                while (rs.next()) {
 	                	ShopProduct shopProduct = new ShopProduct();
 	                	shopProduct.setShopProductId(rs.getInt("SHOP_PRODUCT_ID"));
+	                	shopProduct.setShopProductImage(rs.getBytes("SHOP_PRODUCT_IMG"));
 	                	shopProduct.setShopProductName(rs.getString("SHOP_PRODUCT_NAME"));
 	                	shopProduct.setShopProductPrice(rs.getInt("SHOP_PRODUCT_PRICE"));
 	                	shopProduct.setShopProductSearch(rs.getString("SHOP_PRODUCT_SEARCH"));
@@ -73,9 +76,8 @@ public class ShopDaonImpl implements ShopDao {
 
 	@Override
 	public List<ShopProduct> selectMainProduct(ShopProduct productid) {
-		 final String SQL = "SELECT SHOP_PRODUCT.SHOP_PRODUCT_ID, SHOP_PRODUCT.SHOP_PRODUCT_NAME, SHOP_PRODUCT.SHOP_PRODUCT_PRICE, SHOP_PRODUCT_IMG.SHOP_PRODUCT_IMG"
-		 		+ " FROM SHOP_PRODUCT"
-		 		+ " JOIN SHOP_PRODUCT_IMG ON SHOP_PRODUCT.SHOP_PRODUCT_ID = SHOP_PRODUCT_IMG.SHOP_PRODUCT_ID";
+		 final String SQL = "SELECT SHOP_PRODUCT.SHOP_PRODUCT_ID, SHOP_PRODUCT.SHOP_PRODUCT_NAME, SHOP_PRODUCT.SHOP_PRODUCT_PRICE, SHOP_PRODUCT.SHOP_PRODUCT_IMG"
+		 		+ " FROM SHOP_PRODUCT";
 	        List<ShopProduct> resultList = new ArrayList<>();
 	        try (
 	                Connection conn = getConnection();

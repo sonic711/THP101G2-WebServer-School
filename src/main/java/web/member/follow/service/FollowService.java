@@ -11,9 +11,13 @@ public interface FollowService {
 	
 	boolean delete(Follow follow);
 	
+	boolean unfollow(Follow follow);
+	
 	List<Follower> findAllByMemberNo(Integer memberNo);
 	
 	List<Follower> findAllByMemberFollowing(Integer memberFollowing);
+	
+	List<Follower> FollowBackList(Integer memberNo);
 	
 	List<Follow> findAll();
 	
