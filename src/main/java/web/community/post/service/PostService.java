@@ -11,4 +11,6 @@ public interface PostService {
     List<Post> findAllPost();
     boolean removePostById(Integer id);
     List<Post> findAllPostByQuery(Integer id);
+    List<Post> findAllPostByMemId(Integer id);
+
 }
