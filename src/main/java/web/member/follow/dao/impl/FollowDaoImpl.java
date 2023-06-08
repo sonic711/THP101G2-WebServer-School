@@ -57,6 +57,7 @@ public class FollowDaoImpl implements FollowDao{
 				+ "m.NICKNAME, "
 				+ "m.MEMBER_IDENTITY, "
 				+ "m.PROFILE_PHOTO, "
+				+ "m.COVER_PICTURE, "
 				+ "m.MEMBER_STATUS, "
 				+ "m.INTRODUCTION, "
 				+ "mf.FOLLOW_TIME "
@@ -81,6 +82,7 @@ public class FollowDaoImpl implements FollowDao{
 					followers.setNickname(rs.getString("NICKNAME"));
 					followers.setMemberIdentity(rs.getString("MEMBER_IDENTITY"));
 					followers.setProfilePhoto(rs.getBytes("PROFILE_PHOTO"));
+					followers.setCoverPicture(rs.getBytes("COVER_PICTURE"));
 					followers.setMemberStatus(rs.getInt("MEMBER_STATUS"));
 					followers.setIntroduction(rs.getString("INTRODUCTION"));
 					followers.setFollowTime(rs.getTimestamp("FOLLOW_TIME"));
@@ -106,6 +108,7 @@ public class FollowDaoImpl implements FollowDao{
 				+ "m.NICKNAME, "
 				+ "m.MEMBER_IDENTITY, "
 				+ "m.PROFILE_PHOTO, "
+				+ "m.COVER_PICTURE, "
 				+ "m.MEMBER_STATUS, "
 				+ "m.INTRODUCTION, "
 				+ "mf.FOLLOW_TIME "
@@ -130,6 +133,7 @@ public class FollowDaoImpl implements FollowDao{
 					followers.setNickname(rs.getString("NICKNAME"));
 					followers.setMemberIdentity(rs.getString("MEMBER_IDENTITY"));
 					followers.setProfilePhoto(rs.getBytes("PROFILE_PHOTO"));
+					followers.setCoverPicture(rs.getBytes("COVER_PICTURE"));
 					followers.setMemberStatus(rs.getInt("MEMBER_STATUS"));
 					followers.setIntroduction(rs.getString("INTRODUCTION"));
 					followers.setFollowTime(rs.getTimestamp("FOLLOW_TIME"));
@@ -165,6 +169,57 @@ public class FollowDaoImpl implements FollowDao{
 			}
 			return list;
 		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public int deleteByTwoMember(Integer memberNo, Integer memberFollowing) {
+		String sql = "delete from MEMBER_FOLLOWING where MEMBER_NO = ? and MEMBER_FOLLOWING = ?";
+		
+		try(
+			Connection conn = getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+		) {
+			pstmt.setInt(1, memberNo);
+			pstmt.setInt(2,memberFollowing);
+			return pstmt.executeUpdate();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return -1;
+	}
+
+	@Override
+	public List<Follower> selectFollowEachOther(Integer memberNo) {
+		String sql = "select mf1.MEMBER_FOLLOWING_ID, mf1.MEMBER_NO, mf2.MEMBER_NO as FANS, mf1.FOLLOW_TIME "
+				+ "from MEMBER_FOLLOWING mf1 "
+				+ "join MEMBER_FOLLOWING mf2 on mf1.MEMBER_FOLLOWING = mf2.MEMBER_NO "
+				+ "where mf1.MEMBER_NO = ? and mf2.MEMBER_FOLLOWING = ?";
+		try(
+			Connection conn = getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);
+		) { 
+			pstmt.setInt(1, memberNo);
+			pstmt.setInt(2, memberNo);
+			try(
+				ResultSet rs = pstmt.executeQuery();
+			) {
+				List<Follower> list = new ArrayList<>();
+				while (rs.next()) {
+					Follower followers = new Follower();
+					followers.setMemberFollowingId(rs.getInt("MEMBER_FOLLOWING_ID"));
+					followers.setMemberNo(rs.getInt("MEMBER_NO"));
+					followers.setMemberFollowing(rs.getInt("FANS"));
+					followers.setFollowTime(rs.getTimestamp("FOLLOW_TIME"));
+					list.add(followers);
+				}
+			return list;
+			}
+				
+		} 
 		catch (Exception e) {
 			e.printStackTrace();
 		}

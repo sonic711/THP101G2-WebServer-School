@@ -11,4 +11,5 @@ public interface PostDao {
     int deleteByKey(Integer id);
     List<Post> selectAll();
     List<Post> selectAllByQuery(String query);
+    List<Post> selectAllByMemId(Integer id);
 }

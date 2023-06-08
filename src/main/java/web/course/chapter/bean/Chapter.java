@@ -20,10 +20,10 @@ public class Chapter {
 	public void setCourseId(Integer courseId) {
 		this.courseId = courseId;
 	}
-	public byte[] getVideo() {
+	public String getVideo() {
 		return video;
 	}
-	public void setVideo(byte[] video) {
+	public void setVideo(String video) {
 		this.video = video;
 	}
 	public Integer getChapterSequence() {
@@ -51,16 +51,18 @@ public class Chapter {
 	public void setChapterId(Integer chapterId) {
 		this.chapterId = chapterId;
 	}
+
 	@Override
 	public String toString() {
 		return "Chapter [chapterId=" + chapterId + ", chapterName=" + chapterName + ", courseId=" + courseId
-				+ ", video=" + Arrays.toString(video) + ", chapterSequence=" + chapterSequence + ", updateTime="
-				+ updateTime + ", courseName=" + courseName + "]";
+				+ ", video=" + video + ", chapterSequence=" + chapterSequence + ", updateTime=" + updateTime
+				+ ", courseName=" + courseName + "]";
 	}
+
 	private Integer chapterId;
 	private String chapterName;
 	private Integer courseId;
-	private byte[] video;
+	private String video;
 	private Integer chapterSequence;
     private Timestamp updateTime;
     private String courseName;

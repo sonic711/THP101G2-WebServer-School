@@ -175,4 +175,34 @@ public class PostDaoImpl implements PostDao {
         }
         return null;
     }
+
+    @Override
+    public List<Post> selectAllByMemId(Integer id) {
+        final String SQL = "select * from COM_POST where MEMBER_NO = ?";
+        List<Post> resultList = new ArrayList<>();
+        try (
+                Connection conn = getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(SQL)
+        ) {
+            pstmt.setInt(1, id);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Post post = new Post();
+                    post.setComPostId(rs.getInt("COM_POST_ID"));
+                    post.setMemberNo(rs.getInt("MEMBER_NO"));
+                    post.setComSecClassId(rs.getInt("COM_SECCLASS_ID"));
+                    post.setComPostTitle(rs.getString("COM_POST_TITLE"));
+                    post.setComPostContent(rs.getString("COM_POST_CONTENT"));
+                    post.setComPostTime(rs.getTimestamp("COM_POST_TIME"));
+                    post.setComPostStatus(rs.getBoolean("COM_POST_STATUS"));
+                    post.setComPostAccessSetting(rs.getBoolean("COM_POST_ACCESS_SETTING"));
+                    resultList.add(post);
+                }
+                return resultList;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

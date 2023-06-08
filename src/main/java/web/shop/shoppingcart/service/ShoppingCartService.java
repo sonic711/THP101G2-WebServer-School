@@ -13,5 +13,7 @@ public interface ShoppingCartService {
 	List<ShoppingCart> selectAllCartProducts();
 	
 	List<ShoppingCart> selectCartProduct(Integer id);
+	
+	List<ShoppingCart> selectPoint();
 
 }

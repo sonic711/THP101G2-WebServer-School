@@ -9,10 +9,10 @@ public interface PointChangedService {
 		
 	boolean insertForCMT();
 		
-	boolean insertForMLR();
+	boolean insertForMLR(int MId);
 		
 	boolean insertForSO();
 	
 	
-	List<PointChanged> selectAll (Integer id);
+	List<PointChanged> selectAllByMId (Integer id);
 }

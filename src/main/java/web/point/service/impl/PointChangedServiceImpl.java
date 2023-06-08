@@ -34,9 +34,9 @@ public class PointChangedServiceImpl implements PointChangedService {
 
 
 	@Override
-	public boolean insertForMLR() {
+	public boolean insertForMLR(int MId) {
 		
-		return dao.insertForMLR() > 0;
+		return dao.insertForMLR(MId) > 0;
 	}
 
 
@@ -48,9 +48,9 @@ public class PointChangedServiceImpl implements PointChangedService {
 	}
 	
 	@Override
-	public List<PointChanged>  selectAll(Integer id) {
+	public List<PointChanged>  selectAllByMId(Integer id) {
 		
-		return dao.selectAll(id);
+		return dao.selectAllByMId(id);
 	}
 	
 	

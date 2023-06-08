@@ -29,10 +29,10 @@ public class Comment {
 	public void setCourseId(Integer courseId) {
 		this.courseId = courseId;
 	}
-	public Integer getRating() {
+	public String getRating() {
 		return rating;
 	}
-	public void setRating(Integer rating) {
+	public void setRating(String rating) {
 		this.rating = rating;
 	}
 	public String getComment() {
@@ -89,7 +89,7 @@ public class Comment {
 	private Integer commentId;
 	private Integer memberNo;
 	private Integer courseId;
-	private Integer rating;
+	private String rating;
 	private String comment;
 	private byte[] image;
 	private Boolean commentReport;

@@ -50,10 +50,15 @@ public class FollowServiceImpl implements FollowService{
 		List<Follower> newList = new ArrayList<>();
 		list.forEach(followers -> {
 			String profilePhoto64 = null;
+			String coverPicture64 = null;
 			if (followers.getProfilePhoto() != null) {
 				profilePhoto64 = Base64.getEncoder().encodeToString(followers.getProfilePhoto());
 			}
+			if (followers.getCoverPicture() != null) {
+				coverPicture64 = Base64.getEncoder().encodeToString(followers.getCoverPicture());
+			}
 			followers.setProfilePhoto64(profilePhoto64);
+			followers.setCoverPicture64(coverPicture64);
 			newList.add(followers);
 		});
 		return newList;
@@ -64,22 +69,35 @@ public class FollowServiceImpl implements FollowService{
 		if (memberFollowing == null) {
 			return null;
 		}
-		List<Follower> list = dao.selectByMemberFollowing(memberFollowing);
-		List<Follower> newList = new ArrayList<>();
-		list.forEach(followers -> {
-			String profilePhoto64 = null;
-			if (followers.getProfilePhoto() != null) {
-				profilePhoto64 = Base64.getEncoder().encodeToString(followers.getProfilePhoto());
-			}
-			followers.setProfilePhoto64(profilePhoto64);
-			newList.add(followers);
-		});
-		return newList;
+		return dao.selectByMemberFollowing(memberFollowing);
 	}
 
 	@Override
 	public List<Follow> findAll() {
 		return dao.selectAll();
+	}
+
+	@Override
+	public boolean unfollow(Follow follow) {
+		Integer memberNo = follow.getMemberNo();
+		Integer memberFollowing = follow.getMemberFollowing();
+		
+		if (memberNo == null) {
+			return false;
+		}
+		if (memberFollowing == null) {
+			return false;
+		}
+
+		return dao.deleteByTwoMember(memberNo, memberFollowing) >= 1;
+	}
+
+	@Override
+	public List<Follower> FollowBackList(Integer memberNo) {
+		if (memberNo == null) {
+			return null;
+		}		
+		return dao.selectFollowEachOther(memberNo);
 	}
 
 }
