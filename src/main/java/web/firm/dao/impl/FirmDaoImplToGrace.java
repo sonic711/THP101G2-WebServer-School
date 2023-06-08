@@ -16,17 +16,9 @@ public class FirmDaoImplToGrace implements FirmDaoToGrace {
 
 	@Override
 	public int insert(FirmClass firmClass) {
-		final String SQL = "insert into FIRM(FIRM_NO, " 
-							+ "USER_ID, " 
-							+ "PASSWORD, " 
-							+ "SHOP_NAME, " 
-							+ "PHONE_NUMBER, "
-							+ "FIRM_EMAIL)" 
-							+ "values(?, ?, ?, ?, ?, ?)";
-		try (
-			Connection conn = getConnection(); 
-			PreparedStatement pstmt = conn.prepareStatement(SQL);
-			) {
+		final String SQL = "insert into FIRM(FIRM_NO, " + "USER_ID, " + "PASSWORD, " + "SHOP_NAME, " + "PHONE_NUMBER, "
+				+ "FIRM_EMAIL)" + "values(?, ?, ?, ?, ?, ?)";
+		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(SQL);) {
 			pstmt.setInt(1, firmClass.getFirmNo());
 			pstmt.setString(2, firmClass.getUserId());
 			pstmt.setString(3, firmClass.getPassword());
@@ -42,52 +34,67 @@ public class FirmDaoImplToGrace implements FirmDaoToGrace {
 
 	@Override
 	public int update(FirmClass firmClass) {
-		final StringBuilder SQL = new StringBuilder("update firm set");
+		final StringBuilder SQL = new StringBuilder("update firm set ");
 		Integer firmNo = firmClass.getFirmNo();
-		String  shopName = firmClass.getShopName();
-		byte[]  profilePhoto = firmClass.getProfilePhoto();
+		String userId = firmClass.getUserId();
+		String password = firmClass.getPassword();
+		String shopName = firmClass.getShopName();
+		String firmEmail = firmClass.getFirmEmail();
+		byte[] profilePhoto = firmClass.getProfilePhoto();
 		byte[] coverPhoto = firmClass.getCoverPhoto();
 		String shopInfo = firmClass.getShopInfo();
 		
-		if (shopName != null && !shopName.isEmpty()) {
-			SQL.append("SHOP_NAME = ?,");
+		if(userId != null || !userId.isEmpty()) {
+			SQL.append("USER_ID =?, ");
 		}
-		if(profilePhoto != null && profilePhoto.length !=0) {
+		if (password != null || !password.isEmpty()) {
+			SQL.append("PASSWORD =?, ");
+		}
+		if (shopName != null && !shopName.isEmpty()) {
+			SQL.append("SHOP_NAME =?,");
+		}
+		if (firmEmail != null || !firmEmail.isEmpty()) {
+			SQL.append("FIRM_EMAIL =?, ");
+		}
+		if (profilePhoto != null ) {
 			SQL.append("PROFILE_PHOTO = ?,");
 		}
-		if (coverPhoto != null && coverPhoto.length !=0) {
+		if (coverPhoto != null ) {
 			SQL.append("COVER_PHOTO = ?,");
 		}
 		if (shopInfo != null && !shopInfo.isEmpty()) {
-			SQL.append("SHOP_INFO = ?,");
+			SQL.append("SHOP_INFO = ?, ");
 		}
+		SQL.deleteCharAt(SQL.length()-2);
 		SQL.append("where FIRM_NO = ?");
-		
-		try(
-			Connection	conn = getConnection();
-			PreparedStatement pstmt = conn.prepareStatement(SQL.toString());
-			) {
-			int offset = 0;
+
+		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(SQL.toString());) {
+			int offset = 1;
+			
+			if (userId != null && !userId.isEmpty()) {
+				pstmt.setString(offset++, firmClass.getUserId());
+			}
+			if (password != null || !password.isEmpty()) {
+				pstmt.setString(offset++, firmClass.getPassword());
+			}
 			if (shopName != null && !shopName.isEmpty()) {
-				offset++;
-				pstmt.setString(offset, firmClass.getShopName());
+				pstmt.setString(offset++, firmClass.getShopName());
 			}
-			if(profilePhoto != null && profilePhoto.length !=0) {
-				offset++;
-				pstmt.setBytes(offset, firmClass.getProfilePhoto());
+			if (firmEmail != null || !firmEmail.isEmpty()) {
+				pstmt.setString(offset++, firmClass.getFirmEmail());
 			}
-			if (coverPhoto != null && coverPhoto.length !=0) {
-				offset++;
-				pstmt.setBytes(offset, firmClass.getCoverPhoto());
+			if (profilePhoto != null ) {
+				pstmt.setBytes(offset++, firmClass.getProfilePhoto());
+			}
+			if (coverPhoto != null ) {
+				pstmt.setBytes(offset++, firmClass.getCoverPhoto());
 			}
 			if (shopInfo != null && !shopInfo.isEmpty()) {
-				offset++;
-				pstmt.setString(offset, firmClass.getShopInfo());
+				pstmt.setString(offset++, firmClass.getShopInfo());
 			}
 			System.out.println(SQL.toString());
-			offset++;
-			
-			pstmt.setInt(offset, firmClass.getFirmNo());
+
+			pstmt.setInt(offset++, firmClass.getFirmNo());
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -99,10 +106,7 @@ public class FirmDaoImplToGrace implements FirmDaoToGrace {
 	public FirmClass selectByEmailAndPassword(String email, String password) {
 		String sql = "select * from FIRM where FIRM_EMAIL = ? and PASSWORD = ?";
 
-		try (
-			Connection conn = getConnection(); 
-			PreparedStatement pstmt = conn.prepareStatement(sql);
-			) {
+		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setString(1, email);
 			pstmt.setString(2, password);
 			try (ResultSet rs = pstmt.executeQuery();) {
@@ -133,10 +137,7 @@ public class FirmDaoImplToGrace implements FirmDaoToGrace {
 	public FirmClass selectByEmail(String email) {
 		String sql = "select * from FIRM where FIRM_EMAIL = ?";
 
-		try (
-			Connection conn = getConnection(); 
-			PreparedStatement pstmt = conn.prepareStatement(sql);
-			) {
+		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setString(1, email);
 			try (ResultSet rs = pstmt.executeQuery();) {
 				if (rs.next()) {
@@ -165,11 +166,9 @@ public class FirmDaoImplToGrace implements FirmDaoToGrace {
 	@Override
 	public List<FirmClass> selectAll() {
 		String sql = "select * from FIRM";
-		try (
-			Connection conn = getConnection();
-			PreparedStatement pstmt = conn.prepareStatement(sql);
-			ResultSet rs = pstmt.executeQuery();
-			) {
+		try (Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(sql);
+				ResultSet rs = pstmt.executeQuery();) {
 			List<FirmClass> list = new ArrayList<>();
 			while (rs.next()) {
 				FirmClass firm = new FirmClass();
@@ -197,10 +196,7 @@ public class FirmDaoImplToGrace implements FirmDaoToGrace {
 	public FirmClass selectByUserId(String userId) {
 		String sql = "select * from FIRM where USER_ID = ?";
 
-		try (
-			Connection conn = getConnection(); 
-			PreparedStatement pstmt = conn.prepareStatement(sql);
-			) {
+		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setString(1, userId);
 			try (ResultSet rs = pstmt.executeQuery();) {
 				if (rs.next()) {
@@ -230,10 +226,7 @@ public class FirmDaoImplToGrace implements FirmDaoToGrace {
 	public FirmClass selectByPhone(String phone) {
 		String sql = "select * from FIRM where PHONE_NUMBER = ?";
 
-		try (
-			Connection conn = getConnection(); 
-			PreparedStatement pstmt = conn.prepareStatement(sql);
-			) {
+		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setString(1, phone);
 			try (ResultSet rs = pstmt.executeQuery();) {
 				if (rs.next()) {
@@ -263,10 +256,7 @@ public class FirmDaoImplToGrace implements FirmDaoToGrace {
 	public FirmClass selectByFirmNo(Integer FirmNo) {
 		String sql = "select * from FIRM where FIRM_NO = ?";
 
-		try (
-			Connection conn = getConnection(); 
-			PreparedStatement pstmt = conn.prepareStatement(sql);
-			) {
+		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(sql);) {
 			pstmt.setInt(1, FirmNo);
 			try (ResultSet rs = pstmt.executeQuery();) {
 				if (rs.next()) {
@@ -291,4 +281,8 @@ public class FirmDaoImplToGrace implements FirmDaoToGrace {
 		}
 		return null;
 	}
+
+
 }
+
+

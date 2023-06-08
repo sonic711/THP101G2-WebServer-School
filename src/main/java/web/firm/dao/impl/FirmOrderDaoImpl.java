@@ -16,18 +16,8 @@ public class FirmOrderDaoImpl implements FirmOrderDao {
 
 	@Override
 	public List<FirmOrder> selectByFirmNo(Integer firmNo) {
-		final String SQL = "select so.SHOP_ORDER_ID, so.SHOP_PRODUCT_ID ,so.MEMBER_NO,so.SHOP_ORDERCREATE_TIME ,so.SHOP_ORDERPAY_TIME, so.SHOP_ADDRESS,so.SHOP_RECIPIENT,so.SHOP_POINT_DISCOUNT,so.SHOP_ORDER_STATUS, sp.SHOP_PRODUCT_NAME , sp.FIRM_NO , sd.SHOP_PRODUCT_SALES ,sd.SHOP_ORDER_COUNT,spi.SHOP_PRODUCT_IMG "
-				+ " from shop_order so"
-				
-				+ " join shop_order_desc sd"
-				+ " on so.SHOP_ORDER_ID = sd.SHOP_ORDER_ID"
-				
-				+ " join SHOP_PRODUCT sp"
-				+ " on so.SHOP_PRODUCT_ID = sp.SHOP_PRODUCT_ID"
-				
-				+ " join SHOP_PRODUCT_IMG spi"
-				+ " on so.SHOP_PRODUCT_ID = spi.SHOP_PRODUCT_ID"
-				+ " where sp.FIRM_NO = ?";
+		final String SQL = "select * from shop_order where FIRM_NO = ?";
+			
 		List<FirmOrder> orderStatusList = new ArrayList<>();
 		try (
 			Connection conn = getConnection(); 
@@ -50,7 +40,7 @@ public class FirmOrderDaoImpl implements FirmOrderDao {
 					firmOrder.setShopProductSales(rs.getInt("SHOP_PRODUCT_SALES"));
 					firmOrder.setShopOrderCount(rs.getInt("SHOP_ORDER_COUNT"));
 					firmOrder.setFirmNo(rs.getInt("FIRM_NO"));
-					firmOrder.setShopProductImg(rs.getBytes("SHOP_PRODUCT_IMG"));
+					firmOrder.setShopOrderImg(rs.getBytes("SHOP_ORDER_IMG"));
 					
 					orderStatusList.add(firmOrder);
 				}
@@ -65,17 +55,7 @@ public class FirmOrderDaoImpl implements FirmOrderDao {
 	
 	@Override
 	public List<FirmOrder> selectAll() {
-		final String SQL =  "select so.SHOP_ORDER_ID, so.SHOP_PRODUCT_ID ,so.MEMBER_NO,so.SHOP_ORDERCREATE_TIME ,so.SHOP_ORDERPAY_TIME, so.SHOP_ADDRESS,so.SHOP_RECIPIENT,so.SHOP_POINT_DISCOUNT,so.SHOP_ORDER_STATUS, sp.SHOP_PRODUCT_NAME , sp.FIRM_NO , sd.SHOP_PRODUCT_SALES ,sd.SHOP_ORDER_COUNT,spi.SHOP_PRODUCT_IMG "
-				+ " from shop_order so"
-				
-				+ " join shop_order_desc sd"
-				+ " on so.SHOP_ORDER_ID = sd.SHOP_ORDER_ID"
-				
-				+ " join SHOP_PRODUCT sp"
-				+ " on so.SHOP_PRODUCT_ID = sp.SHOP_PRODUCT_ID"
-				
-				+ " join SHOP_PRODUCT_IMG spi"
-				+ " on so.SHOP_PRODUCT_ID = spi.SHOP_PRODUCT_ID";
+		final String SQL = "select * from shop_order ";
 		List<FirmOrder> resultOrderList = new ArrayList<>();
 		try (
 			Connection conn = getConnection();
@@ -98,7 +78,7 @@ public class FirmOrderDaoImpl implements FirmOrderDao {
 				firmOrder.setShopProductSales(rs.getInt("SHOP_PRODUCT_SALES"));
 				firmOrder.setShopOrderCount(rs.getInt("SHOP_ORDER_COUNT"));
 				firmOrder.setFirmNo(rs.getInt("FIRM_NO"));
-				firmOrder.setShopProductImg(rs.getBytes("SHOP_PRODUCT_IMG"));
+				firmOrder.setShopOrderImg(rs.getBytes("SHOP_ORDER_IMG"));
 
 				//
 				resultOrderList.add(firmOrder);

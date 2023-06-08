@@ -5,6 +5,7 @@ import static core.util.CommonUtil.getConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import static core.util.CommonUtil.*;
@@ -13,24 +14,23 @@ import web.firm.bean.ShopProduct;
 import web.firm.dao.ShopProductDao;
 
 public class ShopProductDaoImpl implements ShopProductDao {
-
-
-
 	
 	/**
 	 * 新增產品
 	 */
-	// 取消賣家名稱的新增，因為設定->賣家設定裡可以新增、修改賣家名稱，若產品可以新增編輯賣家名稱會大亂
 	@Override
 	public int insert(ShopProduct shopProductClass) {
-		final String SQL = "insert into shop_product(SHOP_PRODUCT_ID, SHOP_PRODUCT_NAME, SHOP_PRODUCT_PRICE,SHOP_PRODUCT_SEARCH,SHOP_PRODUCT_CLASS,SHOP_PRODUCT_DESC,SHOP_PRODUCT_COUNT,FIRM_NO) " // 先取消SHOP_NAME,
+		final String SQL = "insert into shop_product( SHOP_PRODUCT_NAME, SHOP_PRODUCT_PRICE,SHOP_PRODUCT_SEARCH,SHOP_PRODUCT_CLASS,SHOP_PRODUCT_DESC,SHOP_PRODUCT_COUNT,SHOP_NAME,FIRM_NO,SHOP_PRODUCT_IMG) " // 先取消SHOP_NAME,
 				+ "values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		System.out.println(shopProductClass);
+		
 		try (
 			Connection conn = getConnection(); 
 			PreparedStatement pstmt = conn.prepareStatement(SQL)
 			) {
-			pstmt.setInt(1, shopProductClass.getShopProductId());
-//			pstmt.setString(2, shopProductClass.getShopName());
+//			pstmt.setInt(1, shopProductClass.getShopProductIdD());
+			pstmt.setString(1, shopProductClass.getShopProductName());
 			pstmt.setInt(2, shopProductClass.getShopProductPrice());
 			pstmt.setString(3, shopProductClass.getShopProductSearch());
 			pstmt.setString(4, shopProductClass.getShopProductClass());
@@ -47,30 +47,39 @@ public class ShopProductDaoImpl implements ShopProductDao {
 		return -1;
 	}
 
-	// 有問題待修改
+	
 	@Override
 	public int update(ShopProduct shopProduct) {
-		StringBuilder SQL = new StringBuilder("update shop_product set");
-		Integer shopProductId = shopProduct.getShopProductId();
-		String shopProductName = shopProduct.getShopName();
-		String shopName = shopProduct.getShopName();
-		Integer shopProductPrice = shopProduct.getShopProductPrice();
-		String shopProductSearch = shopProduct.getShopProductSearch();
-		String shopProductClass = shopProduct.getShopProductClass();
-		String shopProductDesc = shopProduct.getShopProductDesc();
-		
-
-
+		StringBuilder SQL = new StringBuilder("update shop_product set SHOP_PRODUCT_NAME =? ,SHOP_PRODUCT_PRICE = ? ,SHOP_PRODUCT_SEARCH = ?, SHOP_PRODUCT_CLASS = ?,SHOP_PRODUCT_DESC = ?,SHOP_PRODUCT_COUNT = ?, SHOP_NAME = ?,SHOP_PRODUCT_IMG = ? where SHOP_PRODUCT_ID = ? ");
+//		Integer shopProductId = shopProduct.getShopProductId();
+//		String shopProductName = shopProduct.getShopProductName();
+//		String shopName = shopProduct.getShopName();
+//		Integer shopProductPrice = shopProduct.getShopProductPrice();
+//		String shopProductSearch = shopProduct.getShopProductSearch();
+//		String shopProductClass = shopProduct.getShopProductClass();
+//		String shopProductDesc = shopProduct.getShopProductDesc();
+//		byte[] shopProductImg = shopProduct.getShopProductImg();
+//		Integer firmNo = shopProduct.getFirmNo();
 
 		try (
 			Connection conn = getConnection(); 
 			PreparedStatement pstmt = conn.prepareStatement(SQL.toString())
 			) {
+			pstmt.setString(1,shopProduct.getShopProductName() );
+			pstmt.setInt(2,shopProduct.getShopProductPrice() );
+			pstmt.setString(3, shopProduct.getShopProductSearch());
+			pstmt.setString(4, shopProduct.getShopProductClass());
+			pstmt.setString(5, shopProduct.getShopProductDesc());
+			pstmt.setInt(6, shopProduct.getShopProductCount());
+			pstmt.setString(7, shopProduct.getShopName());
+			pstmt.setBytes(8, shopProduct.getShopProductImg());
+			pstmt.setInt(9, shopProduct.getShopProductId());
 			
-			int offset = 0;
-			
-			
+			System.out.println("shopProduct: " + shopProduct);
 			return pstmt.executeUpdate();
+			
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -79,14 +88,13 @@ public class ShopProductDaoImpl implements ShopProductDao {
 
 	@Override
 	public int updateByProductStatus(ShopProduct shopProductStatus) {
-		final String SQL = "update shop_product set SHOP_PRODUCT_STATUS = ? where SHOP_PRODUCT_ID =?";
+		final String SQL = "update shop_product set SHOP_PRODUCT_STATUS = 1 where SHOP_PRODUCT_ID =?";
 		
 		try (
 			Connection conn = getConnection(); 
 			PreparedStatement pstmt = conn.prepareStatement(SQL)
 			) {
-			pstmt.setInt(1, shopProductStatus.getShopProductStatus());
-			pstmt.setInt(2, shopProductStatus.getShopProductId());
+			pstmt.setInt(1, shopProductStatus.getShopProductId());
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -97,11 +105,7 @@ public class ShopProductDaoImpl implements ShopProductDao {
 	// 後臺專用
 	@Override
 	public List<ShopProduct> selectAll() {
-		final String SQL = "select * from shop_product"
-						+ " join shop_product_img"
-						+ " on shop_product.SHOP_PRODUCT_ID = shop_product_img.SHOP_PRODUCT_ID"
-						+ " join firm"
-						+ " on shop_product.FIRM_NO = firm.FIRM_NO";
+		final String SQL = "select * from shop_product";
 		List<ShopProduct> resultList = new ArrayList<>();
 		try (
 				Connection conn = getConnection();
@@ -136,11 +140,7 @@ public class ShopProductDaoImpl implements ShopProductDao {
 	@Override
 	public List<ShopProduct> selectByProductFirmNo(Integer shopProductFirmNo) {
 		final String SQL = "select * from shop_product"
-				+ " join shop_product_img"
-				+ " on shop_product.SHOP_PRODUCT_ID = shop_product_img.SHOP_PRODUCT_ID"
-				+ " join firm"
-				+ " on shop_product.FIRM_NO = firm.FIRM_NO"
-				+ " where shop_product.FIRM_NO = ? and shop_product.SHOP_PRODUCT_STATUS = 2"
+				+ " where FIRM_NO = ? and SHOP_PRODUCT_STATUS = 2"
 			;
 		
 		List<ShopProduct> resultList = new ArrayList<>();
@@ -179,14 +179,14 @@ public class ShopProductDaoImpl implements ShopProductDao {
 	}
 
 	@Override
-	public List<ShopProduct> selectByProductStatus(Integer shopProductStatus) {
-		final String SQL = "select * from shop_product where SHOP_PRODUCT_STATUS = ?";
+	public List<ShopProduct> selectByFirmNo(Integer firmNo) {
+		final String SQL = "select * from shop_product where FIRM_NO = ?";
 		List<ShopProduct> resultList = new ArrayList<>();
 		try (
 			Connection conn = getConnection(); 
 			PreparedStatement pstmt = conn.prepareStatement(SQL)
 			) {
-			pstmt.setInt(1, shopProductStatus);
+			pstmt.setInt(1, firmNo);
 			try (ResultSet rs = pstmt.executeQuery()) {
 				while (rs.next()) {
 					ShopProduct shopProduct = new ShopProduct();
@@ -200,11 +200,37 @@ public class ShopProductDaoImpl implements ShopProductDao {
 					shopProduct.setShopProductCount(rs.getInt("SHOP_PRODUCT_COUNT"));
 					shopProduct.setShopName(rs.getString("SHOP_NAME"));
 					shopProduct.setFirmNo(rs.getInt("FIRM_NO"));
+					
+					shopProduct.setShopProductImg(rs.getBytes("SHOP_PRODUCT_IMG"));
 
 					resultList.add(shopProduct);
 				}
 			}
 			return resultList;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+
+	@Override
+	public ShopProduct selectByProductId(Integer shopProductId) {
+		final String SQL = "select * from shop_product where SHOP_PRODUCT_ID = ?";
+		try(
+			Connection conn = getConnection(); 
+			PreparedStatement pstmt = conn.prepareStatement(SQL)
+			) {
+			pstmt.setInt(1, shopProductId);
+			try (ResultSet rs = pstmt.executeQuery()) {
+				if (rs.next()) {
+					ShopProduct shopProduct = new ShopProduct();
+					shopProduct.setShopProductId(rs.getInt("SHOP_PRODUCT_ID"));
+					shopProduct.setShopProductStatus(rs.getInt("SHOP_PRODUCT_STATUS"));
+					
+					return shopProduct;
+				}
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
