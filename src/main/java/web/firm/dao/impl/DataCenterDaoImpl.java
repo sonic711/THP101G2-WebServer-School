@@ -17,11 +17,11 @@ public class DataCenterDaoImpl implements DataCenterDao {
 	// 查全部
 	@Override
 	public List<DataCenter> selectAll() {
-		final String SQL = "select SHOP_PRODUCT_ID, SHOP_PRODUCT_NAME, sum(SHOP_ORDER_COUNT) as allCount," 
+		final String SQL = "select FIRM_NO,SHOP_PRODUCT_ID, SHOP_PRODUCT_NAME, sum(SHOP_ORDER_COUNT) as allCount," 
 				+ " sum(SHOP_PRODUCT_SALES) as sumSales"
-				+ " from shop_order_desc " 
+				+ " from shop_order " 
 				+ " group by" 
-				+ " SHOP_PRODUCT_ID,SHOP_PRODUCT_NAME";
+				+ " SHOP_PRODUCT_ID,SHOP_PRODUCT_NAME,FIRM_NO";
 			// 要有東西才能夠抓，所以有要顯示的都要查詢
 		List<DataCenter> dataList = new ArrayList<>();
 		try (
@@ -31,7 +31,7 @@ public class DataCenterDaoImpl implements DataCenterDao {
 			) {
 			while (rs.next()) {
 				DataCenter dataCenter = new DataCenter();
-
+				dataCenter.setFirmNo(rs.getInt("FIRM_NO"));
 				dataCenter.setShopProductId(rs.getInt("SHOP_PRODUCT_ID"));
 				dataCenter.setShopProductName(rs.getString("SHOP_PRODUCT_NAME"));
 				dataCenter.setShopProductSales(rs.getInt("sumSales"));
@@ -48,12 +48,10 @@ public class DataCenterDaoImpl implements DataCenterDao {
 
 	@Override
 	public List<DataCenter> selectByFirmNo(Integer firmNo) {
-		final String SQL = "select sp.FIRM_NO,sd.SHOP_PRODUCT_ID,sd.SHOP_PRODUCT_NAME, sum(sd.SHOP_ORDER_COUNT) as allCount, sum(sd.SHOP_PRODUCT_SALES) as sumSales"
-				+ " from shop_order_desc sd"
-				+ " join shop_product sp"
-				+ " on sd.SHOP_PRODUCT_ID = sp.SHOP_PRODUCT_ID"
-				+ " where sp.FIRM_NO = ?"
-				+ " group by sd.SHOP_PRODUCT_ID, sd.SHOP_PRODUCT_NAME" ;
+		final String SQL = "select FIRM_NO,SHOP_PRODUCT_ID,SHOP_PRODUCT_NAME, sum(SHOP_ORDER_COUNT) as allCount, sum(SHOP_PRODUCT_SALES) as sumSales"
+				+ " from shop_order "
+				+ " where FIRM_NO = ?"
+				+ " group by SHOP_PRODUCT_ID, SHOP_PRODUCT_NAME" ;
 				
 		List<DataCenter> dataProductIdList = new ArrayList<>();
 		try (

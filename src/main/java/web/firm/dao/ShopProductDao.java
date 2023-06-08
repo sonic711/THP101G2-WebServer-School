@@ -12,7 +12,7 @@ public interface ShopProductDao {
 	List<ShopProduct> selectByProductFirmNo(Integer shopProductFirmNo); 
 	
 	// 查詢狀態：透過狀態回傳的數字，找到正確的資料
-	List<ShopProduct> selectByProductStatus(Integer shopProductStatus); 
+	List<ShopProduct> selectByFirmNo(Integer firmNo); 
 	
 	// 新增商品
 	int insert(ShopProduct shopProductClass);
@@ -22,6 +22,8 @@ public interface ShopProductDao {
 	
 	// 更新狀態
 	int updateByProductStatus(ShopProduct shopProductStatus);
+	
+	ShopProduct selectByProductId(Integer shopProductId);
 	
 	
 	
