@@ -30,10 +30,15 @@ public class ManageTeaApplyAllController extends HttpServlet{
 	@Override
 	 protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 	        String pathInfo = req.getPathInfo();
+//	        if (pathInfo == null || Objects.equals(pathInfo, "/"))
 
-	        if (pathInfo == null || Objects.equals(pathInfo, "/")) {
-	            writeJsonBean(resp, MANAGE_TEA_APPLY_SERVICE.findAllManageTeaApply());
-	        } else {
+	        if (pathInfo.equals("/another")) {				//會員
+	            writeJsonBean(resp, MANAGE_TEA_APPLY_SERVICE.findSelectMember(null));
+	        } 
+	        else if(pathInfo.equals("/ddd")){				//課程申請
+	        	 writeJsonBean(resp, MANAGE_TEA_APPLY_SERVICE.findAllManageTeaApply());
+	        }
+	        else{
 	            try {
 	                pathInfo = pathInfo.substring(1);
 	                String[] pathVariables = pathInfo.split("/");

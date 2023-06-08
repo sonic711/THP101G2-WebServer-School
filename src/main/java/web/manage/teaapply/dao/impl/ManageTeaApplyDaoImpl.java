@@ -57,6 +57,43 @@ public class ManageTeaApplyDaoImpl implements ManageTeaApplyDao {
         return -1;//還沒改
 	}
 	
+			//Member的
+	public List<Teaapply> selectmemberByKey(Integer id) {
+		final String SQL = "SELECT DISTINCT t.MEMBER_NO, t.NICKNAME, t.PHONE_NUMBER, t.MEMBER_EMAIL, t.MEMBER_STATUS "
+				+ "FROM ( "
+				+ "    SELECT ca.MEMBER_NO, m.NICKNAME, m.PHONE_NUMBER, m.MEMBER_EMAIL, m.MEMBER_STATUS "
+				+ "    FROM TEA_APPLY ca "
+				+ "    JOIN MEMBER m ON ca.MEMBER_NO = m.MEMBER_NO "
+				+ "    LEFT JOIN MEMBER_NOTIFICATION mn ON ca.MEMBER_NO = mn.MEMBER_NO "
+				+ "    WHERE ca.MEMBER_NO = mn.MEMBER_NO "
+				+ ") AS t;";
+		List<Teaapply> resultList = new ArrayList<>();
+		try (Connection conn = getConnection();
+				PreparedStatement pstmt = conn.prepareStatement(SQL);
+				ResultSet rs = pstmt.executeQuery()) {
+			while (rs.next()) {
+				Teaapply teaapply = new Teaapply();
+//				teaapply.setTeaId(rs.getInt("TEA_ID"));
+            	teaapply.setMemberNo(rs.getInt("MEMBER_NO"));
+//            	teaapply.setManageId(rs.getInt("MANAGE_ID"));
+//            	teaapply.setTeaApplyTime(rs.getTimestamp("TEA_APPLY_TIME"));
+//            	teaapply.setManagePtime(rs.getTimestamp("MANAGE_PTIME"));
+//            	teaapply.setTeaCheck(rs.getString("TEA_CHECK"));
+//            	teaapply.setTeaResult(rs.getBoolean("TEA_RESULT"));
+            	teaapply.setNickName(rs.getString("NICKNAME"));
+            	teaapply.setPhoneNumber(rs.getInt("PHONE_NUMBER"));
+            	teaapply.setMemberEmail(rs.getString("MEMBER_EMAIL"));
+            	teaapply.setMemberStatus(rs.getBoolean("MEMBER_STATUS"));
+//            	teaapply.setNotificationContent(rs.getString("NOTIFICATION_CONTENT"));
+				resultList.add(teaapply);
+			}
+			return resultList;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+				//teaapply
 	public List<Teaapply> selectAll() {
 		final String SQL = "select * From TEA_APPLY";
 		List<Teaapply> resultList = new ArrayList<>();
@@ -72,6 +109,10 @@ public class ManageTeaApplyDaoImpl implements ManageTeaApplyDao {
             	teaapply.setManagePtime(rs.getTimestamp("MANAGE_PTIME"));
             	teaapply.setTeaCheck(rs.getString("TEA_CHECK"));
             	teaapply.setTeaResult(rs.getBoolean("TEA_RESULT"));
+//            	teaapply.setNickName(rs.getString("NICK_NAME"));
+//            	teaapply.setPhoneNumber(rs.getInt("PHONE_NUMBER"));
+//            	teaapply.setMemberEmail(rs.getString("Member_EMAIL"));
+//            	teaapply.setNotificationContent(rs.getString("NOTIFICATION_CONTENT"));
 				resultList.add(teaapply);
 			}
 			return resultList;

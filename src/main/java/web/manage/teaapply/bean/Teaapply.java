@@ -10,6 +10,10 @@ public class Teaapply {
 	private Timestamp managePtime;
 	private String teaCheck;
 	private Boolean teaResult;
+	private String nickName;
+	private Integer phoneNumber;
+	private String memberEmail;
+	private Boolean memberStatus;
 	public Integer getTeaId() {
 		return teaId;
 	}
@@ -52,11 +56,43 @@ public class Teaapply {
 	public void setTeaResult(Boolean teaResult) {
 		this.teaResult = teaResult;
 	}
+	public String getNickName() {
+		return nickName;
+	}
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+	public Integer getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(Integer phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	public String getMemberEmail() {
+		return memberEmail;
+	}
+	public void setMemberEmail(String memberEmail) {
+		this.memberEmail = memberEmail;
+	}
+	public Boolean getMemberStatus() {
+		return memberStatus;
+	}
+	public void setMemberStatus(Boolean memberStatus) {
+		this.memberStatus = memberStatus;
+	}
 	@Override
 	public String toString() {
 		return "Teaapply [teaId=" + teaId + ", memberNo=" + memberNo + ", manageId=" + manageId + ", teaApplyTime="
 				+ teaApplyTime + ", managePtime=" + managePtime + ", teaCheck=" + teaCheck + ", teaResult=" + teaResult
-				+ "]";
+				+ ", nickName=" + nickName + ", phoneNumber=" + phoneNumber + ", memberEmail=" + memberEmail
+				+ ", memberStatus=" + memberStatus + "]";
 	}
 	
+//	private String notificationContent;
+	
+	
+	
+	
 }
+
+

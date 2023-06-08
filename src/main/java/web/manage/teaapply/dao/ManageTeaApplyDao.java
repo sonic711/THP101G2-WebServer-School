@@ -11,6 +11,7 @@ public interface ManageTeaApplyDao {
 	 Teaapply selectByKey(Integer id);
 	 List<Teaapply> selectAllByKey(Integer id);
 	 List<Teaapply> selectAll();
+	 List<Teaapply> selectmemberByKey(Integer id);
 	 int deleteByKey(Integer id);
 }
 
