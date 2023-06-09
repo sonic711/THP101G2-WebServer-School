@@ -108,7 +108,7 @@ public class MemberController extends HttpServlet{
 	@Override
 	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Member member = (Member)req.getSession().getAttribute("member");
-		member.setPassword(null);
+//		member.setPassword(null);
 		resp.getWriter().write(gson.toJson(member));
 		System.out.println(member);
 	}

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import web.member.block.bean.Block;
+import web.member.block.bean.BlockedUser;
 import web.member.block.dao.BlockDao;
 
 import static core.util.CommonUtil.getConnection;
@@ -47,8 +48,22 @@ public class BlockDaoImpl implements BlockDao {
 	}
 
 	@Override
-	public List<Block> selectAllByMemberNo(Integer memberNo) {
-		String sql = "select * from MEMBER_BLOCKING where MEMBER_NO = ?";
+	public List<BlockedUser> selectByMemberNo(Integer memberNo) {
+		String sql = "select "
+				+ "mb.MEMBER_BLOCKING_ID, "
+				+ "mb.MEMBER_NO, "
+				+ "mb.MEMBER_BLOCKING, "
+				+ "m.USER_ID, "
+				+ "m.NICKNAME, "
+				+ "m.MEMBER_IDENTITY, "
+				+ "m.PROFILE_PHOTO, "
+				+ "m.COVER_PICTURE, "
+				+ "m.MEMBER_STATUS, "
+				+ "m.INTRODUCTION, "
+				+ "mb.BLOCK_TIME "
+				+ "from MEMBER_BLOCKING mb "
+				+ "join MEMBER m on mb.MEMBER_BLOCKING = m.MEMBER_NO "
+				+ "where mb.MEMBER_NO = ?";
 		try(
 			Connection conn = getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -57,15 +72,21 @@ public class BlockDaoImpl implements BlockDao {
 			try(
 				ResultSet rs = pstmt.executeQuery();
 			) {
-				List<Block> list = new ArrayList<>();
+				List<BlockedUser> list = new ArrayList<>();
 				while (rs.next()) {
-					Block block = new Block();
-					block.setMemberBlockingId(rs.getInt("MEMBER_BLOCKING_ID"));
-					block.setMemberNo(rs.getInt("MEMBER_NO"));
-					block.setMemberBlocking(rs.getInt("MEMBER_BLOCKING"));
-					block.setBlockTime(rs.getTimestamp("BLOCK_TIME"));
-					block.setCreateAt(rs.getTimestamp("CREATE_AT"));
-					list.add(block);
+					BlockedUser blockedUser = new BlockedUser();
+					blockedUser.setMemberBlockingId(rs.getInt("MEMBER_BLOCKING_ID"));
+					blockedUser.setMemberNo(rs.getInt("MEMBER_NO"));
+					blockedUser.setMemberBlocking(rs.getInt("MEMBER_BLOCKING"));
+					blockedUser.setUserId(rs.getString("USER_ID"));
+					blockedUser.setNickname(rs.getString("NICKNAME"));
+					blockedUser.setMemberIdentity(rs.getString("MEMBER_IDENTITY"));
+					blockedUser.setProfilePhoto(rs.getBytes("PROFILE_PHOTO"));
+					blockedUser.setCoverPicture(rs.getBytes("COVER_PICTURE"));
+					blockedUser.setMemberStatus(rs.getInt("MEMBER_STATUS"));
+					blockedUser.setIntroduction(rs.getString("INTRODUCTION"));
+					blockedUser.setBlockTime(rs.getTimestamp("BLOCK_TIME"));
+					list.add(blockedUser);
 				}
 			return list;
 			}

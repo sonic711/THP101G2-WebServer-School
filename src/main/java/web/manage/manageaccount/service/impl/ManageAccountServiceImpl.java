@@ -39,7 +39,21 @@ private ManageAccountDao dao;
 		int result = dao.deleteByKey(id);
         return result > 0;
 	}
-
+	
+	@Override
+	public Manageaccount login(Manageaccount manageaccount) {
+		Integer ac = manageaccount.getManageAc();
+		if (ac == null) {
+			return null;
+		}
+		
+		Integer password = manageaccount.getManagePass();
+		if (password == null) {
+			return null;
+		}
+		
+		return dao.selectByACandPassword(ac, password);
+	}
 	
 }
 

@@ -358,16 +358,17 @@ public class pointChangedDaoImpl implements pointChangedDao {
 //
 //		return -73;
 //	}
-
-	@Override
+	
+	
 	public int insertForSO() {
 		String sql1 = "select SHOP_ORDER_ID, MEMBER_NO,SHOP_POINT_DISCOUNT from SHOP_ORDER order by SHOP_ORDERPAY_TIME desc limit 1";
 		String sql2 = "insert into POINTS_CHANGED(MEMBER_NO,COMMENT_ID,SHOP_ORDER_ID,STUDENT_COURSES_ID,LOGIN_RECORD_ID,VALUE_OF_CHANGING) values(?,?,?,?,?,?)";
-		String sql3 = "update MEMBER set REWARD_POINTS = REWARD_POINTS + ? where MEMBER_NO = ?";
+//		String sql3 = "update MEMBER set REWARD_POINTS = REWARD_POINTS + ? where MEMBER_NO = ?";
 		try (Connection conn = getConnection();
 				PreparedStatement pstmt1 = conn.prepareStatement(sql1);
 				PreparedStatement pstmt2 = conn.prepareStatement(sql2);
-				PreparedStatement pstmt3 = conn.prepareStatement(sql3);) {
+//				PreparedStatement pstmt3 = conn.prepareStatement(sql3);
+				) {
 			conn.setAutoCommit(false);
 			PointChanged PC = new PointChanged();
 			int SPD = 0;
@@ -390,14 +391,15 @@ public class pointChangedDaoImpl implements pointChangedDao {
 				if (rs2 < 1) {
 					return -24;
 				}
-				pstmt3.setInt(1, -(SPD));
-				pstmt3.setInt(2, PC.getMemberNo());
-				int rs3 = pstmt3.executeUpdate();
-				if (rs3 < 1) {
-					return -34;
-				}
+//				pstmt3.setInt(1, -(SPD));
+//				pstmt3.setInt(2, PC.getMemberNo());
+//				int rs3 = pstmt3.executeUpdate();
+//				if (rs3 < 1) {
+//					return -34;
+//				}
 				conn.commit();
-				return rs3;
+//				return rs3;
+				return rs2;
 			} catch (SQLException e) {
 				conn.rollback();
 				e.printStackTrace();
@@ -409,6 +411,87 @@ public class pointChangedDaoImpl implements pointChangedDao {
 
 		return -74;
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+//	@Override
+//	public int insertForSO() {
+//		String sql1 = "select SHOP_ORDER_ID, MEMBER_NO,SHOP_POINT_DISCOUNT from SHOP_ORDER order by SHOP_ORDERPAY_TIME desc limit 1";
+//		String sql2 = "insert into POINTS_CHANGED(MEMBER_NO,COMMENT_ID,SHOP_ORDER_ID,STUDENT_COURSES_ID,LOGIN_RECORD_ID,VALUE_OF_CHANGING) values(?,?,?,?,?,?)";
+//		String sql3 = "update MEMBER set REWARD_POINTS = REWARD_POINTS + ? where MEMBER_NO = ?";
+//		try (Connection conn = getConnection();
+//				PreparedStatement pstmt1 = conn.prepareStatement(sql1);
+//				PreparedStatement pstmt2 = conn.prepareStatement(sql2);
+//				PreparedStatement pstmt3 = conn.prepareStatement(sql3);) {
+//			conn.setAutoCommit(false);
+//			PointChanged PC = new PointChanged();
+//			int SPD = 0;
+//			try (ResultSet rs1 = pstmt1.executeQuery();) {
+//				if (rs1.next()) {
+//					int SOI = rs1.getInt("SHOP_ORDER_ID");
+//					int MNO = rs1.getInt("MEMBER_NO");
+//					SPD = SPD + rs1.getInt("SHOP_POINT_DISCOUNT");
+//					PC.setShopOrderId(SOI);
+//					PC.setMemberNo(MNO);
+//
+//				}
+//				pstmt2.setObject(1, PC.getMemberNo());
+//				pstmt2.setObject(2, null);
+//				pstmt2.setObject(3, PC.getShopOrderId());
+//				pstmt2.setObject(4, null);
+//				pstmt2.setObject(5, null);
+//				pstmt2.setInt(6, -(SPD));
+//				int rs2 = pstmt2.executeUpdate();
+//				if (rs2 < 1) {
+//					return -24;
+//				}
+//				pstmt3.setInt(1, -(SPD));
+//				pstmt3.setInt(2, PC.getMemberNo());
+//				int rs3 = pstmt3.executeUpdate();
+//				if (rs3 < 1) {
+//					return -34;
+//				}
+//				conn.commit();
+//				return rs3;
+//			} catch (SQLException e) {
+//				conn.rollback();
+//				e.printStackTrace();
+//			}
+//
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//
+//		return -74;
+//	}
 
 	@Override
 	public List<PointChanged> selectAllByMId(Integer id) {
