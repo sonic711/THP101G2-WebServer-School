@@ -14,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import web.member.block.bean.Block;
+import web.member.block.bean.BlockedUser;
 import web.member.member.bean.Member;
 
 import static web.member.util.MemberContains.BLOCK_SERVICE;
@@ -33,9 +34,7 @@ public class BlockController extends HttpServlet{
 		pathInfo = pathInfo.substring(1);
 		String[] pathVar = pathInfo.split("/");
 		
-		Block block = new Block();
-		block.setMemberNo(Integer.parseInt(pathVar[0]));
-		List<Block> list = BLOCK_SERVICE.findAllByMemberNo(block.getMemberNo());
+		List<BlockedUser> list = BLOCK_SERVICE.findAllByMemberNo(Integer.parseInt(pathVar[0]));
 		
 		resp.getWriter().write(gson.toJson(list));	
 	}
@@ -79,7 +78,11 @@ public class BlockController extends HttpServlet{
 		block.setMemberBlockingId(id);
 		boolean result = BLOCK_SERVICE.delete(block);
 
-		resp.getWriter().write(gson.toJson(result));
+		JsonObject respBody = new JsonObject();
+		respBody.addProperty("successful", result);
+		respBody.addProperty("message", result ? "刪除成功" : "刪除失敗");
+		
+		resp.getWriter().write(respBody.toString());
 		
 	}
 	
