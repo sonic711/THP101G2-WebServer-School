@@ -149,6 +149,34 @@ public class ManageAccountDaoImpl implements ManageAccountDao{
 		return -1;
 	}
 	
+	@Override
+	public Manageaccount selectByACandPassword(Integer ac, Integer password) {
+		String sql = "select * from MANAGE_ACCOUNT where MANAGE_AC = ? and MANAGE_PASS = ?";
+		
+		try(
+			Connection conn = getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);		
+		) { 
+			pstmt.setInt(1, ac);
+			pstmt.setInt(2, password);
+			try (
+				ResultSet rs = pstmt.executeQuery();
+			){
+				if (rs.next()) {
+					Manageaccount manageaccount = new Manageaccount();
+					manageaccount.setManageId(rs.getInt("MANAGE_ID"));
+					manageaccount.setManageAc(rs.getInt("MANAGE_AC"));
+					manageaccount.setManagePass(rs.getInt("MANAGE_PASS"));
+					manageaccount.setManageName(rs.getString("MANAGE_NAME"));
+					return manageaccount;
+				}
+			} 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
 } 
 	

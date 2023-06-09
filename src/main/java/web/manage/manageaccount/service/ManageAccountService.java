@@ -13,6 +13,6 @@ public interface ManageAccountService {
     List<Manageaccount> findAllManageAccount();
 	boolean removeManageAccountById(Integer id);
 	
-    
+	Manageaccount login(Manageaccount manageaccount);
     
 }
