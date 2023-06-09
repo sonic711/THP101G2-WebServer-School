@@ -1,4 +1,4 @@
-package web.firm.controller;
+package web.firm.controller.Shop;
 
 import java.io.IOException;
 import java.util.Base64;
@@ -30,7 +30,9 @@ public class ProductManageController extends HttpServlet{
 	
 	Gson gson = new Gson();
 	
-	// doGET查詢
+	/**
+	 * 查詢商品
+	 */
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String pathInfo = req.getPathInfo();
@@ -51,7 +53,9 @@ public class ProductManageController extends HttpServlet{
 		
 	}
 	
-	
+	/**
+	 * 商品上架
+	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
@@ -65,6 +69,10 @@ public class ProductManageController extends HttpServlet{
 		}
 	}
 	
+	
+	/**
+	 * 編輯商品
+	 */
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
