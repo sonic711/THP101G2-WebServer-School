@@ -12,5 +12,8 @@ public class ShopContainer {
 	 
 	 public static final ShopProductService ALLPRODUCT_SERVICE = new ShopProductServiceImpl();
 	 
-	 public static final ShopProductService ONPRODUCT_SERVICE = new ShopProductServiceImpl();
+	 public static final ShopProductService PRODUCT_SERVICE = new ShopProductServiceImpl();
+	 
+	 public static final ShopProductService PRODUCTSTATUS_SERVICE = new ShopProductServiceImpl();
+ 
 }

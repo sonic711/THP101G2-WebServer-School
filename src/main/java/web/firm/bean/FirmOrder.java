@@ -12,8 +12,8 @@ public class FirmOrder {
 				+ shopPointDiscount + ", shopOrderStatus=" + shopOrderStatus + ", shopOrdercreateTime="
 				+ shopOrdercreateTime + ", shopOrderpayTime=" + shopOrderpayTime + ", shopProductName="
 				+ shopProductName + ", shopProductPrice=" + shopProductPrice + ", shopProductSales=" + shopProductSales
-				+ ", shopOrderCount=" + shopOrderCount + ", firmNo=" + firmNo + ", shopProductImg="
-				+ Arrays.toString(shopProductImg) + "]";
+				+ ", shopOrderCount=" + shopOrderCount + ", firmNo=" + firmNo + ", shopOrderImg="
+				+ Arrays.toString(shopOrderImg) + "]";
 	}
 
 	Integer shopOrderId;
@@ -30,7 +30,7 @@ public class FirmOrder {
 	Integer shopProductSales;
 	Integer shopOrderCount;
 	Integer firmNo;
-	byte[] shopProductImg;
+	byte[] shopOrderImg;
 
 	public Integer getShopOrderId() {
 		return shopOrderId;
@@ -144,12 +144,12 @@ public class FirmOrder {
 		this.firmNo = firmNo;
 	}
 
-	public byte[] getShopProductImg() {
-		return shopProductImg;
+	public byte[] getShopOrderImg() {
+		return shopOrderImg;
 	}
 
-	public void setShopProductImg(byte[] shopProductImg) {
-		this.shopProductImg = shopProductImg;
+	public void setShopOrderImg(byte[] shopOrderImg) {
+		this.shopOrderImg = shopOrderImg;
 	}
 
 }

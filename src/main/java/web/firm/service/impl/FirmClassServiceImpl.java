@@ -1,5 +1,6 @@
 package web.firm.service.impl;
 
+import java.util.Base64;
 import java.util.List;
 
 import web.firm.bean.FirmClass;
@@ -17,20 +18,43 @@ public class FirmClassServiceImpl implements FirmClassService{
 	
     // 註冊
 	@Override
-	public int insert(FirmClass firmClass) {
-		return dao.insert(firmClass);
+	public boolean insert(FirmClass firmClass) {
+		int result = dao.insert(firmClass);
+		return result > 0;
 	}
 	// 更新賣場資料
 	@Override
-	public int update(FirmClass firmClass) {
-		return dao.update(firmClass);
+	public boolean editFirm(FirmClass firmClass) {
+		int result = dao.update(firmClass);
+		
+		String profilePhoto64 = firmClass.getProfilePhoto64();
+		if (profilePhoto64 != null && !profilePhoto64.isEmpty()) {
+			byte[] profilePhoto = Base64.getDecoder().decode(profilePhoto64);
+			firmClass.setProfilePhoto(profilePhoto);
+		}
+		String coverPhoto64 = firmClass.getCoverPhoto64();
+		if (coverPhoto64 != null && !coverPhoto64.isEmpty()) {
+			byte[] coverPhoto= Base64.getDecoder().decode(coverPhoto64);
+			firmClass.setCoverPhoto(coverPhoto);
+		}
+		
+		System.out.println(result);
+		return result >= 1;
 	}
+	
 
 	// 查詢user資料
 	@Override
 	public FirmClass selectByUserId(String userId) {
 		return dao.selectByUserId(userId);
 	}
+	
+	// 查詢某特定廠商資料
+	@Override
+	public FirmClass selectByFirmNo(Integer FirmNo) {
+		return dao.selectByFirmNo(FirmNo);
+	}
+
 	// 查所有廠商
 	@Override
 	public List<FirmClass> selectAll() {
@@ -38,9 +62,10 @@ public class FirmClassServiceImpl implements FirmClassService{
 	}
 
 	@Override
-	public FirmClass selectByFirmNo(Integer FirmNo) {
-		return dao.selectByFirmNo(FirmNo);
+	public FirmClass searchFirm(String email) {
+		return dao.selectByEmail(email);
 	}
+
 
 
 

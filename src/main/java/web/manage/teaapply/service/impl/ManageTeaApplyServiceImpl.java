@@ -29,6 +29,9 @@ public class ManageTeaApplyServiceImpl implements ManageTeaApplyService {
 	public List<Teaapply> findAllManageTeaApply() {
 		return dao.selectAll();
 	}
+	public List<Teaapply> findSelectMember(Integer id) {
+		return dao.selectmemberByKey(id);
+	}
 
 
 	@Override

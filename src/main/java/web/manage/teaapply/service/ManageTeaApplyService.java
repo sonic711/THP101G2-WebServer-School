@@ -12,6 +12,7 @@ public interface ManageTeaApplyService {
     Teaapply findManageTeapplyById(Integer id);
 	boolean newOneManageTeaApply(Teaapply teaapply);
 	boolean removeManageTeaApplyById(Integer id);
+	List<Teaapply> findSelectMember(Integer id);
 	
 
 }
