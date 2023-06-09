@@ -10,5 +10,5 @@ public interface ManageAccountDao {
 	List<Manageaccount> selectAll();
 	Manageaccount selectByKey(Integer id);
 	int deleteByKey(Integer id);
-
+	Manageaccount selectByACandPassword(Integer ac, Integer password);
 }
