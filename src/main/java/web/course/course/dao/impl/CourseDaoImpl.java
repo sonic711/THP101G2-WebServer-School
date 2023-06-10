@@ -90,7 +90,8 @@ public class CourseDaoImpl implements CourseDao {
 	@Override
 	public List<Course> selectAll() {
 		final String SQL = "SELECT c.*, m.USER_ID, co.RATING\r\n" + "FROM COURSE c\r\n"
-				+ "JOIN MEMBER m ON c.MEMBER_NO = m.MEMBER_NO\r\n" + "JOIN COMMENT co ON c.MEMBER_NO = co.MEMBER_NO;";
+				+ "JOIN MEMBER m ON c.MEMBER_NO = m.MEMBER_NO\r\n" + "JOIN COMMENT co ON c.MEMBER_NO = co.MEMBER_NO "
+				+ "WHERE c.ADD_AND_REMOVE = true;";
 		List<Course> resultList = new ArrayList<>();
 		try (Connection conn = getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(SQL);
@@ -106,7 +107,11 @@ public class CourseDaoImpl implements CourseDao {
 				course.setUpdateTime(rs.getTimestamp("UPDATETIME"));
 				course.setImage(rs.getBytes("IMAGE"));
 				course.setUserId(rs.getString("USER_ID"));
-				course.setRating(rs.getString("RATING"));
+				if(rs.getObject("RATING") != null) {
+	                course.setRating(rs.getString("RATING"));
+				}else {
+					 course.setRating("");
+				}
 				resultList.add(course);
 			}
 			return resultList;

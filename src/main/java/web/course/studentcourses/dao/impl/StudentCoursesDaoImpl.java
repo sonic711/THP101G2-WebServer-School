@@ -129,13 +129,13 @@ public class StudentCoursesDaoImpl implements StudentCoursesDao{
 	public int update(StudentCourses studentCourses) {
 		final String SQL = "update STUDENT_COURSES set "
 							+ "COURSES_PROGRESS = ? "
-							+ "where STUDENT_COURSES_ID = ?";
+							+ "where COURSE_ID = ?";
 		try(
 				Connection conn = getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(SQL)
 				) {
 					pstmt.setBoolean(1, studentCourses.getCoursesProgress());
-					pstmt.setInt(2, studentCourses.getStudentCoursesId());
+					pstmt.setInt(2, studentCourses.getCourseId());
 					return pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
