@@ -50,12 +50,6 @@ public class TagUserDefServiceImpl implements TagUserDefService{
 
 	@Override
 	public boolean edit(TagUserDefined tud) {
-		// tagId: 需存在
-		Integer tagId = tud.getTagId();
-		if (tagId == null || tagDao.selectTag(tagId) == null) {
-			return false;
-		}
-		
 		// definedColname: 不為空，1-12字元
 		String definedColname = tud.getDefinedColname();
 		if (definedColname != null

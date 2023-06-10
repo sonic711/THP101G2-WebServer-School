@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import web.calendar.schedule.bean.MemSchedule;
 import web.calendar.schedule.bean.Schedule;
 import web.member.member.bean.Member;
 
@@ -36,9 +37,9 @@ public class ScheduleController extends HttpServlet{
 		pathInfo = pathInfo.substring(1);
 		String[] pathVar = pathInfo.split("/");
 		
-		Schedule schedule = new Schedule();
+		MemSchedule memSchedule = new MemSchedule();
 		Integer memberNo = Integer.parseInt(pathVar[0]);
-		schedule.setMemberNo(memberNo);
+		memSchedule.setMemberNo(memberNo);
 		StringBuilder sb = new StringBuilder();
 		for (int i = 1; i <= 3; i++) {
 			sb.append(pathVar[i]);
@@ -48,7 +49,7 @@ public class ScheduleController extends HttpServlet{
 		}
 		LocalDate localDate = LocalDate.parse(sb.toString());
 		Date date = Date.valueOf(localDate);
-		List<Schedule> list = SCHEDULE_SERVICE.memberScheduleOnDate(memberNo, date);
+		List<MemSchedule> list = SCHEDULE_SERVICE.memberScheduleOnDate(memberNo, date);
 		
 		resp.getWriter().write(gson.toJson(list));
 	}
@@ -65,14 +66,14 @@ public class ScheduleController extends HttpServlet{
 		Member seMember = (Member)session.getAttribute("member");
 		Integer memberNo = seMember.getMemberNo();
 		schedule.setMemberNo(memberNo);
-		
+		System.out.println(schedule);
 		boolean result = SCHEDULE_SERVICE.add(schedule);
 		
 		JsonObject respBody = new JsonObject();
 		respBody.addProperty("successful", result);
 		respBody.addProperty("message", result ? "新增成功" : "新增失敗");
 		
-		resp.getWriter().write(respBody.toString());
+		resp.getWriter().write(gson.toJson(respBody));
 	}
 	
 	/**
@@ -122,12 +123,12 @@ public class ScheduleController extends HttpServlet{
      */
 	@Override
 	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Schedule schedule = gson.fromJson(req.getReader(), Schedule.class);
+		MemSchedule memSchedule = gson.fromJson(req.getReader(), MemSchedule.class);
 		HttpSession session = req.getSession();
 		Member seMember = (Member)session.getAttribute("member");
-		schedule.setMemberNo(seMember.getMemberNo());
-		schedule = SCHEDULE_SERVICE.singleSchedule(schedule);
+		memSchedule.setMemberNo(seMember.getMemberNo());
+		memSchedule = SCHEDULE_SERVICE.singleSchedule(memSchedule);
 		
-		resp.getWriter().write(gson.toJson(schedule));
+		resp.getWriter().write(gson.toJson(memSchedule));
 	}
 }

@@ -10,6 +10,7 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
+import web.calendar.schedule.bean.MemSchedule;
 import web.calendar.schedule.bean.Schedule;
 import web.calendar.schedule.dao.ScheduleDao;
 
@@ -46,8 +47,28 @@ public class ScheduleDaoImpl implements ScheduleDao{
 	}
 
 	@Override
-	public List<Schedule> selectAllByMemberNo(Integer memberNo) {
-		String sql = "select * from CALENDAR_SCHEDULE where MEMBER_NO = ?";
+	public List<MemSchedule> selectAllByMemberNo(Integer memberNo) {
+		String sql = "select s.SCHEDULE_ID, "
+				+ "s.MEMBER_NO, "
+				+ "s.TASK, "
+				+ "s.TAG_USER_DEF_ID, "
+				+ "tud.TAG_ID, "
+				+ "tc.COLOR_HEX, "
+				+ "tud.DEFINED_COLNAME as TAG_NAME, "
+				+ "s.DATE, "
+				+ "s.START_TIME, "
+				+ "s.END_TIME, "
+				+ "rp.REPEAT_ID, "
+				+ "rp.REPEAT_PATTERN, "
+				+ "rm.REMINDER_ID, "
+				+ "rm.REMINDER_TYPE, "
+				+ "s.CREATE_AT "
+				+ "from CALENDAR_SCHEDULE s "
+				+ "join TAG_USER_DEFINED tud on s.TAG_USER_DEF_ID = tud.TAG_USER_DEFINED_ID "
+				+ "join TAG_COLOR tc on tud.TAG_ID = tc.TAG_ID "
+				+ "join CALENDAR_REPEAT_PATTERN rp on s.REPEAT_PATTERN = rp.REPEAT_ID "
+				+ "join CALENDAR_REMINDER rm on s.REMINDER = rm.REMINDER_ID "
+				+ "where s.MEMBER_NO = ?";
 		try (
 			Connection conn = getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -56,20 +77,25 @@ public class ScheduleDaoImpl implements ScheduleDao{
 			try (
 				ResultSet rs = pstmt.executeQuery();
 			) {
-				List<Schedule> list = new ArrayList<>();
+				List<MemSchedule> list = new ArrayList<>();
 				while (rs.next()) {
-					Schedule schedule = new Schedule();
-					schedule.setScheduleId(rs.getInt("SCHEDULE_ID"));
-					schedule.setMemberNo(rs.getInt("MEMBER_NO"));
-					schedule.setTask(rs.getString("TASK"));
-					schedule.setTagUserDefId(rs.getInt("TAG_USER_DEF_ID"));
-					schedule.setDate(rs.getDate("DATE"));
-					schedule.setStartTime(rs.getTime("START_TIME"));
-					schedule.setEndTime(rs.getTime("END_TIME"));
-					schedule.setRepeatPattern(rs.getInt("REPEAT_PATTERN"));
-					schedule.setReminder(rs.getInt("REMINDER"));
-					schedule.setCreateAt(rs.getTimestamp("CREATE_AT"));
-					list.add(schedule);
+					MemSchedule memSchedule = new MemSchedule();
+					memSchedule.setScheduleId(rs.getInt("SCHEDULE_ID"));
+					memSchedule.setMemberNo(rs.getInt("MEMBER_NO"));
+					memSchedule.setTask(rs.getString("TASK"));
+					memSchedule.setTagUserDefId(rs.getInt("TAG_USER_DEF_ID"));
+					memSchedule.setTagId(rs.getInt("TAG_ID"));
+					memSchedule.setColorHex(rs.getString("COLOR_HEX"));
+					memSchedule.setTagName(rs.getString("TAG_NAME"));
+					memSchedule.setDate(rs.getDate("DATE"));
+					memSchedule.setStartTime(rs.getTime("START_TIME"));
+					memSchedule.setEndTime(rs.getTime("END_TIME"));
+					memSchedule.setRepeatId(rs.getInt("REPEAT_ID"));
+					memSchedule.setRepeatPattern(rs.getString("REPEAT_PATTERN"));
+					memSchedule.setReminderId(rs.getInt("REMINDER_ID"));
+					memSchedule.setReminderType(rs.getString("REMINDER_TYPE"));
+					memSchedule.setCreateAt(rs.getTimestamp("CREATE_AT"));
+					list.add(memSchedule);
 				}
 				return list;
 			}
@@ -205,8 +231,28 @@ public class ScheduleDaoImpl implements ScheduleDao{
 	}
 
 	@Override
-	public List<Schedule> selectAllByMemberNoAndDate(Integer memberNo, Date date) {
-		String sql = "select * from CALENDAR_SCHEDULE where MEMBER_NO = ? and DATE = ?";
+	public List<MemSchedule> selectAllByMemberNoAndDate(Integer memberNo, Date date) {
+		String sql = "select s.SCHEDULE_ID, "
+				+ "s.MEMBER_NO, "
+				+ "s.TASK, "
+				+ "s.TAG_USER_DEF_ID, "
+				+ "tud.TAG_ID, "
+				+ "tc.COLOR_HEX, "
+				+ "tud.DEFINED_COLNAME as TAG_NAME, "
+				+ "s.DATE, "
+				+ "s.START_TIME, "
+				+ "s.END_TIME, "
+				+ "rp.REPEAT_ID, "
+				+ "rp.REPEAT_PATTERN, "
+				+ "rm.REMINDER_ID, "
+				+ "rm.REMINDER_TYPE, "
+				+ "s.CREATE_AT "
+				+ "from CALENDAR_SCHEDULE s "
+				+ "join TAG_USER_DEFINED tud on s.TAG_USER_DEF_ID = tud.TAG_USER_DEFINED_ID "
+				+ "join TAG_COLOR tc on tud.TAG_ID = tc.TAG_ID "
+				+ "join CALENDAR_REPEAT_PATTERN rp on s.REPEAT_PATTERN = rp.REPEAT_ID "
+				+ "join CALENDAR_REMINDER rm on s.REMINDER = rm.REMINDER_ID "
+				+ "where s.MEMBER_NO = ? and s.DATE = ?";
 		try (
 			Connection conn = getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -216,20 +262,25 @@ public class ScheduleDaoImpl implements ScheduleDao{
 			try (
 				ResultSet rs = pstmt.executeQuery();
 			) {
-				List<Schedule> list = new ArrayList<>();
+				List<MemSchedule> list = new ArrayList<>();
 				while (rs.next()) {
-					Schedule schedule = new Schedule();
-					schedule.setScheduleId(rs.getInt("SCHEDULE_ID"));
-					schedule.setMemberNo(rs.getInt("MEMBER_NO"));
-					schedule.setTask(rs.getString("TASK"));
-					schedule.setTagUserDefId(rs.getInt("TAG_USER_DEF_ID"));
-					schedule.setDate(rs.getDate("DATE"));
-					schedule.setStartTime(rs.getTime("START_TIME"));
-					schedule.setEndTime(rs.getTime("END_TIME"));
-					schedule.setRepeatPattern(rs.getInt("REPEAT_PATTERN"));
-					schedule.setReminder(rs.getInt("REMINDER"));
-					schedule.setCreateAt(rs.getTimestamp("CREATE_AT"));
-					list.add(schedule);
+					MemSchedule memSchedule = new MemSchedule();
+					memSchedule.setScheduleId(rs.getInt("SCHEDULE_ID"));
+					memSchedule.setMemberNo(rs.getInt("MEMBER_NO"));
+					memSchedule.setTask(rs.getString("TASK"));
+					memSchedule.setTagUserDefId(rs.getInt("TAG_USER_DEF_ID"));
+					memSchedule.setTagId(rs.getInt("TAG_ID"));
+					memSchedule.setColorHex(rs.getString("COLOR_HEX"));
+					memSchedule.setTagName(rs.getString("TAG_NAME"));
+					memSchedule.setDate(rs.getDate("DATE"));
+					memSchedule.setStartTime(rs.getTime("START_TIME"));
+					memSchedule.setEndTime(rs.getTime("END_TIME"));
+					memSchedule.setRepeatId(rs.getInt("REPEAT_ID"));
+					memSchedule.setRepeatPattern(rs.getString("REPEAT_PATTERN"));
+					memSchedule.setReminderId(rs.getInt("REMINDER_ID"));
+					memSchedule.setReminderType(rs.getString("REMINDER_TYPE"));
+					memSchedule.setCreateAt(rs.getTimestamp("CREATE_AT"));
+					list.add(memSchedule);
 				}
 				return list;
 			}
@@ -240,8 +291,28 @@ public class ScheduleDaoImpl implements ScheduleDao{
 	}
 
 	@Override
-	public Schedule selectAllById(Integer scheduleId) {
-		String sql = "select * from CALENDAR_SCHEDULE where SCHEDULE_ID = ?";
+	public MemSchedule selectAllById(Integer scheduleId) {
+		String sql = "select s.SCHEDULE_ID, "
+				+ "s.MEMBER_NO, "
+				+ "s.TASK, "
+				+ "s.TAG_USER_DEF_ID, "
+				+ "tud.TAG_ID, "
+				+ "tc.COLOR_HEX, "
+				+ "tud.DEFINED_COLNAME as TAG_NAME, "
+				+ "s.DATE, "
+				+ "s.START_TIME, "
+				+ "s.END_TIME, "
+				+ "rp.REPEAT_ID, "
+				+ "rp.REPEAT_PATTERN, "
+				+ "rm.REMINDER_ID, "
+				+ "rm.REMINDER_TYPE, "
+				+ "s.CREATE_AT "
+				+ "from CALENDAR_SCHEDULE s "
+				+ "join TAG_USER_DEFINED tud on s.TAG_USER_DEF_ID = tud.TAG_USER_DEFINED_ID "
+				+ "join TAG_COLOR tc on tud.TAG_ID = tc.TAG_ID "
+				+ "join CALENDAR_REPEAT_PATTERN rp on s.REPEAT_PATTERN = rp.REPEAT_ID "
+				+ "join CALENDAR_REMINDER rm on s.REMINDER = rm.REMINDER_ID "
+				+ "where s.SCHEDULE_ID = ?";
 		try (
 			Connection conn = getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -251,18 +322,23 @@ public class ScheduleDaoImpl implements ScheduleDao{
 				ResultSet rs = pstmt.executeQuery();
 			) {
 				if (rs.next()) {
-					Schedule schedule = new Schedule();
-					schedule.setScheduleId(rs.getInt("SCHEDULE_ID"));
-					schedule.setMemberNo(rs.getInt("MEMBER_NO"));
-					schedule.setTask(rs.getString("TASK"));
-					schedule.setTagUserDefId(rs.getInt("TAG_USER_DEF_ID"));
-					schedule.setDate(rs.getDate("DATE"));
-					schedule.setStartTime(rs.getTime("START_TIME"));
-					schedule.setEndTime(rs.getTime("END_TIME"));
-					schedule.setRepeatPattern(rs.getInt("REPEAT_PATTERN"));
-					schedule.setReminder(rs.getInt("REMINDER"));
-					schedule.setCreateAt(rs.getTimestamp("CREATE_AT"));
-					return schedule;
+					MemSchedule memSchedule = new MemSchedule();
+					memSchedule.setScheduleId(rs.getInt("SCHEDULE_ID"));
+					memSchedule.setMemberNo(rs.getInt("MEMBER_NO"));
+					memSchedule.setTask(rs.getString("TASK"));
+					memSchedule.setTagUserDefId(rs.getInt("TAG_USER_DEF_ID"));
+					memSchedule.setTagId(rs.getInt("TAG_ID"));
+					memSchedule.setColorHex(rs.getString("COLOR_HEX"));
+					memSchedule.setTagName(rs.getString("TAG_NAME"));
+					memSchedule.setDate(rs.getDate("DATE"));
+					memSchedule.setStartTime(rs.getTime("START_TIME"));
+					memSchedule.setEndTime(rs.getTime("END_TIME"));
+					memSchedule.setRepeatId(rs.getInt("REPEAT_ID"));
+					memSchedule.setRepeatPattern(rs.getString("REPEAT_PATTERN"));
+					memSchedule.setReminderId(rs.getInt("REMINDER_ID"));
+					memSchedule.setReminderType(rs.getString("REMINDER_TYPE"));
+					memSchedule.setCreateAt(rs.getTimestamp("CREATE_AT"));
+					return memSchedule;
 				}
 			}
 		} catch (Exception e) {
