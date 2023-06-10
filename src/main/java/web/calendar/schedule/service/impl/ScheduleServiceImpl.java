@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.sql.Time;
 import java.util.List;
 
+import web.calendar.schedule.bean.MemSchedule;
 import web.calendar.schedule.bean.Schedule;
 import web.calendar.schedule.dao.ReminderDao;
 import web.calendar.schedule.dao.RepeatPatternDao;
@@ -152,7 +153,7 @@ public class ScheduleServiceImpl implements ScheduleService {
 	}
 
 	@Override
-	public List<Schedule> memberScheduleOnDate(Integer memberNo, Date date) {
+	public List<MemSchedule> memberScheduleOnDate(Integer memberNo, Date date) {
 		return dao.selectAllByMemberNoAndDate(memberNo, date);
 	}
 
@@ -162,8 +163,8 @@ public class ScheduleServiceImpl implements ScheduleService {
 	}
 
 	@Override
-	public Schedule singleSchedule(Schedule schedule) {
-		Integer scheduleId = schedule.getScheduleId();
+	public MemSchedule singleSchedule(MemSchedule memSchedule) {
+		Integer scheduleId = memSchedule.getScheduleId();
 		if (scheduleId == null) {
 			return null;
 		}

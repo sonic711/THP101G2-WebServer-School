@@ -89,10 +89,11 @@ public class TagUserDefinedController extends HttpServlet{
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		TagUserDefined tud = gson.fromJson(req.getReader(), TagUserDefined.class);
 		
-		HttpSession session = req.getSession();
-		Member seMember = (Member)session.getAttribute("member");
-		Integer memberNo = seMember.getMemberNo();
-		tud.setMemberNo(memberNo);
+//		HttpSession session = req.getSession();
+//		Member seMember = (Member)session.getAttribute("member");
+//		Integer memberNo = seMember.getMemberNo();
+//		tud.setMemberNo(memberNo);
+		System.out.println(tud);
 		
 		boolean result = USERTAG_SERVICE.edit(tud);
 		
@@ -100,7 +101,7 @@ public class TagUserDefinedController extends HttpServlet{
 		respBody.addProperty("successful", result);
 		respBody.addProperty("message", result ? "編輯成功" : "編輯失敗");
 		
-		resp.getWriter().write(respBody.toString());
+		resp.getWriter().write(gson.toJson(respBody));
 	}
 	
 	/**

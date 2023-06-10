@@ -44,20 +44,20 @@ public class MemberController extends HttpServlet{
 			if (req.getSession(false) != null) {
 				req.changeSessionId();
 			}
+			String profilePhoto64 = null;
+			String coverPicture64 = null;
+			if (member.getProfilePhoto() != null) {
+				profilePhoto64 = Base64.getEncoder().encodeToString(member.getProfilePhoto());
+			}
+			if (member.getCoverPicture() != null) {
+				coverPicture64 = Base64.getEncoder().encodeToString(member.getCoverPicture());
+			}
+			
+			member.setProfilePhoto64(profilePhoto64);
+			member.setCoverPicture64(coverPicture64);
 			req.getSession().setAttribute("member", member);
 		}
 		
-		String profilePhoto64 = null;
-		String coverPicture64 = null;
-		if (member.getProfilePhoto() != null) {
-			profilePhoto64 = Base64.getEncoder().encodeToString(member.getProfilePhoto());
-		}
-		if (member.getCoverPicture() != null) {
-			coverPicture64 = Base64.getEncoder().encodeToString(member.getCoverPicture());
-		}
-		
-		member.setProfilePhoto64(profilePhoto64);
-		member.setCoverPicture64(coverPicture64);
 		resp.getWriter().write(gson.toJson(member));
 	}
 	

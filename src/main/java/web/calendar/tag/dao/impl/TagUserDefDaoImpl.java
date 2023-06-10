@@ -30,6 +30,7 @@ public class TagUserDefDaoImpl implements TagUserDefDao {
 				tud.setTagId(rs.getInt("TAG_ID"));
 				tud.setDefinedColname(rs.getString("DEFINED_COLNAME"));
 				tud.setCreateAt(rs.getTimestamp("CREATE_AT"));
+				tud.setColorHex(rs.getString("COLOR_HEX"));
 				list.add(tud);
 			}
 			return list;
@@ -41,7 +42,10 @@ public class TagUserDefDaoImpl implements TagUserDefDao {
 
 	@Override
 	public List<TagUserDefined> selectByMemberNo(Integer memberNo) {
-		String sql = "select * from TAG_USER_DEFINED where MEMBER_NO = ?";
+		String sql = "select tud.*, tc.COLOR_HEX "
+				+ "from TAG_USER_DEFINED tud "
+				+ "join TAG_COLOR tc on tud.TAG_ID = tc.TAG_ID "
+				+ "where tud.MEMBER_NO = ?";
 		try (
 			Connection conn = getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -58,6 +62,7 @@ public class TagUserDefDaoImpl implements TagUserDefDao {
 					tud.setTagId(rs.getInt("TAG_ID"));
 					tud.setDefinedColname(rs.getString("DEFINED_COLNAME"));
 					tud.setCreateAt(rs.getTimestamp("CREATE_AT"));
+					tud.setColorHex(rs.getString("COLOR_HEX"));
 					list.add(tud);
 				}
 				return list;
@@ -88,14 +93,13 @@ public class TagUserDefDaoImpl implements TagUserDefDao {
 
 	@Override
 	public int update(TagUserDefined tud) {
-		String sql = "update TAG_USER_DEFINED set TAG_ID = ?, DEFINED_COLNAME = ? where TAG_USER_DEFINED_ID = ?";
+		String sql = "update TAG_USER_DEFINED set DEFINED_COLNAME = ? where TAG_USER_DEFINED_ID = ?";
 		try (
 			Connection conn = getConnection();
 			PreparedStatement pstmt = conn.prepareStatement(sql);
 		){
-			pstmt.setInt(1, tud.getTagId());
-			pstmt.setString(2, tud.getDefinedColname());
-			pstmt.setInt(3, tud.getTagUserDefinedId());
+			pstmt.setString(1, tud.getDefinedColname());
+			pstmt.setInt(2, tud.getTagUserDefinedId());
 			return pstmt.executeUpdate();
 		} catch (Exception e) {
 			e.printStackTrace();
