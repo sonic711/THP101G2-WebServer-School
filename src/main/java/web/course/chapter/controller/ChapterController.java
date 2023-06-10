@@ -28,7 +28,7 @@ public class ChapterController extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String chapterInfo = req.getPathInfo();
 		if (chapterInfo == null || Objects.equals(chapterInfo, "/")) {
-			writeJsonBean(resp, CHAPTER_SERVICE.findAllChapter());
+			writeJsonBean(resp, new CoreBean(false, "不支援此方法"));
 		} else {
 			try {
 				chapterInfo = chapterInfo.substring(1);
