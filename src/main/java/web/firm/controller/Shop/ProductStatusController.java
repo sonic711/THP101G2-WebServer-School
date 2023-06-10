@@ -1,4 +1,4 @@
-package web.firm.controller;
+package web.firm.controller.Shop;
 
 import static core.util.CommonUtil.json2Bean;
 import static core.util.CommonUtil.writeJsonBean;
@@ -18,7 +18,11 @@ import web.firm.bean.ShopProduct;
 
 @WebServlet("/productstatus/*")
 public class ProductStatusController extends HttpServlet{
-
+	
+	
+	/**
+	 * 商品下架 測試ok
+	 */
 	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		try {
@@ -29,6 +33,10 @@ public class ProductStatusController extends HttpServlet{
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * 回傳商品資料 
+	 */
 	
 	@Override
 	protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
