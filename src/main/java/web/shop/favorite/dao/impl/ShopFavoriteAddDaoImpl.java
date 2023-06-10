@@ -33,7 +33,7 @@ public class ShopFavoriteAddDaoImpl  implements ShopFavoriteAddDao{
 
 	@Override
 	public List<ShopFavoriteAdd> selectFavoriteProduct(Integer favoriteproductid) {
-		final String SQL = "SELECT sp.SHOP_PRODUCT_IMG,sp.SHOP_PRODUCT_ID, sp.SHOP_PRODUCT_NAME, sp.SHOP_NAME "
+		final String SQL = "SELECT sp.SHOP_PRODUCT_IMG,sp.SHOP_PRODUCT_ID, sp.SHOP_PRODUCT_NAME, sp.SHOP_NAME,sm.SHOP_MEMBER_NO "
 				+ "FROM SHOP_MYFAVOURIRE sm "
 				+ "JOIN SHOP_PRODUCT sp ON sm.SHOP_PRODUCT_ID = sp.SHOP_PRODUCT_ID "
 				+ "WHERE sp.SHOP_PRODUCT_ID = ? ";
@@ -50,6 +50,7 @@ public class ShopFavoriteAddDaoImpl  implements ShopFavoriteAddDao{
                 	shopFavoriteProduct.setShopProductId(rs.getInt("SHOP_PRODUCT_ID"));
                 	shopFavoriteProduct.setShopProductName(rs.getString("SHOP_PRODUCT_NAME"));
                 	shopFavoriteProduct.setShopName(rs.getString("SHOP_NAME"));
+                	shopFavoriteProduct.setMemberNo(rs.getInt("MEMBER_NO"));
                     resultList.add(shopFavoriteProduct);
                 }
             }
@@ -57,12 +58,12 @@ public class ShopFavoriteAddDaoImpl  implements ShopFavoriteAddDao{
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return null;	
     }
 
 	@Override
 	public List<ShopFavoriteAdd> selectAllFavoriteProducts() {
-	    final String SQL = "SELECT sp.SHOP_PRODUCT_IMG,sp.SHOP_PRODUCT_ID, sp.SHOP_PRODUCT_NAME, sp.SHOP_NAME "
+	    final String SQL = "SELECT sp.SHOP_PRODUCT_IMG,sp.SHOP_PRODUCT_ID, sp.SHOP_PRODUCT_NAME, sp.SHOP_NAME,sm.MEMBER_NO "
 	    		+ "FROM SHOP_MYFAVOURIRE sm "
 	    		+ "JOIN SHOP_PRODUCT sp ON sm.SHOP_PRODUCT_ID = sp.SHOP_PRODUCT_ID ";
 	    List<ShopFavoriteAdd> resultList = new ArrayList<>();
@@ -77,6 +78,7 @@ public class ShopFavoriteAddDaoImpl  implements ShopFavoriteAddDao{
 	                shopFavoriteProduct.setShopProductId(rs.getInt("SHOP_PRODUCT_ID"));
 	                shopFavoriteProduct.setShopProductName(rs.getString("SHOP_PRODUCT_NAME"));
 	                shopFavoriteProduct.setShopName(rs.getString("SHOP_NAME"));
+	                shopFavoriteProduct.setMemberNo(rs.getInt("MEMBER_NO"));
 	                resultList.add(shopFavoriteProduct);
 	            }
 	        }
@@ -90,7 +92,7 @@ public class ShopFavoriteAddDaoImpl  implements ShopFavoriteAddDao{
 
 	@Override
 	public int deleteByKey(Integer id) {
-		 final String SQL = "delete from SHOP_MYFAVOURIRE where SHOP_PRODUCT_ID = ?";
+		 final String SQL = "delete from SHOP_MYFAVOURIRE where SHOP_PRODUCT_ID = ? ";
 	        try (
 	                Connection conn = getConnection();
 	                PreparedStatement pstmt = conn.prepareStatement(SQL)
