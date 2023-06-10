@@ -40,8 +40,9 @@ public class ShoppingCartController extends HttpServlet{
 				String[] xxx = str.split("/");
 				if (xxx.length > 0) {
 					 if (xxx[0].equals("point")) {
+						 Integer id = Integer.parseInt(xxx[0]);
 		                    // 处理 "/point/" 的逻辑
-		                    writeJsonBean(resp, SHOPPING_CART.selectPoint());
+		                    writeJsonBean(resp, SHOPPING_CART.selectPoint(id));
 		                    return; // 结束方法，防止执行其他逻辑
 		                } else {
 		                    Integer id = Integer.parseInt(xxx[0]);

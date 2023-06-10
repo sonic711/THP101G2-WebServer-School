@@ -126,13 +126,14 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao{
 	}
 
 	@Override
-	public List<ShoppingCart> selectPoint() {
-		final String SQL = "SELECT REWARD_POINTS FROM MEMBER WHERE MEMBER_NO = 1";
+	public List<ShoppingCart> selectPoint(Integer id) {
+		final String SQL = "SELECT REWARD_POINTS FROM MEMBER WHERE MEMBER_NO = ?";
         List<ShoppingCart> resultList = new ArrayList<>();
         try (
                 Connection conn = getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(SQL);
         ) {
+        	pstmt.setInt(1,id);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                 	ShoppingCart shoppingCartProduct = new ShoppingCart();
