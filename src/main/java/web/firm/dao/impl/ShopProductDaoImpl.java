@@ -226,7 +226,17 @@ public class ShopProductDaoImpl implements ShopProductDao {
 				if (rs.next()) {
 					ShopProduct shopProduct = new ShopProduct();
 					shopProduct.setShopProductId(rs.getInt("SHOP_PRODUCT_ID"));
+					shopProduct.setShopProductName(rs.getString("SHOP_PRODUCT_NAME"));
+					shopProduct.setShopProductPrice(rs.getInt("SHOP_PRODUCT_PRICE"));
+					shopProduct.setShopProductSearch(rs.getString("SHOP_PRODUCT_SEARCH"));
+					shopProduct.setShopProductClass(rs.getString("SHOP_PRODUCT_CLASS"));
+					shopProduct.setShopProductDesc(rs.getString("SHOP_PRODUCT_DESC"));
 					shopProduct.setShopProductStatus(rs.getInt("SHOP_PRODUCT_STATUS"));
+					shopProduct.setShopProductCount(rs.getInt("SHOP_PRODUCT_COUNT"));
+					shopProduct.setShopName(rs.getString("SHOP_NAME"));
+					shopProduct.setFirmNo(rs.getInt("FIRM_NO"));
+					
+					shopProduct.setShopProductImg(rs.getBytes("SHOP_PRODUCT_IMG"));
 					
 					return shopProduct;
 				}

@@ -63,6 +63,13 @@ public class ShopProductServiceImpl implements ShopProductService {
 
 	@Override
 	public ShopProduct selectByProductId(Integer shopProductId) {
+		
+		ShopProduct shopProduct = new ShopProduct();
+		String shopProductImgBase64 = shopProduct.getShopProductImgBase64();
+		if (shopProductImgBase64 != null && !shopProductImgBase64.isEmpty()) {
+			byte[] shopProductImg = Base64.getDecoder().decode(shopProductImgBase64);
+			shopProduct.setShopProductImg(shopProductImg);
+		}
 		return dao.selectByProductId(shopProductId);
 	}
 
