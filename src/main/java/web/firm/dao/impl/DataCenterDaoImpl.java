@@ -18,10 +18,11 @@ public class DataCenterDaoImpl implements DataCenterDao {
 	@Override
 	public List<DataCenter> selectAll() {
 		final String SQL = "select FIRM_NO,SHOP_PRODUCT_ID, SHOP_PRODUCT_NAME, sum(SHOP_ORDER_COUNT) as allCount," 
-				+ " sum(SHOP_PRODUCT_SALES) as sumSales"
+				+ " sum(SHOP_PRODUCT_SALES) as sumSales,"
+				+ " SHOP_ORDER_IMG"
 				+ " from shop_order " 
 				+ " group by" 
-				+ " SHOP_PRODUCT_ID,SHOP_PRODUCT_NAME,FIRM_NO";
+				+ " SHOP_PRODUCT_ID,SHOP_PRODUCT_NAME,FIRM_NO,SHOP_ORDER_IMG";
 			// 要有東西才能夠抓，所以有要顯示的都要查詢
 		List<DataCenter> dataList = new ArrayList<>();
 		try (
@@ -36,6 +37,8 @@ public class DataCenterDaoImpl implements DataCenterDao {
 				dataCenter.setShopProductName(rs.getString("SHOP_PRODUCT_NAME"));
 				dataCenter.setShopProductSales(rs.getInt("sumSales"));
 				dataCenter.setShopOrderCount(rs.getInt("allCount"));
+				
+				dataCenter.setShopOrderImg(rs.getBytes("SHOP_ORDER_IMG"));
 
 				dataList.add(dataCenter);
 			}
@@ -48,10 +51,10 @@ public class DataCenterDaoImpl implements DataCenterDao {
 
 	@Override
 	public List<DataCenter> selectByFirmNo(Integer firmNo) {
-		final String SQL = "select FIRM_NO,SHOP_PRODUCT_ID,SHOP_PRODUCT_NAME, sum(SHOP_ORDER_COUNT) as allCount, sum(SHOP_PRODUCT_SALES) as sumSales"
+		final String SQL = "select FIRM_NO,SHOP_PRODUCT_ID,SHOP_PRODUCT_NAME, sum(SHOP_ORDER_COUNT) as allCount, sum(SHOP_PRODUCT_SALES) as sumSales,SHOP_ORDER_IMG"
 				+ " from shop_order "
 				+ " where FIRM_NO = ?"
-				+ " group by SHOP_PRODUCT_ID, SHOP_PRODUCT_NAME" ;
+				+ " group by SHOP_PRODUCT_ID, SHOP_PRODUCT_NAME, SHOP_ORDER_IMG" ;
 				
 		List<DataCenter> dataProductIdList = new ArrayList<>();
 		try (
@@ -67,6 +70,8 @@ public class DataCenterDaoImpl implements DataCenterDao {
 					dataProductIdCenter.setShopProductSales(rs.getInt("sumSales"));
 					dataProductIdCenter.setShopOrderCount(rs.getInt("allCount"));
 					dataProductIdCenter.setFirmNo(rs.getInt("FIRM_NO"));
+					
+					dataProductIdCenter.setShopOrderImg(rs.getBytes("SHOP_ORDER_IMG"));
 
 					dataProductIdList.add(dataProductIdCenter);
 				}
