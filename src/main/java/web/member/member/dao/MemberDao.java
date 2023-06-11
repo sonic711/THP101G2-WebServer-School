@@ -20,5 +20,6 @@ public interface MemberDao {
 	
 	int updateByMemberNo(Member member); // 更新會員資料(service-edit)
 	
+	String selectPasswordByEmail(String email);
 	
 }
