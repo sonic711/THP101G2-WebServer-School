@@ -1,6 +1,7 @@
 package web.firm.bean;
 
 import java.sql.Timestamp;
+import java.util.Arrays;
 
 public class DataCenter {
 
@@ -8,7 +9,8 @@ public class DataCenter {
 	public String toString() {
 		return "DataCenter [shopOrderDescId=" + shopOrderDescId + ", shopOrderId=" + shopOrderId + ", shopOrderCount="
 				+ shopOrderCount + ", shopProductName=" + shopProductName + ", shopProductSales=" + shopProductSales
-				+ ", shopProductId=" + shopProductId + ", firmNo=" + firmNo + "]";
+				+ ", shopProductId=" + shopProductId + ", firmNo=" + firmNo + ", shopOrderImg="
+				+ Arrays.toString(shopOrderImg) + ", shopOrderImgBase64=" + shopOrderImgBase64 + "]";
 	}
 
 	Integer shopOrderDescId;
@@ -18,6 +20,8 @@ public class DataCenter {
 	Integer shopProductSales;
 	Integer shopProductId;
 	Integer firmNo;
+	byte[] shopOrderImg;
+	private String shopOrderImgBase64;
 
 	public Integer getShopOrderDescId() {
 		return shopOrderDescId;
@@ -73,6 +77,22 @@ public class DataCenter {
 
 	public void setFirmNo(Integer firmNo) {
 		this.firmNo = firmNo;
+	}
+
+	public byte[] getShopOrderImg() {
+		return shopOrderImg;
+	}
+
+	public void setShopOrderImg(byte[] shopOrderImg) {
+		this.shopOrderImg = shopOrderImg;
+	}
+
+	public String getShopOrderImgBase64() {
+		return shopOrderImgBase64;
+	}
+
+	public void setShopOrderImgBase64(String shopOrderImgBase64) {
+		this.shopOrderImgBase64 = shopOrderImgBase64;
 	}
 
 }

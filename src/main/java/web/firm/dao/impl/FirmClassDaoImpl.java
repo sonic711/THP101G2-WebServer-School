@@ -167,8 +167,9 @@ String sql = "select * from FIRM where USER_ID = ?";
 				if (rs.next()) {
 					FirmClass firm = new FirmClass();
 					firm.setFirmNo(rs.getInt("FIRM_NO"));
-					firm.setUserId(rs.getString("USER_ID"));
 					firm.setPassword(rs.getString("PASSWORD"));
+					firm.setUserId(rs.getString("USER_ID"));
+					
 					firm.setShopName(rs.getString("SHOP_NAME"));
 					firm.setPhoneNumber(rs.getString("PHONE_NUMBER"));
 					firm.setFirmEmail(rs.getString("FIRM_EMAIL"));

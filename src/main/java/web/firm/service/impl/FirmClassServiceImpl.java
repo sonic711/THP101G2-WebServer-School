@@ -25,8 +25,6 @@ public class FirmClassServiceImpl implements FirmClassService{
 	// 更新賣場資料
 	@Override
 	public boolean editFirm(FirmClass firmClass) {
-		int result = dao.update(firmClass);
-		
 		String profilePhoto64 = firmClass.getProfilePhoto64();
 		if (profilePhoto64 != null && !profilePhoto64.isEmpty()) {
 			byte[] profilePhoto = Base64.getDecoder().decode(profilePhoto64);
@@ -38,6 +36,7 @@ public class FirmClassServiceImpl implements FirmClassService{
 			firmClass.setCoverPhoto(coverPhoto);
 		}
 		
+		int result = dao.update(firmClass);
 		System.out.println(result);
 		return result >= 1;
 	}
@@ -64,6 +63,23 @@ public class FirmClassServiceImpl implements FirmClassService{
 	@Override
 	public FirmClass searchFirm(String email) {
 		return dao.selectByEmail(email);
+	}
+
+	@Override
+	public FirmClass login(FirmClass firm) {
+		// 信箱: 不為空
+		String email =  firm.getFirmEmail();
+		if (email == null || email.isEmpty()) {
+			return null;
+		}
+		
+		// 密碼: 不為空
+		String password = firm.getPassword();
+		if (password == null || password.isEmpty()) {
+			return null;
+		}
+		
+		return dao.selectByEmailAndPassword(firm.getFirmEmail(), firm.getPassword());
 	}
 
 
