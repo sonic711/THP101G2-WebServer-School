@@ -27,8 +27,8 @@ public class PostDaoImpl implements PostDao {
             pstmt.setString(4, post.getComPostContent());
             pstmt.setBoolean(5, post.getComPostStatus());
             pstmt.executeUpdate();
-            try(ResultSet rs = pstmt.getGeneratedKeys()){
-                if (rs.next()){
+            try (ResultSet rs = pstmt.getGeneratedKeys()) {
+                if (rs.next()) {
                     return rs.getInt(1);
                 }
             }
@@ -106,7 +106,11 @@ public class PostDaoImpl implements PostDao {
     // TODO 做成SP
     @Override
     public List<Post> selectAll() {
-        final String SQL = "select p.*, cs.COM_SECCLASS_NAME, l.*, m.USER_ID, m.NICKNAME, m.PROFILE_PHOTO from COM_POST p left join COM_SECCLASS CS on CS.COM_SECCLASS_ID = p.COM_SECCLASS_ID left join MEMBER m on p.MEMBER_NO = m.MEMBER_NO left join COM_LABEL l on l.COM_POST_ID = p.COM_POST_ID order by p.COM_POST_ID desc ;";
+        final String SQL = "select p.*, cs.COM_SECCLASS_NAME, l.*, m.USER_ID, m.NICKNAME, m.PROFILE_PHOTO from COM_POST p " +
+                           "left join COM_SECCLASS CS on CS.COM_SECCLASS_ID = p.COM_SECCLASS_ID " +
+                           "left join MEMBER m on p.MEMBER_NO = m.MEMBER_NO " +
+                           "left join COM_LABEL l on l.COM_POST_ID = p.COM_POST_ID " +
+                           "order by p.COM_POST_ID desc ;";
         List<Post> resultList = new ArrayList<>();
         try (
                 Connection conn = getConnection();
@@ -178,28 +182,40 @@ public class PostDaoImpl implements PostDao {
 
     @Override
     public List<Post> selectAllByMemId(Integer id) {
-        final String SQL = "select * from COM_POST where MEMBER_NO = ?";
+        final String SQL = "select p.*, cs.COM_SECCLASS_NAME, l.*, m.USER_ID, m.NICKNAME, m.PROFILE_PHOTO from COM_POST p " +
+                           "left join COM_SECCLASS CS on CS.COM_SECCLASS_ID = p.COM_SECCLASS_ID " +
+                           "left join MEMBER m on p.MEMBER_NO = m.MEMBER_NO " +
+                           "left join COM_LABEL l on l.COM_POST_ID = p.COM_POST_ID " +
+                           "where p.MEMBER_NO = ? order by p.COM_POST_ID desc ;";
         List<Post> resultList = new ArrayList<>();
         try (
                 Connection conn = getConnection();
-                PreparedStatement pstmt = conn.prepareStatement(SQL)
+                PreparedStatement pstmt = conn.prepareStatement(SQL);
         ) {
             pstmt.setInt(1, id);
-            try (ResultSet rs = pstmt.executeQuery()) {
+            try (ResultSet rs = pstmt.executeQuery();) {
                 while (rs.next()) {
                     Post post = new Post();
                     post.setComPostId(rs.getInt("COM_POST_ID"));
                     post.setMemberNo(rs.getInt("MEMBER_NO"));
+                    post.setUserId(rs.getString("USER_ID"));
+                    post.setNickName(rs.getString("NICKNAME"));
+                    post.setProfilePhoto(rs.getBytes("PROFILE_PHOTO"));
                     post.setComSecClassId(rs.getInt("COM_SECCLASS_ID"));
+                    post.setComSecClassName(rs.getString("COM_SECCLASS_NAME"));
+                    post.setComPostLabelId(rs.getInt("COM_LABEL_ID"));
+                    post.setComPostLabelName(rs.getString("COM_LABEL_NAME"));
+                    post.setComPostLabelTime(rs.getTimestamp("COM_LABEL_TIME"));
                     post.setComPostTitle(rs.getString("COM_POST_TITLE"));
                     post.setComPostContent(rs.getString("COM_POST_CONTENT"));
                     post.setComPostTime(rs.getTimestamp("COM_POST_TIME"));
                     post.setComPostStatus(rs.getBoolean("COM_POST_STATUS"));
                     post.setComPostAccessSetting(rs.getBoolean("COM_POST_ACCESS_SETTING"));
+
                     resultList.add(post);
                 }
-                return resultList;
             }
+            return resultList;
         } catch (Exception e) {
             e.printStackTrace();
         }

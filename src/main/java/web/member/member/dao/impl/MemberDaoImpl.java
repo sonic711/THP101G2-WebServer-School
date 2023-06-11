@@ -265,7 +265,7 @@ public class MemberDaoImpl implements MemberDao {
 
 	@Override
 	public Member selectByEmail(String email) {
-String sql = "select * from MEMBER where MEMBER_EMAIL = ?";
+		String sql = "select * from MEMBER where MEMBER_EMAIL = ?";
 		
 		try(
 			Connection conn = getConnection();
@@ -291,6 +291,31 @@ String sql = "select * from MEMBER where MEMBER_EMAIL = ?";
 					member.setRewardPoints(rs.getInt("REWARD_POINTS"));
 					member.setCreateAt(rs.getTimestamp("CREATE_AT"));
 					return member;
+				}
+			} 
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	@Override
+	public String selectPasswordByEmail(String email) {
+		String sql = "select PASSWORD from MEMBER where MEMBER_EMAIL = ?";
+		
+		try(
+			Connection conn = getConnection();
+			PreparedStatement pstmt = conn.prepareStatement(sql);		
+		) { 
+			pstmt.setString(1, email);
+			try (
+				ResultSet rs = pstmt.executeQuery();
+			){
+				if (rs.next()) {
+					Member member = new Member();
+					member.setPassword(rs.getString("PASSWORD"));
+					return member.getPassword();
 				}
 			} 
 			
