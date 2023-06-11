@@ -68,7 +68,7 @@ public class MemberController extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Member member = gson.fromJson(req.getReader(), Member.class);
-		
+		System.out.println(member);
 		boolean result = MEMBER_SERVICE.register(member);
 		
 		JsonObject respBody = new JsonObject();
