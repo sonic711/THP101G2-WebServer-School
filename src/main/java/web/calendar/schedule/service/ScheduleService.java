@@ -3,6 +3,7 @@ package web.calendar.schedule.service;
 import java.sql.Date;
 import java.util.List;
 
+import web.calendar.schedule.bean.MemSchedule;
 import web.calendar.schedule.bean.Schedule;
 
 public interface ScheduleService {
@@ -13,9 +14,9 @@ public interface ScheduleService {
 	
 	boolean delete(Schedule schedule);
 	
-	List<Schedule> memberScheduleOnDate(Integer memberNo, Date date);
+	List<MemSchedule> memberScheduleOnDate(Integer memberNo, Date date);
 	
 	List<Schedule> findAll();
 	
-	Schedule singleSchedule(Schedule schedule);
+	MemSchedule singleSchedule(MemSchedule memSchedule);
 }

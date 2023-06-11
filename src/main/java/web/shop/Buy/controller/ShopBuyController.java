@@ -47,11 +47,15 @@ public class ShopBuyController extends HttpServlet {
 	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String pathInfo = req.getPathInfo();
 		try {
-			pathInfo = pathInfo.substring(1);
-			String[] pathVariables = pathInfo.split("/");
-			Integer id = Integer.parseInt(pathVariables[0]);
-			boolean result = SHOP_BUY.delete(id);
-			writeJsonBean(resp, new CoreBean(result));
+//			pathInfo = pathInfo.substring(1);
+//			String[] pathVariables = pathInfo.split("/");
+//			Integer id = Integer.parseInt(pathVariables[0]);
+//			boolean result = SHOP_BUY.delete(id);
+//			writeJsonBean(resp, new CoreBean(result));
+			 pathInfo = pathInfo.substring(1);
+		        Integer id = Integer.parseInt(pathInfo);
+		        boolean result = SHOP_BUY.delete(id);
+		        writeJsonBean(resp, new CoreBean(result));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

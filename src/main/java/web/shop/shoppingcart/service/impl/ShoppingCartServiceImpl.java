@@ -41,9 +41,9 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 	}
 
 	@Override
-	public List<ShoppingCart> selectPoint() {
+	public List<ShoppingCart> selectPoint(Integer id) {
 		// TODO Auto-generated method stub
-		return dao.selectPoint();
+		return dao.selectPoint(id);
 	}
 
 }

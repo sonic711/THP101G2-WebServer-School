@@ -8,11 +8,12 @@ public class TagUserDefined {
 	private Integer tagId;
 	private String definedColname;
 	private Timestamp createAt;
-	
+	private String colorHex;
+
 	@Override
 	public String toString() {
 		return "TagUserDefined [tagUserDefinedId=" + tagUserDefinedId + ", memberNo=" + memberNo + ", tagId=" + tagId
-				+ ", definedColname=" + definedColname + ", createAt=" + createAt + "]";
+				+ ", definedColname=" + definedColname + ", createAt=" + createAt + ", colorHex=" + colorHex + "]";
 	}
 
 	public Integer getTagUserDefinedId() {
@@ -54,5 +55,13 @@ public class TagUserDefined {
 	public void setCreateAt(Timestamp createAt) {
 		this.createAt = createAt;
 	}
-	
+
+	public String getColorHex() {
+		return colorHex;
+	}
+
+	public void setColorHex(String colorHex) {
+		this.colorHex = colorHex;
+	}
+
 }
