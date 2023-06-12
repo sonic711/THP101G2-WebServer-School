@@ -24,6 +24,9 @@ public class ChapterController extends HttpServlet {
 	 */
 	private static final long serialVersionUID = 1L;
 
+	
+	
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String chapterInfo = req.getPathInfo();
@@ -34,10 +37,12 @@ public class ChapterController extends HttpServlet {
 				chapterInfo = chapterInfo.substring(1);
 				String[] pathVariables = chapterInfo.split("/");
 				Integer id = Integer.parseInt(pathVariables[0]);
+				System.out.println(CHAPTER_SERVICE.findAllByChapterId(id));
 				writeJsonBean(resp, CHAPTER_SERVICE.findAllByChapterId(id));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+
 		}
 	}
 
