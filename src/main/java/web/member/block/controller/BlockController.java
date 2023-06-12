@@ -47,11 +47,13 @@ public class BlockController extends HttpServlet{
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Gson gson = new Gson();
-		Block block = gson.fromJson(req.getReader(), Block.class);
+		Member member = gson.fromJson(req.getReader(), Member.class);
 		HttpSession session = req.getSession();
 		Member seMember = (Member) session.getAttribute("member");
-		Integer memberNo = seMember.getMemberNo();
-		block.setMemberNo(memberNo);
+		Block block = new Block();
+		System.out.println(member);
+		block.setMemberNo(seMember.getMemberNo());
+		block.setMemberBlocking(member.getMemberNo());
 		
 		boolean result = BLOCK_SERVICE.add(block);
 		
@@ -59,7 +61,7 @@ public class BlockController extends HttpServlet{
 		respBody.addProperty("successful", result);
 		respBody.addProperty("message", result ? "新增成功" : "新增失敗");
 		
-		resp.getWriter().write(gson.toJson(respBody.toString()));
+		resp.getWriter().write(gson.toJson(respBody));
 	}
 	
 	/**
