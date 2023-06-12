@@ -34,7 +34,7 @@ public class FirmDaoImplToGrace implements FirmDaoToGrace {
 
 	@Override
 	public int update(FirmClass firmClass) {
-		final StringBuilder SQL = new StringBuilder("update firm set ");
+		final StringBuilder SQL = new StringBuilder("update firm set  ");
 		Integer firmNo = firmClass.getFirmNo();
 		String userId = firmClass.getUserId();
 		String password = firmClass.getPassword();
@@ -44,23 +44,23 @@ public class FirmDaoImplToGrace implements FirmDaoToGrace {
 		byte[] coverPhoto = firmClass.getCoverPhoto();
 		String shopInfo = firmClass.getShopInfo();
 		
-		if(userId != null || !userId.isEmpty()) {
+		if(userId != null && !userId.isEmpty()) {
 			SQL.append("USER_ID =?, ");
 		}
-		if (password != null || !password.isEmpty()) {
+		if (password != null && !password.isEmpty()) {
 			SQL.append("PASSWORD =?, ");
 		}
 		if (shopName != null && !shopName.isEmpty()) {
-			SQL.append("SHOP_NAME =?,");
+			SQL.append("SHOP_NAME =?, ");
 		}
-		if (firmEmail != null || !firmEmail.isEmpty()) {
+		if (firmEmail != null && !firmEmail.isEmpty()) {
 			SQL.append("FIRM_EMAIL =?, ");
 		}
 		if (profilePhoto != null ) {
-			SQL.append("PROFILE_PHOTO = ?,");
+			SQL.append("PROFILE_PHOTO = ?, ");
 		}
 		if (coverPhoto != null ) {
-			SQL.append("COVER_PHOTO = ?,");
+			SQL.append("COVER_PHOTO = ?, ");
 		}
 		if (shopInfo != null && !shopInfo.isEmpty()) {
 			SQL.append("SHOP_INFO = ?, ");
@@ -74,13 +74,13 @@ public class FirmDaoImplToGrace implements FirmDaoToGrace {
 			if (userId != null && !userId.isEmpty()) {
 				pstmt.setString(offset++, firmClass.getUserId());
 			}
-			if (password != null || !password.isEmpty()) {
+			if (password != null && !password.isEmpty()) {
 				pstmt.setString(offset++, firmClass.getPassword());
 			}
 			if (shopName != null && !shopName.isEmpty()) {
 				pstmt.setString(offset++, firmClass.getShopName());
 			}
-			if (firmEmail != null || !firmEmail.isEmpty()) {
+			if (firmEmail != null && !firmEmail.isEmpty()) {
 				pstmt.setString(offset++, firmClass.getFirmEmail());
 			}
 			if (profilePhoto != null ) {

@@ -21,4 +21,7 @@ public interface FirmClassService {
 
 		FirmClass searchFirm(String email);
 		
+		
+		// 登入
+		FirmClass login(FirmClass firm);
 }

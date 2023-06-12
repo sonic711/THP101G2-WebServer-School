@@ -57,11 +57,16 @@ public class ShopFavoriteAddController extends HttpServlet {
         String pathInfo = req.getPathInfo();
 
         try {
-            pathInfo = pathInfo.substring(1);
-            String[] pathVariables = pathInfo.split("/");
-            Integer id = Integer.parseInt(pathVariables[0]);
-            boolean result = SHOP_FAVORITE_ADD_SERVICE.favdeletproduct(id);
-            writeJsonBean(resp, new CoreBean(result));
+        	  if (pathInfo != null && pathInfo.length() > 1) {
+                  pathInfo = pathInfo.substring(1);
+                  String[] pathVariables = pathInfo.split("/");
+                  Integer id = Integer.parseInt(pathVariables[0]);
+                  boolean result = SHOP_FAVORITE_ADD_SERVICE.favdeletproduct(id);
+                  writeJsonBean(resp, new CoreBean(result));
+              } else {
+            	  return;
+              }
+
         } catch (Exception e) {
             e.printStackTrace();
         }

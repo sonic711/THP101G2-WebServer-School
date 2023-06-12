@@ -39,22 +39,22 @@ public class ShopBuyDaoImpl implements ShopBuyDao {
 	// 查询数据
 	public List<ShopBuy> selectAll() {
 		String SQL = "SELECT so.SHOP_ORDER_ID,"
-				+ "				fp.SHOP_NAME,"
-				+ "				so.SHOP_PRODUCT_ID,"
-				+ "				so.MEMBER_NO,"
-				+ "				so.SHOP_ADDRESS,"
-				+ "				so.SHOP_RECIPIENT,"
-				+ "				so.SHOP_ORDER_PHONE,"
-				+ "				so.SHOP_POINT_DISCOUNT,"
-				+ "				so.SHOP_ORDER_STATUS,"
-				+ "				so.SHOP_PRODUCT_SALES,"
-				+ "				so.SHOP_PRODUCT_NAME,"
-				+ "				so.SHOP_ORDERCREATE_TIME,"
-				+ "				so.SHOP_ORDER_IMG"
-				+ "				FROM"
-				+ "				SHOP_ORDER so"
-				+ "				JOIN"
-				+ "				FIRM fp ON so.FIRM_NO = fp.FIRM_NO;";
+				+ "fp.SHOP_NAME,"
+				+ "so.SHOP_PRODUCT_ID,"
+				+ "so.MEMBER_NO,"
+				+ "so.SHOP_ADDRESS,"
+				+ "so.SHOP_RECIPIENT,"
+				+ "so.SHOP_ORDER_PHONE,"
+				+ "so.SHOP_POINT_DISCOUNT,"
+				+ "so.SHOP_ORDER_STATUS,"
+				+ "so.SHOP_PRODUCT_SALES,"
+				+ "so.SHOP_PRODUCT_NAME,"
+				+ "so.SHOP_ORDERCREATE_TIME,"
+				+ "so.SHOP_ORDER_IMG "
+				+ "FROM "
+				+ "SHOP_ORDER so "
+				+ "JOIN "
+				+ "FIRM fp ON so.FIRM_NO = fp.FIRM_NO;";
 		List<ShopBuy> shopBuyList = new ArrayList<>();
 		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(SQL);
 
@@ -103,6 +103,7 @@ public class ShopBuyDaoImpl implements ShopBuyDao {
 	}
 
 	// 删除数据
+	@Override
 	public int delete(Integer id) {
 		String SQL = "DELETE FROM SHOP_SHOPPING_CART WHERE SHOP_PRODUCT_ID = ?";
 		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(SQL)) {
@@ -117,11 +118,12 @@ public class ShopBuyDaoImpl implements ShopBuyDao {
 	@Override
 	public int updatepoint(ShopBuy shopBuy) {
 		String SQL = "UPDATE MEMBER SET REWARD_POINTS = ? "
-				 + "WHERE MEMBER_NO = 1";
+				 + "WHERE MEMBER_NO = ?";
 	try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(SQL);
 
 	) {
 		pstmt.setInt(1, shopBuy.getRewardPoints());
+		pstmt.setInt(2, shopBuy.getMemberNo());
 		pstmt.executeUpdate();
 	} catch (Exception e) {
 		e.printStackTrace();

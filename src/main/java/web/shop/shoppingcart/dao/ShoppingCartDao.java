@@ -14,5 +14,5 @@ public interface ShoppingCartDao {
 	
 	List<ShoppingCart> selectCartProduct(Integer id);
 	
-	List<ShoppingCart> selectPoint();
+	List<ShoppingCart> selectPoint(Integer id);
 }

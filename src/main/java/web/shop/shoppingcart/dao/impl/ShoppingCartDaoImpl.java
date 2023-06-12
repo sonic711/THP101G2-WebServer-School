@@ -60,7 +60,7 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao{
 				+ "m.REWARD_POINTS "
 				+ "FROM SHOP_SHOPPING_CART sc "
 				+ "JOIN SHOP_PRODUCT sp ON sc.SHOP_PRODUCT_ID = sp.SHOP_PRODUCT_ID "
-				+ "JOIN MEMBER m ON sc.MEMBER_NO = m.MEMBER_NO WHERE m.MEMBER_NO = 1";
+				+ "JOIN MEMBER m ON sc.MEMBER_NO = m.MEMBER_NO ";
         List<ShoppingCart> resultList = new ArrayList<>();
         try (
                 Connection conn = getConnection();
@@ -76,6 +76,7 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao{
                 	shoppingCartProduct.setShopProductCount(rs.getInt("SHOP_PRODUCT_COUNT"));
                 	shoppingCartProduct.setShopProductPrice(rs.getInt("SHOP_PRODUCT_PRICE"));
                 	shoppingCartProduct.setRewardPoints(rs.getInt("REWARD_POINTS"));
+                	shoppingCartProduct.setMemberNo(rs.getInt("MEMBER_NO"));
                 	shoppingCartProduct.setFirmNo(rs.getInt("FIRM_NO"));
                     resultList.add(shoppingCartProduct);
                 }
@@ -96,6 +97,7 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao{
 	    		+ "sp.SHOP_PRODUCT_COUNT,"
 	    		+ "sp.SHOP_PRODUCT_PRICE,"
 	    		+ "sp.FIRM_NO,"
+	    		+ "sc.MEMBER_NO,"
 	    		+ "sp.SHOP_PRODUCT_IMG "
 	    		+ "FROM SHOP_SHOPPING_CART sc "
 	    		+ "JOIN SHOP_PRODUCT sp ON sc.SHOP_PRODUCT_ID = sp.SHOP_PRODUCT_ID WHERE sp.SHOP_PRODUCT_ID = ?";
@@ -115,6 +117,7 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao{
                 	shoppingCartProduct.setShopProductCount(rs.getInt("SHOP_PRODUCT_COUNT"));
                 	shoppingCartProduct.setShopProductPrice(rs.getInt("SHOP_PRODUCT_PRICE"));
                 	shoppingCartProduct.setFirmNo(rs.getInt("FIRM_NO"));
+                	shoppingCartProduct.setMemberNo(rs.getInt("MEMBER_NO"));
                     resultList.add(shoppingCartProduct);
                 }
             }
@@ -126,13 +129,14 @@ public class ShoppingCartDaoImpl implements ShoppingCartDao{
 	}
 
 	@Override
-	public List<ShoppingCart> selectPoint() {
-		final String SQL = "SELECT REWARD_POINTS FROM MEMBER WHERE MEMBER_NO = 1";
+	public List<ShoppingCart> selectPoint(Integer id) {
+		final String SQL = "SELECT REWARD_POINTS FROM MEMBER WHERE MEMBER_NO = ?";
         List<ShoppingCart> resultList = new ArrayList<>();
         try (
                 Connection conn = getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(SQL);
         ) {
+        	pstmt.setInt(1,id);
             try (ResultSet rs = pstmt.executeQuery()) {
                 while (rs.next()) {
                 	ShoppingCart shoppingCartProduct = new ShoppingCart();

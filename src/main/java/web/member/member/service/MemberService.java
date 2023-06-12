@@ -15,4 +15,8 @@ public interface MemberService {
 	
 	Member searchMember(String email);
 	
+	String getPW(String email);
+	
+	String getPhone(String email);
+	
 }

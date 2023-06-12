@@ -24,9 +24,9 @@ public class MemberServiceImpl implements MemberService{
 			return false;
 		}
 		
-		// 密碼: ⻑度6~12
+		// 密碼: 不為空
 		String password = member.getPassword();
-		if (password.length() < 6 || password.length() > 12) {
+		if (password == null || password.isEmpty()) {
 			return false;
 		}
 		
@@ -113,6 +113,25 @@ public class MemberServiceImpl implements MemberService{
 	@Override
 	public Member searchMember(String email) {
 		return dao.selectByEmail(email);
+	}
+
+	@Override
+	public String getPW(String email) {
+		if (dao.selectByEmail(email) == null
+			|| email == null || email.isEmpty()) {
+			return null;
+		}
+		return dao.selectPasswordByEmail(email);
+	}
+
+	@Override
+	public String getPhone(String email) {
+		if (dao.selectByEmail(email) == null
+			|| email == null || email.isEmpty()) {
+			return null;
+		}
+		Member member = dao.selectByEmail(email);
+		return member.getPhoneNumber();
 	}
 
 }

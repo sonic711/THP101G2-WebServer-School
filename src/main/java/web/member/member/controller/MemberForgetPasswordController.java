@@ -3,7 +3,6 @@ package web.member.member.controller;
 import static web.member.util.MemberContains.MEMBER_SERVICE;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,21 +12,24 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 
-import web.member.member.bean.Member;
-
-/**
- * GET 查詢所有會員資料
- * 測試 OK
- */
-@WebServlet("/member/getAll")
-public class MemberGetAllController extends HttpServlet {
+@WebServlet("/member/forgetPassword/*")
+public class MemberForgetPasswordController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	Gson gson = new Gson();
 	
+	/**
+     * GET 查詢此會員手機
+     * 測試 OK
+     */
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Gson gson = new Gson();
-		List<Member> list = MEMBER_SERVICE.findAll();
-		resp.getWriter().write(gson.toJson(list));
+		String pathInfo = req.getPathInfo();
+		pathInfo = pathInfo.substring(1);
+		String[] pathVar = pathInfo.split("/");
+		System.out.println(pathVar[0]);
+		
+		String phone = MEMBER_SERVICE.getPhone(pathVar[0]);
+		System.out.println(phone);
+		resp.getWriter().write(gson.toJson(phone));
 	}
-	
 }
