@@ -89,9 +89,18 @@ public class CourseDaoImpl implements CourseDao {
 
 	@Override
 	public List<Course> selectAll() {
-		final String SQL = "SELECT c.*, m.USER_ID, co.RATING\r\n" + "FROM COURSE c\r\n"
-				+ "JOIN MEMBER m ON c.MEMBER_NO = m.MEMBER_NO\r\n" + "JOIN COMMENT co ON c.MEMBER_NO = co.MEMBER_NO "
-				+ "WHERE c.ADD_AND_REMOVE = true;";
+		final String SQL = "SELECT c.COURSE_ID, c.COURSE_NAME, c.MEMBER_NO, c.SUMMARY, c.ADD_AND_REMOVE, "
+			       + "c.COURSES_REPORT, c.UPDATETIME, c.IMAGE, m.USER_ID, MAX(co.RATING) AS RATING "
+			       + "FROM db02_school.COURSE c "
+			       + "JOIN MEMBER m ON c.MEMBER_NO = m.MEMBER_NO "
+			       + "JOIN COMMENT co ON c.MEMBER_NO = co.MEMBER_NO "
+			       + "WHERE c.ADD_AND_REMOVE = true "
+			       + "GROUP BY c.COURSE_ID, c.COURSE_NAME, c.MEMBER_NO, c.SUMMARY, c.ADD_AND_REMOVE, "
+			                + "c.COURSES_REPORT, c.UPDATETIME, c.IMAGE, m.USER_ID; ";
+
+//				"SELECT c.*, m.USER_ID, co.RATING\r\n" + "FROM COURSE c\r\n"
+//				+ "JOIN MEMBER m ON c.MEMBER_NO = m.MEMBER_NO\r\n" + "JOIN COMMENT co ON c.MEMBER_NO = co.MEMBER_NO "
+//				+ "WHERE c.ADD_AND_REMOVE = true;";
 		List<Course> resultList = new ArrayList<>();
 		try (Connection conn = getConnection();
 				PreparedStatement pstmt = conn.prepareStatement(SQL);

@@ -26,10 +26,10 @@ public class Chapter {
 	public void setVideo(String video) {
 		this.video = video;
 	}
-	public Integer getChapterSequence() {
+	public String getChapterSequence() {
 		return chapterSequence;
 	}
-	public void setChapterSequence(Integer chapterSequence) {
+	public void setChapterSequence(String chapterSequence) {
 		this.chapterSequence = chapterSequence;
 	}
 	public Timestamp getUpdateTime() {
@@ -63,7 +63,7 @@ public class Chapter {
 	private String chapterName;
 	private Integer courseId;
 	private String video;
-	private Integer chapterSequence;
+	private String chapterSequence;
     private Timestamp updateTime;
     private String courseName;
 
