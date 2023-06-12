@@ -64,7 +64,7 @@ public class ProductStatusController extends HttpServlet{
 		try {
 			ShopProduct shopProduct = json2Bean(req, ShopProduct.class);
 			boolean result = PRODUCTSTATUS_SERVICE.editProductStatus(shopProduct);
-			writeJsonBean(resp, new CoreBean(result));
+			writeJsonBean(resp,result);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
