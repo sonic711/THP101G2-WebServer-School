@@ -50,6 +50,7 @@ public class ShopBuyDaoImpl implements ShopBuyDao {
 				+ "so.SHOP_PRODUCT_SALES,"
 				+ "so.SHOP_PRODUCT_NAME,"
 				+ "so.SHOP_ORDERCREATE_TIME,"
+				+ "so.SHOP_ORDER_COUNT,"
 				+ "so.SHOP_ORDER_IMG "
 				+ "FROM "
 				+ "SHOP_ORDER so "
@@ -75,6 +76,7 @@ public class ShopBuyDaoImpl implements ShopBuyDao {
 					shopBuy.setShopProductSales(rs.getInt("SHOP_PRODUCT_SALES"));
 					shopBuy.setShopProductName(rs.getString("SHOP_PRODUCT_NAME"));
 					shopBuy.setShopOrdercreateTime(rs.getTimestamp("SHOP_ORDERCREATE_TIME"));
+					shopBuy.setShopOrderCount(rs.getInt("SHOP_ORDER_COUNT"));
 					shopBuyList.add(shopBuy);
 				}
 			}

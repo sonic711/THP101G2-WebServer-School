@@ -5,6 +5,7 @@ import static core.util.CommonUtil.getConnection;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,18 +16,16 @@ public class ChapterDaoImpl implements ChapterDao{
 
 	@Override
 	public int insert(Chapter chapter) {
-		final String SQL = "insert into CHAPTER(CHAPTER_NAME, COURSE_ID, VIDEO, CHAPTER_SEQUENCE) "
-				+ "values(?, ?, ?, ?)";
-		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(SQL)) {
-			pstmt.setString(1, chapter.getChapterName());
-			pstmt.setInt(2, chapter.getCourseId());
-			pstmt.setString(3, chapter.getVideo());
-			pstmt.setInt(4, chapter.getChapterSequence());
-			return pstmt.executeUpdate();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return -1;
+	    final String SQL = "INSERT INTO CHAPTER (CHAPTER_NAME, COURSE_ID, VIDEO, CHAPTER_SEQUENCE) VALUES (?, LAST_INSERT_ID(), ?, ?)";
+	    try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+	        pstmt.setString(1, chapter.getChapterName());
+	        pstmt.setString(2, chapter.getVideo());
+	        pstmt.setString(3, chapter.getChapterSequence());
+	        return pstmt.executeUpdate();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return -1;
 	}
 
 	@Override
@@ -42,7 +41,7 @@ public class ChapterDaoImpl implements ChapterDao{
 	        ){
 	        pstmt.setString(1, chapter.getChapterName());
 	        pstmt.setString(2, chapter.getVideo());
-	        pstmt.setInt(3, chapter.getChapterSequence());
+	        pstmt.setString(3, chapter.getChapterSequence());
 	        pstmt.setInt(4, chapter.getChapterId());
 	        return pstmt.executeUpdate();
 	    } catch (Exception e) {
@@ -68,7 +67,7 @@ public class ChapterDaoImpl implements ChapterDao{
 					chapter.setChapterName(rs.getString("CHAPTER_NAME"));
 					chapter.setCourseId(rs.getInt("COURSE_ID"));
 					chapter.setVideo(rs.getString("VIDEO"));
-					chapter.setChapterSequence(rs.getInt("CHAPTER_SEQUENCE"));
+					chapter.setChapterSequence(rs.getString("CHAPTER_SEQUENCE"));
 					chapter.setUpdateTime(rs.getTimestamp("UPDATETIME"));
 					resultlist.add(chapter);
 				}
@@ -96,7 +95,7 @@ public class ChapterDaoImpl implements ChapterDao{
 				chapter.setChapterName(rs.getString("CHAPTER_NAME"));
 				chapter.setCourseId(rs.getInt("COURSE_ID"));
 				chapter.setVideo(rs.getString("VIDEO"));
-				chapter.setChapterSequence(rs.getInt("CHAPTER_SEQUENCE"));
+				chapter.setChapterSequence(rs.getString("CHAPTER_SEQUENCE"));
 				chapter.setUpdateTime(rs.getTimestamp("UPDATETIME"));
 				resultList.add(chapter);
 			}
@@ -119,7 +118,7 @@ public class ChapterDaoImpl implements ChapterDao{
 					chapter.setChapterName(rs.getString("CHAPTER_NAME"));
 					chapter.setCourseId(rs.getInt("COURSE_ID"));
 					chapter.setVideo(rs.getString("VIDEO"));
-					chapter.setChapterSequence(rs.getInt("CHAPTER_SEQUENCE"));
+					chapter.setChapterSequence(rs.getString("CHAPTER_SEQUENCE"));
 					return chapter;
 				}
 			}

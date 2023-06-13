@@ -31,33 +31,56 @@ public class StudentCoursesDaoImpl implements StudentCoursesDao{
 
 	@Override
 	public List<StudentCourses> selectAllByKey(Integer id) {
-		final String SQL = "SELECT s.*, m.USER_ID, c.COURSE_NAME, c.IMAGE " +
-                "FROM STUDENT_COURSES s " +
-                "JOIN MEMBER m ON s.MEMBER_NO = m.MEMBER_NO " +
-                "JOIN COURSE c ON s.COURSE_ID = c.COURSE_ID where s.MEMBER_NO = ?";
-		List<StudentCourses> resultList = new ArrayList<>();
-		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(SQL)) {
-			pstmt.setInt(1, id);
-			try (ResultSet rs = pstmt.executeQuery()) {
-				while (rs.next()) {
-		            StudentCourses studentCourses = new StudentCourses();
-		            studentCourses.setStudentCoursesId(rs.getInt("STUDENT_COURSES_ID"));
-		            studentCourses.setUserId(rs.getString("USER_ID"));
-		            studentCourses.setCourseName(rs.getString("COURSE_NAME"));
-		            studentCourses.setCourseId(rs.getInt("COURSE_ID"));
-		            studentCourses.setMemberNo(rs.getInt("MEMBER_NO"));
-		            studentCourses.setCoursesProgress(rs.getBoolean("COURSES_PROGRESS"));
-		            studentCourses.setImage(rs.getBytes("IMAGE"));
-		            studentCourses.setUpdateTime(rs.getTimestamp("UPDATETIME"));
-		            resultList.add(studentCourses);
-                }
-            }
-            return resultList;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
+	    final String SQL = "SELECT s.*, m.USER_ID, c.COURSE_NAME, c.IMAGE " +
+	            "FROM STUDENT_COURSES s " +
+	            "JOIN MEMBER m ON s.MEMBER_NO = m.MEMBER_NO " +
+	            "JOIN COURSE c ON s.COURSE_ID = c.COURSE_ID WHERE s.MEMBER_NO = ?";
+	    List<StudentCourses> resultList = new ArrayList<>();
+	    try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(SQL)) {
+	        pstmt.setInt(1, id);
+	        try (ResultSet rs = pstmt.executeQuery()) {
+	            while (rs.next()) {
+	                StudentCourses studentCourses = new StudentCourses();
+	                studentCourses.setStudentCoursesId(rs.getInt("STUDENT_COURSES_ID"));
+	                studentCourses.setUserId(rs.getString("USER_ID"));
+	                studentCourses.setCourseName(rs.getString("COURSE_NAME"));
+	                studentCourses.setCourseId(rs.getInt("COURSE_ID"));
+	                studentCourses.setMemberNo(rs.getInt("MEMBER_NO"));
+	                studentCourses.setCoursesProgress(rs.getBoolean("COURSES_PROGRESS"));
+	                studentCourses.setImage(rs.getBytes("IMAGE"));
+	                studentCourses.setUpdateTime(rs.getTimestamp("UPDATETIME"));
+	                resultList.add(studentCourses);
+	            }
+	        }
+
+	        // Update the completion status for newly added courses
+	        updateCompletionStatus(conn, resultList);
+
+	        return resultList;
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return null;
 	}
+
+	private void updateCompletionStatus(Connection conn, List<StudentCourses> resultList) {
+	    String updateSQL = "UPDATE STUDENT_COURSES SET COURSES_PROGRESS = ? WHERE STUDENT_COURSES_ID = ?";
+	    try (PreparedStatement pstmt = conn.prepareStatement(updateSQL)) {
+	        for (StudentCourses studentCourses : resultList) {
+	            if (!studentCourses.getCoursesProgress()) {
+	                // Set completion status to "未完成" if it's currently set to false
+	                studentCourses.setCoursesProgress(false);
+	                pstmt.setBoolean(1, false);
+	                pstmt.setInt(2, studentCourses.getStudentCoursesId());
+	                pstmt.addBatch();
+	            }
+	        }
+	        pstmt.executeBatch();
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	}
+
 
 	@Override
 	public List<StudentCourses> selectAll() {
@@ -92,7 +115,7 @@ public class StudentCoursesDaoImpl implements StudentCoursesDao{
 	}
 	@Override
 	public StudentCourses selectByKey(Integer id) {
-		final String SQL = "select * from STUDENT_COURSES where STUDENT_COURSES_ID = ?";
+		final String SQL = "select * from STUDENT_COURSES where COURSE_ID = ?";
 		try (Connection conn = getConnection(); PreparedStatement pstmt = conn.prepareStatement(SQL)) {
 			pstmt.setInt(1, id);
 			try (ResultSet rs = pstmt.executeQuery()) {

@@ -18,5 +18,5 @@ public interface MemberService {
 	String getPW(String email);
 	
 	String getPhone(String email);
-	
+		
 }
